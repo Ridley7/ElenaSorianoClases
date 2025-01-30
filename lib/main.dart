@@ -1,3 +1,4 @@
+import 'package:elenasorianoclases/config/app_theme/app_theme.dart';
 import 'package:elenasorianoclases/config/router/app_router.dart';
 import 'package:flutter/material.dart';
 
@@ -14,17 +15,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       routerConfig: appRouter,
       title: 'Flutter Demo',
+      theme: AppTheme(isDarkMode: false).getTheme(),
     );
 
-    /*
-    return MaterialApp.router (
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      routerConfig: appRouter,
-      title: 'Flutter Demo',
-      theme: AppTheme(isDarkMode: isDarkMode).getTheme(),
-    );
-     */
+
   }
 }

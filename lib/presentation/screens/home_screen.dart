@@ -12,6 +12,18 @@ class HomeScreen extends StatelessWidget {
       icon: Icons.schedule,
       route: "/schedule",
     ),
+
+    const MenuItemWidget(
+        title: 'Estudiantes',
+        icon: Icons.person,
+        route: "/students"
+    ),
+
+    const MenuItemWidget(
+      title: 'Clases',
+      icon: Icons.class_outlined,
+      route: "/class",
+    )
   ];
 
   @override

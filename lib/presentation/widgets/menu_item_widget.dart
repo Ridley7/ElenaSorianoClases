@@ -27,12 +27,12 @@ class MenuItemWidget extends StatelessWidget {
               icon: Icon(
                 icon,
                 size: 48,
-                color: Colors.blue,
               )
           ),
 
           const SizedBox(height: 8,),
-          Text(title, style: const TextStyle(fontSize: 14),)
+          Text(title, style: const TextStyle(fontSize: 14),),
+
         ],
       ),
     );

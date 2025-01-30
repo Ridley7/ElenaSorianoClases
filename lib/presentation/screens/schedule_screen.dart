@@ -1,3 +1,5 @@
+import 'package:elenasorianoclases/presentation/widgets/empty_student_widget.dart';
+import 'package:elenasorianoclases/presentation/widgets/student_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -28,25 +30,72 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
 
           const SizedBox(height: 8.0,),
 
-          //Contenido
-          const Row(
-            children: [
-              Spacer(),
-              Text("2 Clases")
-            ],
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  //Contenido
+                  const Row(
+                    children: [
+                      Spacer(),
+                      Text("2 Clases")
+                    ],
+                  ),
+            
+                  const Row(
+                    children: [
+                      Text("1. Clase"),
+                      Spacer(),
+                      Text("17:00 - 18:45")
+                    ],
+                  ),
+            
+                  const Row(
+                    children: [
+                      Text("Asistentes:")
+                    ],
+                  ),
+
+                  ListView.builder(
+                    shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: 4,
+                      itemBuilder: (context, index){
+                        return EmptyStudentWidget();
+                      }
+                  ),
+            
+
+                  const Row(
+                    children: [
+                      Text("2. Clase"),
+                      Spacer(),
+                      Text("19:00 - 20:45")
+                    ],
+                  ),
+
+                  const Row(
+                    children: [
+                      Text("Asistentes:")
+                    ],
+                  ),
+
+                  ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: 4,
+                      itemBuilder: (context, index){
+                        return StudentWidget();
+                      }
+                  ),
+
+                ],
+              ),
+            ),
           ),
-
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("1. Clase"),
-              Spacer(),
-              Text("17:00 - 18:45")
-            ],
-          )
-
         ],
       ),
     );
   }
 }
+
