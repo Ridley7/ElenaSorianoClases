@@ -22,6 +22,7 @@ class MenuItemWidget extends StatelessWidget {
         children: [
           IconButton(
               onPressed: (){
+                if(route.isEmpty) return;
                 context.push(route);
               },
               icon: Icon(

@@ -1,18 +1,49 @@
 
+import 'package:elenasorianoclases/presentation/screens/add_class_screen.dart';
 import 'package:elenasorianoclases/presentation/screens/add_student_screen.dart';
+import 'package:elenasorianoclases/presentation/screens/add_student_to_class_screen.dart';
+import 'package:elenasorianoclases/presentation/screens/class_screen.dart';
 import 'package:elenasorianoclases/presentation/screens/home_screen.dart';
 import 'package:elenasorianoclases/presentation/screens/schedule_screen.dart';
 import 'package:elenasorianoclases/presentation/screens/students_screen.dart';
+import 'package:elenasorianoclases/presentation/screens/view_class_screen.dart';
 import 'package:go_router/go_router.dart';
 
 
 //final appRouter = GoRouter(initialLocation: '/verify-master-key', routes: [
 final appRouter = GoRouter(initialLocation: '/home', routes: [
 
-  /*
   GoRoute(
-      path: path
-  )*/
+      path: '/add_student_class',
+    name: AddStudentToClassScreen.name,
+    builder: (context, state){
+        return const AddStudentToClassScreen();
+    }
+  ),
+
+  GoRoute(
+      path: '/view_class',
+    name: ViewClassScreen.name,
+    builder: (context, state){
+        return const ViewClassScreen();
+    }
+  ),
+
+  GoRoute(
+      path: '/add_class',
+    name: AddClassScreen.name,
+    builder: (context, state){
+        return const AddClassScreen();
+    }
+  ),
+
+  GoRoute(
+      path: '/class',
+    name: ClassScreen.name,
+    builder: (context, state){
+        return const ClassScreen();
+    }
+  ),
 
   GoRoute(
       path: '/add_student',

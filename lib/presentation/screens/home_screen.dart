@@ -23,6 +23,12 @@ class HomeScreen extends StatelessWidget {
       title: 'Clases',
       icon: Icons.class_outlined,
       route: "/class",
+    ),
+
+    const MenuItemWidget(
+        title: 'Logout',
+        icon: Icons.logout,
+        route: ''
     )
   ];
 

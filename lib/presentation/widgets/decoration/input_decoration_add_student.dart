@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
-InputDecoration inputDecorationAddStudent(){
+InputDecoration inputDecorationAddStudent({
+  required String labelText
+})
+{
   return InputDecoration(
-  labelText: "Nombre",
+  labelText: labelText,
   border: OutlineInputBorder( // Border normal
   borderRadius: BorderRadius.circular(12),
   borderSide: const BorderSide(color: Colors.blue, width: 2),

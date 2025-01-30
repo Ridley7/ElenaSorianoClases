@@ -1,5 +1,5 @@
-import 'package:elenasorianoclases/config/router/app_router.dart';
-import 'package:elenasorianoclases/presentation/widgets/empty_student_list_widget.dart';
+
+import 'package:elenasorianoclases/presentation/widgets/empty_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -14,10 +14,7 @@ class StudentsScreen extends StatelessWidget {
       appBar: AppBar(title: const Text("Estudiantes"), centerTitle: true),
       body: Column(
         children: [
-          //const EmptyStudentListWidget(),
-
-
-
+          //const EmptyListWidget(image: "de-coser.png", message: "No hay alumnos dados de alta",),
           Expanded(
             child: ListView.builder(
               itemCount: 40,

@@ -21,7 +21,7 @@ class AddStudentScreen extends StatelessWidget {
 
             TextFormField(
               controller: nameController,
-              decoration: inputDecorationAddStudent(),
+              decoration: inputDecorationAddStudent(labelText: "Nombre"),
             ),
 
             const SizedBox(height: 16),

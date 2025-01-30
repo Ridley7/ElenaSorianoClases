@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
-class EmptyStudentListWidget extends StatelessWidget {
-  const EmptyStudentListWidget({
-    super.key,
+class EmptyListWidget extends StatelessWidget {
+  const EmptyListWidget({
+    super.key, required this.image, required this.message,
   });
+
+  final String image;
+  final String message;
 
   @override
   Widget build(BuildContext context) {
@@ -14,12 +17,12 @@ class EmptyStudentListWidget extends StatelessWidget {
         children: [
 
           Image.asset(
-            'assets/images/de-coser.png',
+            'assets/images/$image',
             width: 200,
             height: 200,
           ),
 
-          Text("No hay alumnos dados de alta")
+          Text(message)
         ],
       ),
     );
