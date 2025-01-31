@@ -59,7 +59,7 @@ class AppTheme {
       //Configuracion del tema para los indicadores de progreso
       progressIndicatorTheme: const ProgressIndicatorThemeData(
           color: Color(0xFFCCE2FF),
-          circularTrackColor: const Color(0xFFFFBDC4)
+          circularTrackColor: Color(0xFFFFBDC4)
       )
 
   );
