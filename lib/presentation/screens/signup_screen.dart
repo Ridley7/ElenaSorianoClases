@@ -1,20 +1,78 @@
+import 'package:elenasorianoclases/domain/repositories/user_repository.dart';
+import 'package:elenasorianoclases/presentation/providers/login_register_repository.dart';
 import 'package:elenasorianoclases/presentation/widgets/background_login.dart';
+import 'package:elenasorianoclases/presentation/widgets/loaders/overlay_loading_view.dart';
 import 'package:elenasorianoclases/presentation/widgets/text_field_login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class SignupScreen extends StatelessWidget {
+class SignupScreen extends ConsumerStatefulWidget {
   const SignupScreen({super.key});
 
   static String name = "sign-up";
 
   @override
-  Widget build(BuildContext context) {
+  SignupScreenState createState() => SignupScreenState();
+}
 
-    final TextEditingController nombreController = TextEditingController();
-    final TextEditingController apellidoController = TextEditingController();
-    final TextEditingController correoController = TextEditingController();
-    final TextEditingController passController = TextEditingController();
+class SignupScreenState extends ConsumerState<SignupScreen> {
+
+  final TextEditingController nombreController = TextEditingController();
+  final TextEditingController apellidoController = TextEditingController();
+  final TextEditingController correoController = TextEditingController();
+  final TextEditingController passController = TextEditingController();
+
+  Future<void> registerUser(String email, String password)async {
+    try{
+      LoginRegisterRepository loginRegister = ref.read(loginRegisterRepository);
+      UserCredential credential = await loginRegister.registerUser(email, password);
+
+      //Hacemos con credential
+    } catch(error){
+      if (error is FirebaseAuthException) {
+
+        // Manejar la excepción específica de FirebaseAuthException
+        if (error.code == 'weak-password') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(error.message!),
+              duration: const Duration(seconds: 3),
+            ),
+          );
+        } else if (error.code == 'email-already-in-use') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(error.message!),
+              duration: const Duration(seconds: 3),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Error: ${error.message}"),
+              duration: const Duration(seconds: 3),
+            ),
+          );
+        }
+      } else {
+        // Manejar errores genéricos
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Ha ocurrido un error inesperado."),
+            duration: Duration(seconds: 3),
+          ),
+        );
+      }
+    }finally{
+      //Desactivo Overlay
+    }
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -89,7 +147,10 @@ class SignupScreen extends StatelessWidget {
                     alignment: Alignment.centerRight,
                     margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                     child: FilledButton(
-                      onPressed: () {
+                      onPressed: () async {
+                        OverlayLoadingView.show(context);
+                        await registerUser(correoController.text, passController.text);
+                        OverlayLoadingView.hide();
 
                       },
                       style: const ButtonStyle(
