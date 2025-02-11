@@ -36,4 +36,25 @@ class FirebaseDataSourceImplementation extends LoginRegisterDataSource{
       throw Exception('Error inesperado durante el registro.');
     }
   }
+
+  @override
+  Future<UserCredential> loginUser(String email, String password) async{
+    try{
+      final UserCredential credential = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      return credential;
+    }on FirebaseAuthException catch(e){
+
+      /*
+      else if(e.code == 'invalid-email'){
+        print('');
+      }
+
+       */
+
+      print("ERROR ES:");
+      print(e.code);
+      throw e;
+    }
+  }
+
 }

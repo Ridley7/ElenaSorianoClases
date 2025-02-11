@@ -15,4 +15,9 @@ class LoginRegisterRepositoryImplementation extends LoginRegisterRepository{
     return loginRegisterDataSource.registerUser(email, password);
   }
 
+  @override
+  Future<UserCredential> loginUser(String email, String password) {
+    return loginRegisterDataSource.loginUser(email, password);
+  }
+
 }

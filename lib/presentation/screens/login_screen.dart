@@ -1,4 +1,7 @@
+import 'package:elenasorianoclases/domain/repositories/user_repository.dart';
+import 'package:elenasorianoclases/presentation/providers/login_register_repository.dart';
 import 'package:elenasorianoclases/presentation/widgets/background_login.dart';
+import 'package:elenasorianoclases/presentation/widgets/loaders/overlay_loading_view.dart';
 import 'package:elenasorianoclases/presentation/widgets/text_field_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +23,58 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
   final TextEditingController passController = TextEditingController();
   bool loading = true;
 
+  Future<void> loginUser() async{
+
+    try{
+      if(correoController.text.isEmpty || passController.text.isEmpty){
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("No pueden haber campos vacios"),
+            duration: Duration(seconds: 3),
+          ),
+        );
+        return;
+      }
+
+      LoginRegisterRepository loginRegister = ref.read(loginRegisterRepository);
+      UserCredential credential = await loginRegister.loginUser(correoController.text, passController.text);
+
+      context.go("/home");
+    }on FirebaseAuthException catch(e){
+
+      String message = "Error no detectado";
+
+      if(e.code == 'user-not-found'){
+        message = 'No user found for that email.';
+      }else if(e.code == 'wrong-password'){
+        message = 'Wrong password provided for that user.';
+      }else if(e.code == 'invalid-email'){
+        message = "El email no corresponde a una cuenta de correo";
+      }else if(e.code == 'invalid-credential'){
+        message = "Credenciales invalidas";
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message),
+          duration: const Duration(seconds: 3),
+        ),
+      );
+
+    }catch(e){
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Error inexperado"),
+          duration: const Duration(seconds: 3),
+        ),
+      );
+    }finally{
+      OverlayLoadingView.hide();
+    }
+
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -27,7 +82,6 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       checkSession();
     });
-
   }
 
   void checkSession(){
@@ -35,7 +89,6 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
     User? user = FirebaseAuth.instance.currentUser;
 
     if(user != null){
-      print("El usuario es: ${user.email}");
       context.go('/home');
     }else{
       setState(() {
@@ -46,7 +99,6 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -110,8 +162,10 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                   alignment: Alignment.centerRight,
                   margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                   child: FilledButton(
-                    onPressed: () {
-
+                    onPressed: () async {
+                      OverlayLoadingView.show(context);
+                      await loginUser();
+                      OverlayLoadingView.hide();
                     },
                     style: const ButtonStyle(
                       padding: WidgetStatePropertyAll(EdgeInsets.zero)
