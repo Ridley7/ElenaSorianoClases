@@ -25,6 +25,18 @@ class SignupScreenState extends ConsumerState<SignupScreen> {
   final TextEditingController passController = TextEditingController();
 
   Future<void> registerUser(String email, String password)async {
+
+    if(email.isEmpty || password.isEmpty){
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("No pueden haber campos vacios"),
+          duration: Duration(seconds: 3),
+        ),
+      );
+      return;
+    }
+
     try{
       LoginRegisterRepository loginRegister = ref.read(loginRegisterRepository);
       UserCredential credential = await loginRegister.registerUser(email, password);
@@ -67,6 +79,7 @@ class SignupScreenState extends ConsumerState<SignupScreen> {
       }
     }finally{
       //Desactivo Overlay
+      OverlayLoadingView.hide();
     }
   }
 

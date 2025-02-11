@@ -4,27 +4,27 @@ import 'package:go_router/go_router.dart';
 
 class MenuItemWidget extends StatelessWidget {
   const MenuItemWidget({
-    super.key, required this.title, required this.icon, required this.route,
+    super.key, required this.title, required this.icon, required this.callback
   });
 
   final String title;
   final IconData icon;
-  final String route;
+  final VoidCallback callback;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: callback,
+      /*
+        onTap: (){
         context.push(route);
       },
+      */
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           IconButton(
-              onPressed: (){
-                if(route.isEmpty) return;
-                context.push(route);
-              },
+              onPressed: callback,
               icon: Icon(
                 icon,
                 size: 48,

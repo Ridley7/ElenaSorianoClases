@@ -1,22 +1,58 @@
 import 'package:elenasorianoclases/presentation/widgets/background_login.dart';
 import 'package:elenasorianoclases/presentation/widgets/text_field_login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   static String name = "login-sign-out";
 
   @override
+  LoginScreenState createState() => LoginScreenState();
+}
+
+class LoginScreenState extends ConsumerState<LoginScreen> {
+
+  final TextEditingController correoController = TextEditingController();
+  final TextEditingController passController = TextEditingController();
+  bool loading = true;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      checkSession();
+    });
+
+  }
+
+  void checkSession(){
+    //Comprobamos si el usuario esta logueado
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if(user != null){
+      print("El usuario es: ${user.email}");
+      context.go('/home');
+    }else{
+      setState(() {
+        loading = false;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
 
-    final TextEditingController correoController = TextEditingController();
-    final TextEditingController passController = TextEditingController();
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: BackgroundLogin(
+      body: loading
+          ? const Center(child: CircularProgressIndicator(),)
+      :BackgroundLogin(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
