@@ -1,17 +1,23 @@
+import 'package:elenasorianoclases/domain/entities/class_model.dart';
+import 'package:elenasorianoclases/presentation/providers/firebase/class_repository_provider.dart';
+import 'package:elenasorianoclases/presentation/providers/list_class_provider.dart';
 import 'package:elenasorianoclases/presentation/widgets/decoration/input_decoration_add_student.dart';
+import 'package:elenasorianoclases/presentation/widgets/loaders/overlay_loading_view.dart';
+import 'package:elenasorianoclases/presentation/widgets/snackbar_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-class AddClassScreen extends StatefulWidget {
+class AddClassScreen extends ConsumerStatefulWidget {
   const AddClassScreen({super.key});
 
   static String name  = "add-class-screen";
 
   @override
-  State<AddClassScreen> createState() => _AddClassScreenState();
+  AddClassScreenState createState() => AddClassScreenState();
 }
 
-class _AddClassScreenState extends State<AddClassScreen> {
+class AddClassScreenState extends ConsumerState<AddClassScreen> {
 
   DateTime? selectedDate;
   final TextEditingController dateController = TextEditingController(text: "--/--/----");
@@ -141,8 +147,33 @@ class _AddClassScreenState extends State<AddClassScreen> {
             SizedBox(
               width: double.infinity,
               child: FilledButton(
-                  onPressed: (){
-                    //if(nameController.text.isEmpty) return;
+                  onPressed: () async{
+                    if(dateController.text == "--/--/---" || hourController.text == "--:--"){
+                      snackbarWidget(context, "Falta la fecha o la hora");
+                      return;
+                    }
+
+                    OverlayLoadingView.show(context);
+
+                    ClassModel clase = ClassModel(
+                      date: dateController.text,
+                      hour: hourController.text,
+                      amountStudents: amountStudents,
+                    );
+
+                    //Guardamos clase en base de datos
+                    clase.id = await ref.read(classRepositoryProvider).addClass(clase);
+
+                    //Añadimos la clase al provider
+                    ref.read(listClassProvider.notifier).addClass(clase);
+
+                    snackbarWidget(context, "Clase creada correctamente");
+
+                    dateController.text = "--/--/----";
+                    hourController.text = "--:--";
+
+                    OverlayLoadingView.hide();
+
                   },
                   child: const Text("Añadir clase",)
               ),

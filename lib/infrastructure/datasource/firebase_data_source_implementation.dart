@@ -43,16 +43,6 @@ class FirebaseDataSourceImplementation extends LoginRegisterDataSource{
       final UserCredential credential = await _auth.signInWithEmailAndPassword(email: email, password: password);
       return credential;
     }on FirebaseAuthException catch(e){
-
-      /*
-      else if(e.code == 'invalid-email'){
-        print('');
-      }
-
-       */
-
-      print("ERROR ES:");
-      print(e.code);
       throw e;
     }
   }

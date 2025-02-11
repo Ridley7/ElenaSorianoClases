@@ -1,5 +1,5 @@
 import 'package:elenasorianoclases/domain/repositories/user_repository.dart';
-import 'package:elenasorianoclases/presentation/providers/login_register_repository.dart';
+import 'package:elenasorianoclases/presentation/providers/firebase/login_register_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/widgets/background_login.dart';
 import 'package:elenasorianoclases/presentation/widgets/loaders/overlay_loading_view.dart';
 import 'package:elenasorianoclases/presentation/widgets/text_field_login.dart';
@@ -38,7 +38,7 @@ class SignupScreenState extends ConsumerState<SignupScreen> {
     }
 
     try{
-      LoginRegisterRepository loginRegister = ref.read(loginRegisterRepository);
+      LoginRegisterRepository loginRegister = ref.read(loginRegisterRepositoryProvider);
       UserCredential credential = await loginRegister.registerUser(email, password);
 
       //Hacemos con credential
