@@ -26,3 +26,7 @@ class GetAllClassException extends AppException{
 class DeleteClassException extends AppException{
   const DeleteClassException([super.message]);
 }
+
+class AddStudentException extends AppException{
+  const AddStudentException([super.message]);
+}

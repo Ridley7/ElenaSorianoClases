@@ -2,6 +2,7 @@ import 'package:elenasorianoclases/config/constants/enums.dart';
 import 'package:elenasorianoclases/domain/entities/student_model.dart';
 import 'package:elenasorianoclases/domain/repositories/user_repository.dart';
 import 'package:elenasorianoclases/presentation/providers/firebase/login_register_repository_provider.dart';
+import 'package:elenasorianoclases/presentation/providers/firebase/student_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/widgets/background_login.dart';
 import 'package:elenasorianoclases/presentation/widgets/loaders/overlay_loading_view.dart';
 import 'package:elenasorianoclases/presentation/widgets/text_field_login.dart';
@@ -46,6 +47,7 @@ class SignupScreenState extends ConsumerState<SignupScreen> {
       //Creamos un usuario
       StudentModel student = StudentModel(
           id: "",
+          uid: credential.user!.uid,
           name: nombreController.text,
           surename: apellidoController.text,
           access: false,
@@ -53,7 +55,9 @@ class SignupScreenState extends ConsumerState<SignupScreen> {
       );
 
       //Insertamos el usuario en la coleccion
-      //AQUI ME QUEDO
+      student.id = await ref.read(studentRepositoryProvider).addStudent(student);
+
+      print("id: ${student.id}");
 
     } catch(error){
       if (error is FirebaseAuthException) {
@@ -177,7 +181,8 @@ class SignupScreenState extends ConsumerState<SignupScreen> {
                         OverlayLoadingView.show(context);
                         await registerUser(correoController.text, passController.text);
                         OverlayLoadingView.hide();
-
+                        //Una vez registrado el usuario lo enviamos a la pantalla de login
+                        context.go("/login_signup");
                       },
                       style: const ButtonStyle(
                           padding: WidgetStatePropertyAll(EdgeInsets.zero)
@@ -214,7 +219,6 @@ class SignupScreenState extends ConsumerState<SignupScreen> {
                     margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                     child: GestureDetector(
                       onTap: (){
-                        // Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterScreen()))
                         context.go("/login_signup");
                       },
                       child: const Text(

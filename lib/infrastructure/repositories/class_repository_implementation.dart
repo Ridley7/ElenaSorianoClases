@@ -2,9 +2,9 @@ import 'package:elenasorianoclases/domain/entities/class_model.dart';
 import 'package:elenasorianoclases/domain/repositories/class_repository.dart';
 import 'package:elenasorianoclases/infrastructure/datasource/class_data_source_implementation.dart';
 
-class ClassReposityImplementation extends ClassRepository{
+class ClassRepositoryImplementation extends ClassRepository{
 
-  ClassReposityImplementation({required this.dataSource});
+  ClassRepositoryImplementation({required this.dataSource});
 
   final ClassDataSourceImplementation dataSource;
 

@@ -3,5 +3,5 @@ import 'package:elenasorianoclases/infrastructure/repositories/class_repository_
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final classRepositoryProvider = Provider((ref){
-  return ClassReposityImplementation(dataSource: ClassDataSourceImplementation());
+  return ClassRepositoryImplementation(dataSource: ClassDataSourceImplementation());
 });

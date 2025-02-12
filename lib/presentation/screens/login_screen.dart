@@ -90,12 +90,17 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
   void checkSession() async{
     //Comprobamos si el usuario esta logueado
     User? user = FirebaseAuth.instance.currentUser;
-    //Traemos las clases de la BD
-    List<ClassModel> listaClases = await ref.read(classRepositoryProvider).getAllClass();
-    //Rellenamos el provider con esas clasese
-    ref.read(listClassProvider.notifier).setClass(listaClases);
 
     if(user != null){
+
+      //Tenemos que traer la información del usuario. ¿Como? ¿con el correo? No, con el uid.
+      print("El usuario es: ${user.uid}");
+
+      //Traemos las clases de la BD
+      List<ClassModel> listaClases = await ref.read(classRepositoryProvider).getAllClass();
+      //Rellenamos el provider con esas clasese
+      ref.read(listClassProvider.notifier).setClass(listaClases);
+
       context.go('/home');
     }else{
       setState(() {
@@ -209,7 +214,6 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                   margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                   child: GestureDetector(
                     onTap: () {
-                     // Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterScreen()))
                     context.go("/sign_up");
                     },
                     child: const Text(
