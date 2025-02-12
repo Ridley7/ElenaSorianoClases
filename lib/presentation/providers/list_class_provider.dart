@@ -8,6 +8,18 @@ final listClassProvider = StateNotifierProvider<ListClassNotifier, List<ClassMod
 class ListClassNotifier extends StateNotifier<List<ClassModel>>{
   ListClassNotifier():super([]);
 
+  void copyClass(ClassModel clase){
+
+  }
+
+  void deleteClass(ClassModel clase){
+    state = state.where((c) => c.id != clase.id).toList();
+  }
+
+  void setClass(List<ClassModel> lista){
+    state = List.from(lista);
+  }
+
   void addClass(ClassModel clase){
     state = [...state, clase];
   }

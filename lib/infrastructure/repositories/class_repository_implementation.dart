@@ -12,4 +12,19 @@ class ClassReposityImplementation extends ClassRepository{
   Future<String> addClass(ClassModel clase) async{
     return dataSource.addClass(clase);
   }
+
+  @override
+  Future<List<ClassModel>> getAllClass() {
+    return dataSource.getAllClass();
+  }
+
+  @override
+  Future<void> copyClass(ClassModel clase) {
+    return dataSource.copyClass(clase);
+  }
+
+  @override
+  Future<void> deleteClass(ClassModel clase) {
+    return dataSource.deleteClass(clase);
+  }
 }

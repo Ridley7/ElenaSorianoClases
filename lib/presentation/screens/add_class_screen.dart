@@ -159,6 +159,8 @@ class AddClassScreenState extends ConsumerState<AddClassScreen> {
                       date: dateController.text,
                       hour: hourController.text,
                       amountStudents: amountStudents,
+                      id: "",
+                      listStudent: []
                     );
 
                     //Guardamos clase en base de datos

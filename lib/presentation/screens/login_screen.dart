@@ -1,5 +1,8 @@
+import 'package:elenasorianoclases/domain/entities/class_model.dart';
 import 'package:elenasorianoclases/domain/repositories/user_repository.dart';
+import 'package:elenasorianoclases/presentation/providers/firebase/class_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/firebase/login_register_repository_provider.dart';
+import 'package:elenasorianoclases/presentation/providers/list_class_provider.dart';
 import 'package:elenasorianoclases/presentation/widgets/background_login.dart';
 import 'package:elenasorianoclases/presentation/widgets/loaders/overlay_loading_view.dart';
 import 'package:elenasorianoclases/presentation/widgets/text_field_login.dart';
@@ -84,9 +87,13 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
     });
   }
 
-  void checkSession(){
+  void checkSession() async{
     //Comprobamos si el usuario esta logueado
     User? user = FirebaseAuth.instance.currentUser;
+    //Traemos las clases de la BD
+    List<ClassModel> listaClases = await ref.read(classRepositoryProvider).getAllClass();
+    //Rellenamos el provider con esas clasese
+    ref.read(listClassProvider.notifier).setClass(listaClases);
 
     if(user != null){
       context.go('/home');

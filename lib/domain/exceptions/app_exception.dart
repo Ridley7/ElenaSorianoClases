@@ -18,3 +18,11 @@ abstract class AppException implements Exception {
 class AddClassException extends AppException{
   const AddClassException([super.message]);
 }
+
+class GetAllClassException extends AppException{
+  const GetAllClassException([super.message]);
+}
+
+class DeleteClassException extends AppException{
+  const DeleteClassException([super.message]);
+}

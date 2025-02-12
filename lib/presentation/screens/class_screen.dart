@@ -1,71 +1,40 @@
 
+import 'package:elenasorianoclases/domain/entities/class_model.dart';
+import 'package:elenasorianoclases/presentation/providers/firebase/class_repository_provider.dart';
+import 'package:elenasorianoclases/presentation/providers/list_class_provider.dart';
 import 'package:elenasorianoclases/presentation/widgets/empty_list_widget.dart';
+import 'package:elenasorianoclases/presentation/widgets/loaders/overlay_loading_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class ClassScreen extends StatelessWidget {
+class ClassScreen extends ConsumerStatefulWidget {
   const ClassScreen({super.key});
 
   static String name = "class-screen";
 
   @override
+  ClassScreenState createState() => ClassScreenState();
+}
+
+class ClassScreenState extends ConsumerState<ClassScreen> {
+  @override
   Widget build(BuildContext context) {
+
+    //Obtenemos la lista de clases
+    List<ClassModel> listClass = ref.watch(listClassProvider);
+
     return Scaffold(
       appBar: AppBar(title: const Text("Clases"), centerTitle: true),
       body: Column(
         children: [
-          //EmptyListWidget(image: "conferencia.png", message: "No hay clases creadas",),
-          Expanded(
+          listClass.isEmpty
+          ? const EmptyListWidget(image: "conferencia.png", message: "No hay clases creadas",)
+          : Expanded(
             child: ListView.builder(
-              itemCount: 40,
+              itemCount: listClass.length,
               itemBuilder: (context, index){
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
-                  child: InkWell(
-                    onTap: (){
-                      context.push('/view_class');
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      height: 60,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                              color: const Color(0xFFFFBDC4),
-                              width: 1
-                          )
-                      ),
-                      child: Row(
-                        children: [
-                          const SizedBox(width: 8,),
-                          const CircleAvatar(
-                            child: const Text("0/4"),
-                          ),
-                          const SizedBox(width: 8,),
-                          const Text("12/02/2025 - 17:00"),
-                          const Spacer(),
-                          IconButton(
-                            onPressed: (){},
-                            icon: const Icon(
-                              Icons.copy,
-                              size: 30,
-                            ),
-                          ),
-                          IconButton(
-                              onPressed: (){},
-                              icon: const Icon(
-                                Icons.delete,
-                                size: 30,
-                              )
-                          ),
-                          const SizedBox(
-                            width: 8,
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                );
+                return ItemListClass(clase: listClass[index]);
               },
             ),
           ),
@@ -89,7 +58,7 @@ class ClassScreen extends StatelessWidget {
                           width: 3
                       )
                   ),
-                  child: Column(
+                  child: const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
@@ -102,6 +71,81 @@ class ClassScreen extends StatelessWidget {
             ),
           )
         ],
+      ),
+    );
+  }
+}
+
+class ItemListClass extends ConsumerStatefulWidget {
+
+  const ItemListClass({
+    super.key,
+    required this.clase,
+  });
+
+  final ClassModel clase;
+
+  @override
+  ItemListClassState createState() => ItemListClassState();
+}
+
+class ItemListClassState extends ConsumerState<ItemListClass> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
+      child: InkWell(
+        onTap: (){
+          context.push('/view_class');
+
+        },
+        child: Container(
+          width: double.infinity,
+          height: 60,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                  color: const Color(0xFFFFBDC4),
+                  width: 1
+              )
+          ),
+          child: Row(
+            children: [
+              const SizedBox(width: 8,),
+              CircleAvatar(
+                child: Text("${widget.clase.listStudent.length}/${widget.clase.amountStudents}"),
+              ),
+              const SizedBox(width: 8,),
+              Text("${widget.clase.date} - ${widget.clase.hour}"),
+              const Spacer(),
+              IconButton(
+                onPressed: (){},
+                icon: const Icon(
+                  Icons.copy,
+                  size: 30,
+                ),
+              ),
+              IconButton(
+                  onPressed: () async{
+                    OverlayLoadingView.show(context);
+                    //Borramos de bd
+                    await ref.read(classRepositoryProvider).deleteClass(widget.clase);
+                    //Borramos de provider
+                    ref.read(listClassProvider.notifier).deleteClass(widget.clase);
+
+                    OverlayLoadingView.hide();
+                  },
+                  icon: const Icon(
+                    Icons.delete,
+                    size: 30,
+                  )
+              ),
+              const SizedBox(
+                width: 8,
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
