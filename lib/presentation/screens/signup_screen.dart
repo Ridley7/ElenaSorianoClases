@@ -1,3 +1,5 @@
+import 'package:elenasorianoclases/config/constants/enums.dart';
+import 'package:elenasorianoclases/domain/entities/student_model.dart';
 import 'package:elenasorianoclases/domain/repositories/user_repository.dart';
 import 'package:elenasorianoclases/presentation/providers/firebase/login_register_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/widgets/background_login.dart';
@@ -41,7 +43,18 @@ class SignupScreenState extends ConsumerState<SignupScreen> {
       LoginRegisterRepository loginRegister = ref.read(loginRegisterRepositoryProvider);
       UserCredential credential = await loginRegister.registerUser(email, password);
 
-      //Hacemos con credential
+      //Creamos un usuario
+      StudentModel student = StudentModel(
+          id: "",
+          name: nombreController.text,
+          surename: apellidoController.text,
+          access: false,
+          rol: RolType.student
+      );
+
+      //Insertamos el usuario en la coleccion
+      //AQUI ME QUEDO
+
     } catch(error){
       if (error is FirebaseAuthException) {
 
