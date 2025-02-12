@@ -33,4 +33,22 @@ class ClassModel {
       'listStudent': listStudent, // Asegura que se incluya en el JSON
     };
   }
+
+  // Método copyWith
+  ClassModel copyWith({
+    String? id,
+    String? date,
+    String? hour,
+    int? amountStudents,
+    List<String>? listStudents
+  }) {
+    return ClassModel(
+      id: id ?? this.id,
+      date: date ?? this.date,
+      hour: hour ?? this.hour,
+      amountStudents: amountStudents ?? this.amountStudents,
+      listStudent: listStudents ?? this.listStudent,
+    );
+  }
+
 }

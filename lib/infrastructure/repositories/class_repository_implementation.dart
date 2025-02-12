@@ -19,11 +19,6 @@ class ClassReposityImplementation extends ClassRepository{
   }
 
   @override
-  Future<void> copyClass(ClassModel clase) {
-    return dataSource.copyClass(clase);
-  }
-
-  @override
   Future<void> deleteClass(ClassModel clase) {
     return dataSource.deleteClass(clase);
   }

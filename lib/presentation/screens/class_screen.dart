@@ -7,6 +7,7 @@ import 'package:elenasorianoclases/presentation/widgets/loaders/overlay_loading_
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 class ClassScreen extends ConsumerStatefulWidget {
   const ClassScreen({super.key});
@@ -119,7 +120,17 @@ class ItemListClassState extends ConsumerState<ItemListClass> {
               Text("${widget.clase.date} - ${widget.clase.hour}"),
               const Spacer(),
               IconButton(
-                onPressed: (){},
+                onPressed: () async{
+                  OverlayLoadingView.show(context);
+
+                  //Tenemos que insertar la misma clase pero con una semana despues.
+                  ClassModel newClass = widget.clase.copyWith(date: addWeek(widget.clase.date));
+                  //Copiamos en la bd
+                  newClass.id = await ref.read(classRepositoryProvider).addClass(newClass); //AQUI ME QUEDO
+                  //Copiamos en el provider
+                  ref.read(listClassProvider.notifier).addClass(newClass);
+                  OverlayLoadingView.hide();
+                },
                 icon: const Icon(
                   Icons.copy,
                   size: 30,
@@ -149,4 +160,17 @@ class ItemListClassState extends ConsumerState<ItemListClass> {
       ),
     );
   }
+
+  String addWeek(String date){
+    //Convetimos la cadena en un DateTime
+    DateFormat format = DateFormat("dd/MM/yyyy");
+    DateTime transformedDate = format.parse(date);
+
+    //Sumamos 7 dias
+    DateTime newDate = transformedDate.add(const Duration(days: 7));
+
+    //Devolvemos la nueva fecha
+    return format.format(newDate);
+  }
+
 }

@@ -36,12 +36,6 @@ class ClassDataSourceImplementation extends ClassDataSource{
   }
 
   @override
-  Future<void> copyClass(ClassModel clase) {
-    // TODO: implement copyClass
-    throw UnimplementedError();
-  }
-
-  @override
   Future<void> deleteClass(ClassModel clase) async {
     try{
       await _db.collection("clases").doc(clase.id).delete();
