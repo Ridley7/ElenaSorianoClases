@@ -35,4 +35,22 @@ class StudentModel{
       'rol': rol
     };
   }
+
+  StudentModel copyWith({
+    String? id,
+    String? uid,
+    String? name,
+    String? surename,
+    bool? access,
+    String? rol,
+  }){
+    return StudentModel(
+      id: id ?? this.id,
+      uid: uid ?? this.uid,
+      name: name ?? this.name,
+      surename: surename ?? this.surename,
+      access: access ?? this.access,
+      rol: rol ?? this.rol
+    );
+  }
 }

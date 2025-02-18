@@ -19,34 +19,24 @@ class StudentDataSourceImplementation extends StudentDataSource{
 
   @override
   Future<StudentModel> getStudent(String uid) async {
-    QuerySnapshot querySnapshot = await _db
-        .collection("estudiantes")
-        .where("uid", isEqualTo: uid)
-        .get();
-    AQUI ME QUEDO
+
+    try{
+      QuerySnapshot querySnapshot = await _db
+          .collection("estudiantes")
+          .where("uid", isEqualTo: uid)
+          .limit(1)
+          .get();
+
+      if(querySnapshot.docs.isNotEmpty){
+        var studentData = querySnapshot.docs.first.data() as Map<String, dynamic>;
+        return StudentModel.fromJson(studentData).copyWith(id: querySnapshot.docs.first.id);
+      }
+      throw Exception("No se encontró el estudiante con uid: $uid");
+    }catch(error){
+      throw GetStudentException("Error al obtener el estudiante con uid: $uid");
+    }
+
   }
 
-  /*
-  @override
-Future<StudentModel?> getStudent(String uid) async {
-  QuerySnapshot querySnapshot = await _db
-      .collection("estudiantes")
-      .where("uid", isEqualTo: uid)
-      .limit(1)
-      .get();
-
-  if (querySnapshot.docs.isNotEmpty) {
-    var studentData = querySnapshot.docs.first.data() as Map<String, dynamic>;
-    return StudentModel.fromJson(studentData);
-  }
-
-  return null; // Retorna null si no se encuentra el estudiante
-}
-   */
-
-/*
-return StudentModel.fromJson(studentData).copyWith(id: querySnapshot.docs.first.id);
-
- */
 
 }

@@ -57,7 +57,7 @@ class SignupScreenState extends ConsumerState<SignupScreen> {
       //Insertamos el usuario en la coleccion
       student.id = await ref.read(studentRepositoryProvider).addStudent(student);
 
-      print("id: ${student.id}");
+      //print("id: ${student.id}");
 
     } catch(error){
       if (error is FirebaseAuthException) {

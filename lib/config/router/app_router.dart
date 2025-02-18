@@ -5,6 +5,7 @@ import 'package:elenasorianoclases/presentation/screens/add_student_to_class_scr
 import 'package:elenasorianoclases/presentation/screens/class_screen.dart';
 import 'package:elenasorianoclases/presentation/screens/home_screen.dart';
 import 'package:elenasorianoclases/presentation/screens/login_screen.dart';
+import 'package:elenasorianoclases/presentation/screens/not_allowed_screen.dart';
 import 'package:elenasorianoclases/presentation/screens/schedule_screen.dart';
 import 'package:elenasorianoclases/presentation/screens/signup_screen.dart';
 import 'package:elenasorianoclases/presentation/screens/students_screen.dart';
@@ -13,7 +14,15 @@ import 'package:go_router/go_router.dart';
 
 
 final appRouter = GoRouter(initialLocation: '/login_signup', routes: [
-//final appRouter = GoRouter(initialLocation: '/sign_up', routes: [
+//final appRouter = GoRouter(initialLocation: '/not_allowed', routes: [
+
+  GoRoute(
+      path: '/not_allowed',
+    name: NotAllowedScreen.name,
+    builder: (context, state){
+        return const NotAllowedScreen();
+    }
+  ),
 
   GoRoute(
       path: '/sign_up',

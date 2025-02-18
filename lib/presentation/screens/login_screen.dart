@@ -1,7 +1,9 @@
 import 'package:elenasorianoclases/domain/entities/class_model.dart';
+import 'package:elenasorianoclases/domain/entities/student_model.dart';
 import 'package:elenasorianoclases/domain/repositories/user_repository.dart';
 import 'package:elenasorianoclases/presentation/providers/firebase/class_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/firebase/login_register_repository_provider.dart';
+import 'package:elenasorianoclases/presentation/providers/firebase/student_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/list_class_provider.dart';
 import 'package:elenasorianoclases/presentation/widgets/background_login.dart';
 import 'package:elenasorianoclases/presentation/widgets/loaders/overlay_loading_view.dart';
@@ -43,6 +45,15 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
       LoginRegisterRepository loginRegister = ref.read(loginRegisterRepositoryProvider);
       UserCredential credential = await loginRegister.loginUser(correoController.text, passController.text);
 
+      //Comprobamos si el estudiante tiene acceso
+      StudentModel studentModel = await ref.read(studentRepositoryProvider).getStudent(credential.user!.uid);
+
+      if(studentModel.access){
+        print("Este estudiante tiene acceso");
+      }else{
+        print("No tiene acceso");
+      }
+
       context.go("/home");
     }on FirebaseAuthException catch(e){
 
@@ -68,7 +79,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
     }catch(e){
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text("Error inexperado"),
+          content: Text("Error inesperado"),
           duration: const Duration(seconds: 3),
         ),
       );
