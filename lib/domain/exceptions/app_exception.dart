@@ -34,3 +34,7 @@ class AddStudentException extends AppException{
 class GetStudentException extends AppException{
   const GetStudentException([super.message]);
 }
+
+class GetAllStudentsException extends AppException{
+  const GetAllStudentsException([super.message]);
+}

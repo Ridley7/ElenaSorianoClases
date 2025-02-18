@@ -18,6 +18,11 @@ class StudentRepositoryImplementation extends StudentRepository{
     return dataSource.getStudent(uid);
   }
 
+  @override
+  Future<List<StudentModel>> getAllStudents() {
+    return dataSource.getAllStudents();
+  }
+
 
 
 }

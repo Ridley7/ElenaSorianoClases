@@ -38,5 +38,23 @@ class StudentDataSourceImplementation extends StudentDataSource{
 
   }
 
+  @override
+  Future<List<StudentModel>> getAllStudents() async {
+    try{
+      QuerySnapshot querySnapshot = await _db
+          .collection("estudiantes")
+          .where("rol", isEqualTo: "student")
+          .get();
+
+      return querySnapshot.docs
+          .map((doc) => StudentModel.fromJson({
+        ...doc.data() as Map<String, dynamic>,
+        'id': doc.id
+      })).toList();
+    }catch(error){
+      throw GetAllStudentsException("Error al obtener todos los estudiantes: ${error.toString()}");
+    }
+  }
+
 
 }

@@ -1,10 +1,12 @@
 import 'package:elenasorianoclases/domain/entities/class_model.dart';
 import 'package:elenasorianoclases/domain/entities/student_model.dart';
 import 'package:elenasorianoclases/domain/repositories/user_repository.dart';
+import 'package:elenasorianoclases/infrastructure/repositories/student_repository_implementation.dart';
 import 'package:elenasorianoclases/presentation/providers/firebase/class_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/firebase/login_register_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/firebase/student_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/list_class_provider.dart';
+import 'package:elenasorianoclases/presentation/providers/list_student_provider.dart';
 import 'package:elenasorianoclases/presentation/widgets/background_login.dart';
 import 'package:elenasorianoclases/presentation/widgets/loaders/overlay_loading_view.dart';
 import 'package:elenasorianoclases/presentation/widgets/text_field_login.dart';
@@ -45,8 +47,17 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
       LoginRegisterRepository loginRegister = ref.read(loginRegisterRepositoryProvider);
       UserCredential credential = await loginRegister.loginUser(correoController.text, passController.text);
 
-      //Comprobamos si el estudiante tiene acceso
-      StudentModel studentModel = await ref.read(studentRepositoryProvider).getStudent(credential.user!.uid);
+      //Comprobamos diferentes datos del estudiante
+      StudentRepositoryImplementation repositoriyStudents = ref.read(studentRepositoryProvider);
+      StudentModel studentModel = await repositoriyStudents.getStudent(credential.user!.uid);
+
+      //Si tiene el rol de profesor, descargamos la lista de estudiantes
+      if(studentModel.rol == "lecturer"){
+        List<StudentModel> listaEstudiantes = await repositoriyStudents.getAllStudents();
+        //Rellenamos el provider de estudiantes
+        ref.read(listStudentsProvider.notifier).init(listaEstudiantes);
+      }
+
 
       if(studentModel.access){
         print("Este estudiante tiene acceso");

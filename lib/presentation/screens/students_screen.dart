@@ -1,24 +1,40 @@
 
+import 'package:elenasorianoclases/domain/entities/student_model.dart';
+import 'package:elenasorianoclases/presentation/providers/firebase/student_repository_provider.dart';
+import 'package:elenasorianoclases/presentation/providers/list_student_provider.dart';
 import 'package:elenasorianoclases/presentation/widgets/empty_list_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class StudentsScreen extends StatelessWidget {
+class StudentsScreen extends ConsumerStatefulWidget {
   const StudentsScreen({super.key});
 
   static String name = "students-screen";
 
   @override
+  StudentsScreenState createState() => StudentsScreenState();
+}
+
+class StudentsScreenState extends ConsumerState<StudentsScreen> {
+  @override
   Widget build(BuildContext context) {
+
+    List<StudentModel> listaEstudiantes = ref.watch(listStudentsProvider);
+
     return Scaffold(
       appBar: AppBar(title: const Text("Estudiantes"), centerTitle: true),
       body: Column(
         children: [
-          //const EmptyListWidget(image: "de-coser.png", message: "No hay alumnos dados de alta",),
-          Expanded(
+          listaEstudiantes.isEmpty
+          ? const EmptyListWidget(image: "de-coser.png", message: "No hay alumnos dados de alta",)
+          : Expanded(
             child: ListView.builder(
-              itemCount: 40,
+              itemCount: listaEstudiantes.length,
               itemBuilder: (context, index){
+
+                StudentModel estudiante = listaEstudiantes[index];
+
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
                   child: Container(
@@ -34,11 +50,11 @@ class StudentsScreen extends StatelessWidget {
                     child: Row(
                       children: [
                         const SizedBox(width: 8,),
-                        const CircleAvatar(
-                          child: const Text("T"),
+                        CircleAvatar(
+                          child: Text(estudiante.name[0].toUpperCase()),
                         ),
                         const SizedBox(width: 8,),
-                        const Text("Maria Alejandra Zarate"),
+                        Text("${estudiante.name} ${estudiante.surename}"),
                         const Spacer(),
                         IconButton(
                             onPressed: (){},
