@@ -140,6 +140,9 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
         print("Este estudiante tiene acceso");
       }else{
         print("No tiene acceso");
+
+        ///AQUI ME QUEDO HAY QUE REDIRIGIR A NOT ALLOWED SCREEN
+
       }
 
 
