@@ -53,6 +53,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
 
       //Si tiene el rol de profesor, descargamos la lista de estudiantes
       if(studentModel.rol == "lecturer"){
+        print("Descargando estudiantes");
         List<StudentModel> listaEstudiantes = await repositoriyStudents.getAllStudents();
         //Rellenamos el provider de estudiantes
         ref.read(listStudentsProvider.notifier).init(listaEstudiantes);
@@ -120,8 +121,27 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
 
       //Traemos las clases de la BD
       List<ClassModel> listaClases = await ref.read(classRepositoryProvider).getAllClass();
-      //Rellenamos el provider con esas clasese
+      //Rellenamos el provider con esas clases
       ref.read(listClassProvider.notifier).setClass(listaClases);
+
+      //Obtenemos todos los datos del usuario con id = uid
+      StudentRepositoryImplementation repositoriyStudents = ref.read(studentRepositoryProvider);
+      StudentModel studentModel = await repositoriyStudents.getStudent(user.uid);
+
+      //Si tiene el rol de profesor, descargamos la lista de estudiantes
+      if(studentModel.rol == "lecturer"){
+        print("Descargando estudiantes");
+        List<StudentModel> listaEstudiantes = await repositoriyStudents.getAllStudents();
+        //Rellenamos el provider de estudiantes
+        ref.read(listStudentsProvider.notifier).init(listaEstudiantes);
+      }
+
+      if(studentModel.access){
+        print("Este estudiante tiene acceso");
+      }else{
+        print("No tiene acceso");
+      }
+
 
       context.go('/home');
     }else{

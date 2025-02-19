@@ -23,6 +23,11 @@ class StudentRepositoryImplementation extends StudentRepository{
     return dataSource.getAllStudents();
   }
 
+  @override
+  Future<void> deleteStudent(String id) {
+    return dataSource.deleteStudent(id);
+  }
+
 
 
 }

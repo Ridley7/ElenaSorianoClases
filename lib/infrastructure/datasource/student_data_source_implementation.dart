@@ -56,5 +56,14 @@ class StudentDataSourceImplementation extends StudentDataSource{
     }
   }
 
+  @override
+  Future<void> deleteStudent(String id) async {
+    try{
+      await _db.collection('estudiantes').doc(id).delete();
+    }catch(e){
+      throw DeleteStudentException("Error al eliminar estudiante con id: $id");
+    }
+  }
+
 
 }
