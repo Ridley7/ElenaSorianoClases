@@ -2,6 +2,7 @@ import 'package:elenasorianoclases/presentation/widgets/background_login.dart';
 import 'package:elenasorianoclases/presentation/widgets/loaders/overlay_loading_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class NotAllowedScreen extends StatelessWidget {
   const NotAllowedScreen({super.key});
@@ -31,6 +32,7 @@ class NotAllowedScreen extends StatelessWidget {
                       OverlayLoadingView.show(context);
                       await FirebaseAuth.instance.signOut();
                       OverlayLoadingView.hide();
+                      context.go('/login_signup');
                     },
                     icon: const Icon(
                       Icons.logout,

@@ -1,6 +1,7 @@
 import 'package:elenasorianoclases/domain/entities/student_model.dart';
 import 'package:elenasorianoclases/presentation/providers/firebase/student_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/list_student_provider.dart';
+import 'package:elenasorianoclases/presentation/widgets/button_activate_student.dart';
 import 'package:elenasorianoclases/presentation/widgets/loaders/overlay_loading_view.dart';
 import 'package:elenasorianoclases/presentation/widgets/shared/generic_dialog.dart';
 import 'package:flutter/material.dart';
@@ -38,14 +39,7 @@ class ItemListStudent extends ConsumerWidget {
             Text("${estudiante.name} ${estudiante.surename}"),
             const Spacer(),
 
-            IconButton(
-                onPressed: (){},
-                icon: const Icon(
-                  Icons.online_prediction,
-                  size: 30,
-                  color: Colors.green,
-                ),
-            ),
+            ButtonActivateStudent(estudiante: estudiante),
 
             IconButton(
                 onPressed: () {
@@ -102,4 +96,5 @@ class ItemListStudent extends ConsumerWidget {
     }
   }
 }
+
 

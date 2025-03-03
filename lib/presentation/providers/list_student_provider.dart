@@ -16,4 +16,14 @@ class ListStudentNotifier extends StateNotifier<List<StudentModel>>{
     state = state.where((student) => student.id != id).toList();
   }
 
+  void setAccessStudent(bool access, String id) {
+    state = state.map((student) {
+      if (student.id == id) {
+        return student.copyWith(access: access); // Actualiza solo el campo 'access'
+      }
+      return student;
+    }).toList();
+  }
+
+
 }

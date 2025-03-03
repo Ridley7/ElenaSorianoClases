@@ -65,5 +65,9 @@ class StudentDataSourceImplementation extends StudentDataSource{
     }
   }
 
+  @override
+  Future<void> setAccess(bool access, String id) async {
+    await _db.collection('estudiantes').doc(id).update({'access': access});
+  }
 
 }

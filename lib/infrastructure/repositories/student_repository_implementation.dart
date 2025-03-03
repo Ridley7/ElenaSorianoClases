@@ -28,6 +28,12 @@ class StudentRepositoryImplementation extends StudentRepository{
     return dataSource.deleteStudent(id);
   }
 
+  @override
+  Future<void> setAccess(bool access, String id) {
+    return dataSource.setAccess(access, id);
+  }
+
+
 
 
 }
