@@ -27,7 +27,8 @@ class ItemListClassState extends ConsumerState<ItemListClass> {
       padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
       child: InkWell(
         onTap: (){
-          context.push('/view_class');
+
+          context.push('/view_class', extra: widget.clase);
 
         },
         child: Container(

@@ -1,12 +1,15 @@
 import 'package:elenasorianoclases/config/router/app_router.dart';
+import 'package:elenasorianoclases/domain/entities/class_model.dart';
 import 'package:elenasorianoclases/presentation/widgets/empty_list_widget.dart';
 import 'package:elenasorianoclases/presentation/widgets/student_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class ViewClassScreen extends StatelessWidget {
-  const ViewClassScreen({super.key});
+  const ViewClassScreen({super.key, required this.clase});
 
+
+  final ClassModel clase;
   static String name = "view-class-screen";
 
   @override
@@ -20,6 +23,9 @@ class ViewClassScreen extends StatelessWidget {
           children: [
             Text("Fecha: 01/02/2025", style: TextStyle(fontSize: 18)),
             Text("Hora: 17:00", style: TextStyle(fontSize: 18)),
+
+            ///AQUI ME QUEDO HAY QUE AÑADIR ALUMNOS AL GRUPO
+            ///
 
             /*
             EmptyListWidget(
@@ -107,7 +113,14 @@ class ViewClassScreen extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       floatingActionButton: FloatingActionButton(
           onPressed: (){
-            context.push("/add_student_class");
+
+            ///HAY QUE INDICAR EL MAXIMO NUMERO DE PERSONAS QUE SE PUEDEN APUNTAR.
+            ///¿Como lo sabemos?
+            context.push(
+                "/add_student_class",
+                extra: {'clase': clase
+                }
+            );
           },
         child: const Icon(
           Icons.add

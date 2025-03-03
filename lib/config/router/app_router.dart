@@ -1,4 +1,6 @@
 
+import 'package:elenasorianoclases/domain/entities/class_model.dart';
+import 'package:elenasorianoclases/domain/entities/student_model.dart';
 import 'package:elenasorianoclases/presentation/screens/add_class_screen.dart';
 import 'package:elenasorianoclases/presentation/screens/add_student_screen.dart';
 import 'package:elenasorianoclases/presentation/screens/add_student_to_class_screen.dart';
@@ -44,17 +46,19 @@ final appRouter = GoRouter(initialLocation: '/login_signup', routes: [
       path: '/add_student_class',
     name: AddStudentToClassScreen.name,
     builder: (context, state){
-        return const AddStudentToClassScreen();
+        return AddStudentToClassScreen(clase: state.extra as ClassModel);
     }
   ),
+
 
   GoRoute(
       path: '/view_class',
     name: ViewClassScreen.name,
     builder: (context, state){
-        return const ViewClassScreen();
+        return ViewClassScreen(clase: state.extra as ClassModel);
     }
   ),
+
 
   GoRoute(
       path: '/add_class',
