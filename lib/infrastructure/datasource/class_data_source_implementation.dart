@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elenasorianoclases/domain/datasource/class_data_source.dart';
 import 'package:elenasorianoclases/domain/entities/class_model.dart';
+import 'package:elenasorianoclases/domain/entities/student_model.dart';
 import 'package:elenasorianoclases/domain/exceptions/app_exception.dart';
 
 class ClassDataSourceImplementation extends ClassDataSource{
@@ -44,5 +45,22 @@ class ClassDataSourceImplementation extends ClassDataSource{
     }
   }
 
+  @override
+  Future<void> addStudentsToClass(String idClass, List<StudentModel> students) async{
+    try{
+      //Extraemos los IDs de los estudiantes
+      List<String> studentIds = students.map((student) => student.id).toList();
+
+      //Obtenemos la referencia a la colección de las clases
+      DocumentReference classRef = _db.collection('clases').doc(idClass);
+
+      //Hacemos el update
+      //Con array union evitamos duplicidades y no machacamos datos antiguos.
+      await classRef.update({"listStudent": FieldValue.arrayUnion(studentIds)});
+    }catch(e){
+      print("Error al agregar estudiantes: $e");
+    }
+
+  }
 
 }

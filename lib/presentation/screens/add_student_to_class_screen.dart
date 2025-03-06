@@ -1,6 +1,9 @@
 import 'package:elenasorianoclases/domain/entities/class_model.dart';
 import 'package:elenasorianoclases/domain/entities/student_model.dart';
+import 'package:elenasorianoclases/presentation/providers/firebase/class_repository_provider.dart';
+import 'package:elenasorianoclases/presentation/providers/list_class_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/list_student_provider.dart';
+import 'package:elenasorianoclases/presentation/widgets/loaders/overlay_loading_view.dart';
 import 'package:elenasorianoclases/presentation/widgets/snackbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,7 +28,11 @@ class AddStudentToClassScreenState extends ConsumerState<AddStudentToClassScreen
   @override
   Widget build(BuildContext context) {
 
-    List<StudentModel> listaEstudiantes = ref.watch(listStudentsProvider).where((estudiante) => widget.clase.listStudent.contains(estudiante.id)).toList();
+    //Si quiero reaccionar a los cambios tengo que escucha listClassProvider
+    List<ClassModel> listaClases = ref.watch(listClassProvider);
+    ClassModel clase = listaClases.firstWhere((clase) => clase.id == widget.clase.id);
+
+    List<StudentModel> listaEstudiantes = ref.watch(listStudentsProvider).where((estudiante) => !clase.listStudent.contains(estudiante.id)).toList();
 
     return Scaffold(
       appBar: AppBar(title: const Text("Lista de alumnos"), centerTitle: true),
@@ -84,7 +91,10 @@ class AddStudentToClassScreenState extends ConsumerState<AddStudentToClassScreen
           SizedBox(
             width: double.infinity,
             child: FilledButton.tonal(
-                onPressed: (){
+                onPressed: () async{
+
+                  OverlayLoadingView.show(context);
+
                   // Filtramos solo los estudiantes seleccionados
                   final List<StudentModel> selectedStudents = listaEstudiantes
                       .asMap()
@@ -100,12 +110,13 @@ class AddStudentToClassScreenState extends ConsumerState<AddStudentToClassScreen
                     return;
                   }
 
-
-
                   //Ahora guardamos la lista de estudiantes en la bd
+                  await ref.read(classRepositoryProvider).addStudentsToClass(widget.clase.id, selectedStudents);
 
+                  //Modificamos el provider
+                  ref.read(listClassProvider.notifier).addStudentsToClass(widget.clase.id, selectedStudents);
 
-
+                  OverlayLoadingView.hide();
 
                 },
                 child: const Text("Agregar")

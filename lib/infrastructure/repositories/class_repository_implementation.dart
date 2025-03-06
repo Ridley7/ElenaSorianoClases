@@ -1,4 +1,5 @@
 import 'package:elenasorianoclases/domain/entities/class_model.dart';
+import 'package:elenasorianoclases/domain/entities/student_model.dart';
 import 'package:elenasorianoclases/domain/repositories/class_repository.dart';
 import 'package:elenasorianoclases/infrastructure/datasource/class_data_source_implementation.dart';
 
@@ -21,5 +22,10 @@ class ClassRepositoryImplementation extends ClassRepository{
   @override
   Future<void> deleteClass(ClassModel clase) {
     return dataSource.deleteClass(clase);
+  }
+
+  @override
+  Future<void> addStudentsToClass(String idClass, List<StudentModel> students) {
+    return dataSource.addStudentsToClass(idClass, students);
   }
 }

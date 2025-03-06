@@ -1,4 +1,5 @@
 import 'package:elenasorianoclases/domain/entities/class_model.dart';
+import 'package:elenasorianoclases/domain/entities/student_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final listClassProvider = StateNotifierProvider<ListClassNotifier, List<ClassModel>>((ref){
@@ -19,5 +20,23 @@ class ListClassNotifier extends StateNotifier<List<ClassModel>>{
   void addClass(ClassModel clase){
     state = [...state, clase];
   }
+
+  void addStudentsToClass(String idClass, List<StudentModel> students){
+    //Extraemos los IDs de los estudiantes
+    List<String> studentsIds = students.map((student) => student.id).toList();
+
+    // Creamos una nueva lista con la clase actualizada
+    state = state.map((clase) {
+      if (clase.id == idClass) {
+        List<String> updatedList = {...clase.listStudent, ...studentsIds}.toList();
+        return clase.copyWith(listStudents: updatedList);
+      }
+      return clase;
+    }).toList();
+
+    state = [...state];
+
+  }
+
 
 }
