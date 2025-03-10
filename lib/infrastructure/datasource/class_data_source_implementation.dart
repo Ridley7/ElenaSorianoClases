@@ -63,4 +63,21 @@ class ClassDataSourceImplementation extends ClassDataSource{
 
   }
 
+  @override
+  Future<void> deleteStudentToClass(String idClass, String idStudent) async {
+    try{
+      //Obtenemos el documento
+      DocumentReference classRef = _db.collection('clases').doc(idClass);
+      
+      //Eliminamos el ID del estudiante del array 
+      await classRef.update({'listStudent': FieldValue.arrayRemove([idStudent])
+      });
+
+    }catch(e){
+      print("Error al eliminar estudiantes de la clase: $e");
+
+    }
+  }
+
+
 }

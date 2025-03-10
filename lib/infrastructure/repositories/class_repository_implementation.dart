@@ -28,4 +28,9 @@ class ClassRepositoryImplementation extends ClassRepository{
   Future<void> addStudentsToClass(String idClass, List<StudentModel> students) {
     return dataSource.addStudentsToClass(idClass, students);
   }
+
+  @override
+  Future<void> deleteStudentToClass(String idClass, String idStudent) {
+    return dataSource.deleteStudentToClass(idClass, idStudent);
+  }
 }

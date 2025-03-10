@@ -21,6 +21,19 @@ class ListClassNotifier extends StateNotifier<List<ClassModel>>{
     state = [...state, clase];
   }
 
+  void deleteStudentToClass(String idClass, String idStudent) {
+    // Creamos una nueva lista con la clase actualizada
+    state = state.map((clase) {
+      if (clase.id == idClass) {
+        List<String> updatedList = clase.listStudent.where((id) => id != idStudent).toList();
+        return clase.copyWith(listStudents: updatedList);
+      }
+      return clase;
+    }).toList();
+
+    state = [...state]; // Forzamos la actualización del estado
+  }
+
   void addStudentsToClass(String idClass, List<StudentModel> students){
     //Extraemos los IDs de los estudiantes
     List<String> studentsIds = students.map((student) => student.id).toList();

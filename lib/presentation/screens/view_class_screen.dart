@@ -1,10 +1,10 @@
-import 'package:elenasorianoclases/config/router/app_router.dart';
+
 import 'package:elenasorianoclases/domain/entities/class_model.dart';
 import 'package:elenasorianoclases/domain/entities/student_model.dart';
 import 'package:elenasorianoclases/presentation/providers/list_class_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/list_student_provider.dart';
 import 'package:elenasorianoclases/presentation/widgets/empty_list_widget.dart';
-import 'package:elenasorianoclases/presentation/widgets/student_widget.dart';
+import 'package:elenasorianoclases/presentation/widgets/item_group_class.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -71,7 +71,10 @@ class ViewClassScreenState extends ConsumerState<ViewClassScreen> {
               child: ListView.builder(
                 itemCount: estudiantesEncontrados.length,
                 itemBuilder: (context, index){
-                  return ItemGroupClass(estudiante: estudiantesEncontrados[index]);
+                  return ItemGroupClass(
+                    estudiante: estudiantesEncontrados[index],
+                    idClass: widget.clase.id
+                  );
                 }
               ),
             ),
@@ -127,53 +130,3 @@ class ViewClassScreenState extends ConsumerState<ViewClassScreen> {
   }
 }
 
-class ItemGroupClass extends StatelessWidget {
-  const ItemGroupClass({
-    super.key, required this.estudiante,
-  });
-  
-  final StudentModel estudiante;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
-      child: Container(
-        width: double.infinity,
-        height: 60,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-                color: const Color(0xFFFFBDC4),
-                width: 1
-            )
-        ),
-        child: Row(
-          children: [
-            const SizedBox(width: 8,),
-            CircleAvatar(
-              child: Text(estudiante.name[0]),
-            ),
-            const SizedBox(width: 8,),
-            Text("${estudiante.name} ${estudiante.surename}"),
-            const Spacer(),
-            IconButton(
-                onPressed: (){
-                  //AQUI ME FALTA
-                  print("Falta por implementar!!!!");
-                  
-                },
-                icon: const Icon(
-                  Icons.delete,
-                  size: 30,
-                )
-            ),
-            const SizedBox(
-              width: 8,
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}

@@ -6,4 +6,5 @@ abstract class ClassRepository{
   Future<List<ClassModel>> getAllClass();
   Future<void> deleteClass(ClassModel clase);
   Future<void> addStudentsToClass(String idClass, List<StudentModel> students);
+  Future<void> deleteStudentToClass(String idClass, String idStudent);
 }
