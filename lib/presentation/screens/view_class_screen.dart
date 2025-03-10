@@ -95,6 +95,7 @@ class ViewClassScreenState extends ConsumerState<ViewClassScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        //CREO QUE ESTE BOTON SOBRA
                         Icon(
                           Icons.save,
                           size: 50,
@@ -115,6 +116,7 @@ class ViewClassScreenState extends ConsumerState<ViewClassScreen> {
             ///HAY QUE INDICAR EL MAXIMO NUMERO DE PERSONAS QUE SE PUEDEN APUNTAR.
             ///¿Como lo sabemos?
             context.push("/add_student_class", extra: widget.clase);
+
           },
         child: const Icon(
           Icons.add
@@ -157,7 +159,7 @@ class ItemGroupClass extends StatelessWidget {
             const Spacer(),
             IconButton(
                 onPressed: (){
-                  
+                  //AQUI ME FALTA
                   print("Falta por implementar!!!!");
                   
                 },
