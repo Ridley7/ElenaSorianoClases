@@ -50,5 +50,4 @@ class ClassModel {
       listStudent: listStudents ?? this.listStudent,
     );
   }
-
 }

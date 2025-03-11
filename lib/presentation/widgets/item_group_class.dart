@@ -40,12 +40,6 @@ class ItemGroupClass extends ConsumerWidget {
             const Spacer(),
             IconButton(
                 onPressed: () async {
-                  //Aqui tengo que quitar al estudiante de la clase
-                  //Necesito identificador del estudiante
-                  //Necesito identificador de la clase
-                  print("Identificador del estudiante: ${estudiante.id}");
-                  print("Identificador de la clase: ${idClass}");
-
                   OverlayLoadingView.show(context);
                   //Borramos el estudiante de la base de datos
                   await ref.read(classRepositoryProvider).deleteStudentToClass(idClass, estudiante.id);
