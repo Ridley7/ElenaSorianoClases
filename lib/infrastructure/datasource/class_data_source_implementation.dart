@@ -79,5 +79,21 @@ class ClassDataSourceImplementation extends ClassDataSource{
     }
   }
 
+  @override
+  Future<void> enrollStudentToClass(String idClass, String idStudent) async {
+
+    try{
+      //Obtenemos el documento
+      DocumentReference classRef = _db.collection('clases').doc(idClass);
+
+      //Añadimos el id del estudiante al array
+      await classRef.update({"listStudent": FieldValue.arrayUnion([idStudent])});
+
+    }catch(e){
+      throw EnrollStudentException("Error al añadir el estudiante $idStudent a la clase $idClass");
+    }
+
+  }
+
 
 }

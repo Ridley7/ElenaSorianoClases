@@ -33,4 +33,9 @@ class ClassRepositoryImplementation extends ClassRepository{
   Future<void> deleteStudentToClass(String idClass, String idStudent) {
     return dataSource.deleteStudentToClass(idClass, idStudent);
   }
+
+  @override
+  Future<void> enrollStudentToClass(String idClass, String idStudent) {
+    return dataSource.enrollStudentToClass(idClass, idStudent);
+  }
 }

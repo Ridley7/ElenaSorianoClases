@@ -25,5 +25,4 @@ class ListStudentNotifier extends StateNotifier<List<StudentModel>>{
     }).toList();
   }
 
-
 }

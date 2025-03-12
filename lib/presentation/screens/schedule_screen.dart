@@ -1,6 +1,7 @@
 import 'package:elenasorianoclases/domain/entities/class_model.dart';
 import 'package:elenasorianoclases/presentation/providers/list_class_provider.dart';
 import 'package:elenasorianoclases/presentation/widgets/empty_student_widget.dart';
+import 'package:elenasorianoclases/presentation/widgets/schedule/enrolled_students.dart';
 import 'package:elenasorianoclases/presentation/widgets/student_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,7 +22,6 @@ class ScheduleScreenState extends ConsumerState<ScheduleScreen> {
 
   DateTime _focusedDay = DateTime.now();
   DateTime _selectedDay = DateTime.now();
-
 
   @override
   Widget build(BuildContext context) {
@@ -194,69 +194,20 @@ class ScheduleScreenState extends ConsumerState<ScheduleScreen> {
                             children: [
                               Text("${index + 1}. Clase"),
                               const Spacer(),
-                              Text("${clasesDelDia[index].hour}")
+                              Text(clasesDelDia[index].hour)
                             ],
                           ),
 
                           const Row(
                             children: [
-                              Text("Asistentes:")
+                              Text("Asistentes: ")
                             ],
                           ),
 
-                          ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: clasesDelDia[index].amountStudents,
-                              itemBuilder: (context, index){
-
-                                //Aqui tengo que rellenar con la informacion de los estudiantes.
-
-                                return EmptyStudentWidget();
-                              }
-                          ),
+                          EnrolledStudents(clase: clasesDelDia[index]),
 
                         ],
                       );
-                      }
-                  ),
-
-
-            
-
-            
-
-
-                  ListView.builder(
-                    shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: 4,
-                      itemBuilder: (context, index){
-                        return EmptyStudentWidget();
-                      }
-                  ),
-            
-
-                  const Row(
-                    children: [
-                      Text("2. Clase"),
-                      Spacer(),
-                      Text("19:00 - 20:45")
-                    ],
-                  ),
-
-                  const Row(
-                    children: [
-                      Text("Asistentes:")
-                    ],
-                  ),
-
-                  ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: 4,
-                      itemBuilder: (context, index){
-                        return StudentWidget();
                       }
                   ),
 
@@ -275,4 +226,5 @@ class ScheduleScreenState extends ConsumerState<ScheduleScreen> {
 
 
 }
+
 
