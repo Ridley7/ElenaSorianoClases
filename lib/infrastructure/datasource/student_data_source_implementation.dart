@@ -27,7 +27,6 @@ class StudentDataSourceImplementation extends StudentDataSource{
           .limit(1)
           .get();
 
-      print("flag 100");
 
       if(querySnapshot.docs.isNotEmpty){
         var studentData = querySnapshot.docs.first.data() as Map<String, dynamic>;

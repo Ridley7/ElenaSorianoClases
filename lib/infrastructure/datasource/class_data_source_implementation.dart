@@ -89,6 +89,21 @@ class ClassDataSourceImplementation extends ClassDataSource{
       //Añadimos el id del estudiante al array
       await classRef.update({"listStudent": FieldValue.arrayUnion([idStudent])});
 
+      //Tenemos que restar una unida al contador classCount del usuario
+      DocumentReference studentRef = _db.collection('estudiantes').doc(idStudent);
+
+      //Obtenemos el class count del estudiante
+      DocumentSnapshot studentSnapshot = await studentRef.get();
+
+      if(studentSnapshot.exists){
+        int currentClassCount = studentSnapshot.get("classCount") ?? 0;
+
+        //Restamos 1 y actualizamos el classCount
+        await studentRef.update({"classCount" : currentClassCount - 1});
+      }else{
+        throw EnrollStudentException("El estudiante $idStudent no existe en la base de datos");
+      }
+
     }catch(e){
       throw EnrollStudentException("Error al añadir el estudiante $idStudent a la clase $idClass");
     }
