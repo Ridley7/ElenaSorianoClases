@@ -1,17 +1,21 @@
+import 'package:elenasorianoclases/domain/entities/student_model.dart';
+import 'package:elenasorianoclases/presentation/providers/info_user_provider.dart';
 import 'package:elenasorianoclases/presentation/widgets/loaders/overlay_loading_view.dart';
 import 'package:elenasorianoclases/presentation/widgets/menu_item_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   HomeScreen({super.key});
 
   static String name = "home-screen";
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
 
+    StudentModel student = ref.watch(infoUserProvider.notifier).state;
 
     final List<MenuItemWidget> optionsMainMenu = [
       MenuItemWidget(
@@ -67,16 +71,24 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(title: const Text("Menú"), centerTitle: true,),
       body: Padding(
           padding: const EdgeInsets.all(16.0),
-        child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-            mainAxisSpacing: 16,
-            crossAxisSpacing: 16
+        child: Column(
+          children: [
+            Expanded(
+              child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16
+                  ),
+                  itemCount: optionsMainMenu.length,
+                  itemBuilder: (context, index){
+                    return optionsMainMenu[index];
+                  }
+              ),
             ),
-            itemCount: optionsMainMenu.length,
-            itemBuilder: (context, index){
-              return optionsMainMenu[index];
-            }
+
+            Text("Clases a recuperar: ${student.classCount}")
+          ],
         ),
       ),
     );

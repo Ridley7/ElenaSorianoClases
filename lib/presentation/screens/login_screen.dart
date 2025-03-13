@@ -5,6 +5,7 @@ import 'package:elenasorianoclases/infrastructure/repositories/student_repositor
 import 'package:elenasorianoclases/presentation/providers/firebase/class_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/firebase/login_register_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/firebase/student_repository_provider.dart';
+import 'package:elenasorianoclases/presentation/providers/info_user_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/list_class_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/list_student_provider.dart';
 import 'package:elenasorianoclases/presentation/widgets/background_login.dart';
@@ -111,6 +112,8 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   void checkSession() async{
+
+
     //Comprobamos si el usuario esta logueado
     User? user = FirebaseAuth.instance.currentUser;
 
@@ -135,6 +138,8 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
         //Rellenamos el provider de estudiantes
         ref.read(listStudentsProvider.notifier).init(listaEstudiantes);
       }
+      
+      ref.read(infoUserProvider.notifier).state = studentModel;
 
       if(studentModel.access){
         //print("Este estudiante tiene acceso");

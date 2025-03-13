@@ -46,10 +46,23 @@ class ListClassNotifier extends StateNotifier<List<ClassModel>>{
       }
       return clase;
     }).toList();
-
     state = [...state];
-
   }
+
+  void enrollStudentToClass(String idClass, String idStudent) {
+    // Obtenemos la clase
+    for (ClassModel clase in state) {
+      if (clase.id == idClass) {
+        // Comprobamos que el estudiante no esté ya en la lista
+        if (!clase.listStudent.contains(idStudent)) {
+          clase.listStudent.add(idStudent);
+          state = [...state]; // Actualizamos el estado solo si hubo un cambio
+        }
+        break;
+      }
+    }
+  }
+
 
 
 }

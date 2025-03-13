@@ -1,4 +1,5 @@
 import 'package:elenasorianoclases/presentation/providers/firebase/class_repository_provider.dart';
+import 'package:elenasorianoclases/presentation/providers/list_class_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/list_student_provider.dart';
 import 'package:elenasorianoclases/presentation/widgets/enter_class_dialog.dart';
 import 'package:elenasorianoclases/presentation/widgets/leave_class_dialog.dart';
@@ -40,8 +41,10 @@ class EmptyStudentWidget extends ConsumerWidget {
 
           //También hay que comprobar que se pueda apuntar dentro del tiempo estipulado
 
-          //Apuntamos al estudiante a la clase
+          //Apuntamos el estudiante a la clase
           await ref.read(classRepositoryProvider).enrollStudentToClass(idClase, idStudent);
+
+          ref.read(listClassProvider.notifier).enrollStudentToClass(idClase, idStudent);
 
           //AQUI ME QUEDO HAY QUE MODIFICAR LA MEMORIA O MAS BIEN EL PROVIDER QUE ESTA EN LA MEMORIA
 

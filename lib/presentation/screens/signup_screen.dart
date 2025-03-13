@@ -51,7 +51,8 @@ class SignupScreenState extends ConsumerState<SignupScreen> {
           name: nombreController.text,
           surename: apellidoController.text,
           access: false,
-          rol: RolType.student
+          rol: RolType.student,
+        classCount: 0
       );
 
       //Insertamos el usuario en la coleccion

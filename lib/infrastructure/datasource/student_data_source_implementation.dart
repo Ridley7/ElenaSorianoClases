@@ -27,10 +27,13 @@ class StudentDataSourceImplementation extends StudentDataSource{
           .limit(1)
           .get();
 
+      print("flag 100");
+
       if(querySnapshot.docs.isNotEmpty){
         var studentData = querySnapshot.docs.first.data() as Map<String, dynamic>;
         return StudentModel.fromJson(studentData).copyWith(id: querySnapshot.docs.first.id);
       }
+
       throw Exception("No se encontró el estudiante con uid: $uid");
     }catch(error){
       throw GetStudentException("Error al obtener el estudiante con uid: $uid");

@@ -5,6 +5,7 @@ class StudentModel{
   String surename;
   bool access;
   String rol;
+  int classCount;
 
   StudentModel({
     required this.id,
@@ -12,8 +13,19 @@ class StudentModel{
     required this.name,
     required this.surename,
     required this.access,
-    required this.rol
+    required this.rol,
+    required this.classCount
   });
+
+  // ✅ Constructor con valores predeterminados
+  StudentModel.empty()
+      : id = "",
+        uid = "",
+        name = "",
+        surename = "",
+        access = false,
+        rol = "",
+        classCount = -1;
 
   factory StudentModel.fromJson(Map<String, dynamic> json){
     return StudentModel(
@@ -22,7 +34,8 @@ class StudentModel{
         name: json['name'],
         surename: json['surename'],
         access: json['access'],
-        rol: json['rol']
+        rol: json['rol'],
+      classCount: json['classCount']
     );
   }
 
@@ -32,7 +45,8 @@ class StudentModel{
       'name': name,
       'surename': surename,
       'access': access,
-      'rol': rol
+      'rol': rol,
+      'classCount': classCount
     };
   }
 
@@ -43,6 +57,7 @@ class StudentModel{
     String? surename,
     bool? access,
     String? rol,
+    int? classCount,
   }){
     return StudentModel(
       id: id ?? this.id,
@@ -50,7 +65,8 @@ class StudentModel{
       name: name ?? this.name,
       surename: surename ?? this.surename,
       access: access ?? this.access,
-      rol: rol ?? this.rol
+      rol: rol ?? this.rol,
+      classCount: classCount ?? this.classCount
     );
   }
 }
