@@ -132,12 +132,9 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
       StudentModel studentModel = await repositoriyStudents.getStudent(user.uid);
 
       //Si tiene el rol de profesor, descargamos la lista de estudiantes
-      if(studentModel.rol == "lecturer"){
-        print("Descargando estudiantes");
-        List<StudentModel> listaEstudiantes = await repositoriyStudents.getAllStudents();
-        //Rellenamos el provider de estudiantes
-        ref.read(listStudentsProvider.notifier).init(listaEstudiantes);
-      }
+      List<StudentModel> listaEstudiantes = await repositoriyStudents.getAllStudents();
+      //Rellenamos el provider de estudiantes
+      ref.read(listStudentsProvider.notifier).init(listaEstudiantes);
       
       ref.read(infoUserProvider.notifier).state = studentModel;
 

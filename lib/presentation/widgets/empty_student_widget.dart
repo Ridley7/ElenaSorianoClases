@@ -63,6 +63,8 @@ class EmptyStudentWidget extends ConsumerWidget {
             }
           }
 
+          //Habria que filtar aqui si es student o lecturer pero mas adelante
+
           //Comprobamos que el estudiante se pueda apuntar porque tiene clases que recuperar
           if(slotsStudent <= 0) {
             OverlayLoadingView.hide();
