@@ -1,3 +1,4 @@
+import 'package:elenasorianoclases/config/helpers/date_management.dart';
 import 'package:elenasorianoclases/domain/entities/student_model.dart';
 import 'package:elenasorianoclases/presentation/providers/firebase/class_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/info_user_provider.dart';
@@ -27,25 +28,6 @@ class EmptyStudentWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
-    bool checkTimeDifference() {
-      DateTime now = DateTime.now();
-      DateTime parsedDate = DateFormat("dd/MM/yyyy").parse(date);
-      DateTime parsedTime = DateFormat("HH:mm").parse(hour);
-
-      DateTime givenDate = DateTime(
-        parsedDate.year,
-        parsedDate.month,
-        parsedDate.day,
-        parsedTime.hour,
-        parsedTime.minute
-      );
-
-      Duration difference = givenDate.difference(now);
-
-      return difference < const Duration(minutes: -30) ? false : false;
-    }
-
-
     return GestureDetector(
       onTap: (){
         EnterClassDialog.show(context, () async{
@@ -74,7 +56,7 @@ class EmptyStudentWidget extends ConsumerWidget {
 
           //Comprobamos que no ha pasado el tiempo estipulado para apuntarse
           //También hay que comprobar que se pueda apuntar dentro del tiempo estipulado
-          if(!checkTimeDifference()){
+          if(!DateManagement.checkTimeDifference(-30, hour, date)){
             OverlayLoadingView.hide();
             snackbarWidget(context, "El tiempo para apuntarte a esta clase ha terminado");
             return;

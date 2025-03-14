@@ -63,6 +63,17 @@ class ListClassNotifier extends StateNotifier<List<ClassModel>>{
     }
   }
 
+  void disenrollStudentToClass(String idClass, String idStudent){
+    state = state.map((clase){
+      if(clase.id == idClass){
+        return clase.copyWith(
+          listStudents: clase.listStudent.where((s) => s != idStudent).toList()
+        );
+      }
+      return clase;
+    }).toList();
+  }
+
 
 
 }

@@ -46,3 +46,7 @@ class DeleteStudentException extends AppException{
 class EnrollStudentException extends AppException{
   const EnrollStudentException([super.message]);
 }
+
+class DisenrollStudentException extends AppException{
+  const DisenrollStudentException([super.message]);
+}

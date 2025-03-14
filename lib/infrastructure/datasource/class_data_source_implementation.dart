@@ -103,11 +103,38 @@ class ClassDataSourceImplementation extends ClassDataSource{
       }else{
         throw EnrollStudentException("El estudiante $idStudent no existe en la base de datos");
       }
-
     }catch(e){
       throw EnrollStudentException("Error al añadir el estudiante $idStudent a la clase $idClass");
     }
 
+  }
+
+  @override
+  Future<void> disenrollStudentToClass(String idClass, String idStudent) async {
+    try{
+      //Obtenemos el documento
+      DocumentReference classRef = _db.collection('clases').doc(idClass);
+
+      //Eliminamos el ID del estudiante del array
+      await classRef.update({'listStudent': FieldValue.arrayRemove([idStudent])
+      });
+
+      //Obtenemos el class count del estudiante
+      DocumentReference studentRef = _db.collection("estudiantes").doc(idStudent);
+      DocumentSnapshot studentSnapshot = await studentRef.get();
+
+      if(studentSnapshot.exists){
+        int currentClassCoint = studentSnapshot.get("classCount") ?? 0;
+        //Restamos 1 y actualizamos el classCount
+        await studentRef.update({"classCount" : currentClassCoint + 1});
+      }else{
+        throw DisenrollStudentException("Error al desapuntar al estudiante $idStudent de la clase $idClass");
+      }
+
+    }catch(e){
+      print("Error al desapuntar a un estudiante de la clase: $e");
+
+    }
   }
 
 
