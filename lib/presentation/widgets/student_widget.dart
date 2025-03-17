@@ -44,24 +44,23 @@ class StudentWidget extends ConsumerWidget {
 
     StudentModel studentModel = ref.read(infoUserProvider.notifier).state;
 
-    return GestureDetector(
-      onTap: (){
-        LeaveClassDialog.show(context, (){});
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 2.0),
-        child: Container(
-          color: const Color(0xFFFFBDC4),
-          height: 60,
-          width: double.infinity,
-          alignment: Alignment.centerLeft,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2.0),
+      child: Container(
+        color: const Color(0xFFFFBDC4),
+        height: 60,
+        width: double.infinity,
+        alignment: Alignment.centerLeft,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Row(
             children: [
               Text(
                 realName,
                 style: const TextStyle(
                     fontSize: 20,
-                    color: Colors.black54
+                    color: Colors.black54,
+                  fontWeight: FontWeight.bold
                 )
               ),
 
@@ -70,7 +69,12 @@ class StudentWidget extends ConsumerWidget {
               studentModel.id == idStudent ?
               CapsuleButton(
                   text: "Darse de baja",
-                  onPressed: () => unenrollUser(context, ref, idStudent, classCount)
+                  onPressed: () {
+                    LeaveClassDialog.show(context, (){
+                      unenrollUser(context, ref, idStudent, classCount);
+                    });
+
+                  }
               )
               : const SizedBox()
             ],

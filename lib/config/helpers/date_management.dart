@@ -16,12 +16,7 @@ class DateManagement{
         parsedTime.minute
     );
 
-    print("La fecha de la calse es $givenDate");
-
     Duration difference = givenDate.difference(now);
-
-    print("La fecha now es: $now");
-    print("La diferencia es: $difference");
 
     return difference < Duration(minutes: elapsedTime) ? false : true;
   }

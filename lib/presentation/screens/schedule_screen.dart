@@ -1,6 +1,7 @@
 import 'package:elenasorianoclases/domain/entities/class_model.dart';
 import 'package:elenasorianoclases/presentation/providers/list_class_provider.dart';
 import 'package:elenasorianoclases/presentation/widgets/empty_student_widget.dart';
+import 'package:elenasorianoclases/presentation/widgets/schedule/empty_schedule.dart';
 import 'package:elenasorianoclases/presentation/widgets/schedule/enrolled_students.dart';
 import 'package:elenasorianoclases/presentation/widgets/student_widget.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +19,6 @@ class ScheduleScreen extends ConsumerStatefulWidget {
 
 class ScheduleScreenState extends ConsumerState<ScheduleScreen> {
 
-  //AHORA TOCA MONTAR ESTA PANTALLA!!! QUE ES DE LAS MÁS COMPLICADAS
-
   DateTime _focusedDay = DateTime.now();
   DateTime _selectedDay = DateTime.now();
 
@@ -32,8 +31,6 @@ class ScheduleScreenState extends ConsumerState<ScheduleScreen> {
     List<ClassModel> _getEventsForDay(DateTime day) {
       return classMap[DateTime(day.year, day.month, day.day)] ?? [];
     }
-
-
 
     for(var classModel in listaClases){
       //Convertimos el string date a DateTime (formato dd/mm/aaaa)
@@ -57,6 +54,9 @@ class ScheduleScreenState extends ConsumerState<ScheduleScreen> {
 
 
     return Scaffold(
+
+      //ME QUEDO AQUI PONER CALENDARIO EN ESPAÑOL!!
+
       appBar: AppBar(title: const Text("Horario"),),
       body: Column(
         children: [
@@ -170,47 +170,70 @@ class ScheduleScreenState extends ConsumerState<ScheduleScreen> {
               child: Column(
                 children: [
 
-                  Row(
-                    children: [
-                      const Spacer(),
-                      Text("${_getEventsForDay(_selectedDay).length} Clases")
-                    ],
+                  _getEventsForDay(_selectedDay).isEmpty
+                  ? const EmptySchedule()
+                  :
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Row(
+                      children: [
+                        Text(
+                          "Clases disponibles: ${_getEventsForDay(_selectedDay).length}",
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold
+                          ),
+                        )
+                      ],
+                    ),
                   ),
 
+                  const SizedBox(height: 20,),
 
-                  ListView.builder(
-                    shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: _getEventsForDay(_selectedDay).length,
-                      itemBuilder: (context, index){
 
-                      List<ClassModel> clasesDelDia = _getEventsForDay(_selectedDay);
 
-                      return Column(
-                        children: [
-                          //Contenido
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: _getEventsForDay(_selectedDay).length,
+                        separatorBuilder: (context, index) => OrnamentalSeparator(),
+                        itemBuilder: (context, index){
+                        List<ClassModel> clasesDelDia = _getEventsForDay(_selectedDay);
 
-                          Row(
-                            children: [
-                              Text("${index + 1}. Clase"),
-                              const Spacer(),
-                              Text(clasesDelDia[index].hour)
-                            ],
-                          ),
+                        return Column(
+                          children: [
+                            //Contenido
 
-                          const Row(
-                            children: [
-                              Text("Asistentes: ")
-                            ],
-                          ),
+                            Row(
+                              children: [
+                                Text("${index + 1}. Clase",
+                                  style: const TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                const Spacer(),
+                                Text(clasesDelDia[index].hour,
+                                    style: const TextStyle(fontWeight: FontWeight.bold))
+                              ],
+                            ),
 
-                          EnrolledStudents(clase: clasesDelDia[index]),
+                            const Row(
+                              children: [
+                                Text("Asistentes: ",
+                                style: TextStyle(fontWeight: FontWeight.bold)
+                                )
+                              ],
+                            ),
 
-                        ],
-                      );
-                      }
+                            const SizedBox(height: 10,),
+
+                            EnrolledStudents(clase: clasesDelDia[index]),
+
+                          ],
+                        );
+                        }
+                    ),
                   ),
-
                 ],
               ),
             ),
@@ -218,13 +241,29 @@ class ScheduleScreenState extends ConsumerState<ScheduleScreen> {
         ],
       ),
     );
-
-
-
   }
+}
 
+class OrnamentalSeparator extends StatelessWidget {
+  const OrnamentalSeparator({super.key});
 
-
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(child: Divider(thickness: 1, color: Colors.grey.shade400)),
+          const Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Icon(Icons.star, color: Color(0xFFFFBDC4), size: 16),
+          ),
+          Expanded(child: Divider(thickness: 1, color: Colors.grey.shade400)),
+        ],
+      ),
+    );
+  }
 }
 
 
