@@ -55,8 +55,6 @@ class ScheduleScreenState extends ConsumerState<ScheduleScreen> {
 
     return Scaffold(
 
-      //ME QUEDO AQUI PONER CALENDARIO EN ESPAÑOL!!
-
       appBar: AppBar(title: const Text("Horario"),),
       body: Column(
         children: [
@@ -64,7 +62,7 @@ class ScheduleScreenState extends ConsumerState<ScheduleScreen> {
               focusedDay: _focusedDay,
             firstDay: DateTime.utc(2025, 1, 1),
             lastDay: DateTime.utc(2035, 12, 31),
-            //locale: "es_ES",
+            locale: "es_ES",
             calendarFormat: CalendarFormat.month,
             startingDayOfWeek: StartingDayOfWeek.monday,
 
