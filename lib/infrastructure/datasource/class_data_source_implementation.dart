@@ -86,6 +86,13 @@ class ClassDataSourceImplementation extends ClassDataSource{
       //Obtenemos el documento
       DocumentReference classRef = _db.collection('clases').doc(idClass);
 
+      //Verificamos si el documento de la clase existe
+      DocumentSnapshot classSnapshot = await classRef.get();
+
+      if (!classSnapshot.exists) {
+        throw const EnrollStudentException("ERROR es probable que la clase haya sido borrada en este instante.");
+      }
+
       //Añadimos el id del estudiante al array
       await classRef.update({"listStudent": FieldValue.arrayUnion([idStudent])});
 
@@ -104,7 +111,13 @@ class ClassDataSourceImplementation extends ClassDataSource{
         throw EnrollStudentException("El estudiante $idStudent no existe en la base de datos");
       }
     }catch(e){
+      // Si ya es una EnrollStudentException, la relanzamos sin modificarla
+      if (e is EnrollStudentException) {
+        rethrow;
+      }
+      // Si es otro error, lanzamos la excepción general
       throw EnrollStudentException("Error al añadir el estudiante $idStudent a la clase $idClass");
+
     }
 
   }

@@ -76,6 +76,9 @@ class ItemListClassState extends ConsumerState<ItemListClass> {
                     //Borramos de provider
                     ref.read(listClassProvider.notifier).deleteClass(widget.clase);
 
+                    //AQUI FALTAN COSITAS
+                    //1. Cuando se borra una clase, se han de borrar
+
                     OverlayLoadingView.hide();
                   },
                   icon: const Icon(

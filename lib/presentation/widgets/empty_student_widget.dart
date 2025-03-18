@@ -1,6 +1,7 @@
 import 'package:elenasorianoclases/config/helpers/date_management.dart';
 import 'package:elenasorianoclases/domain/entities/class_model.dart';
 import 'package:elenasorianoclases/domain/entities/student_model.dart';
+import 'package:elenasorianoclases/domain/exceptions/app_exception.dart';
 import 'package:elenasorianoclases/presentation/providers/firebase/class_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/info_user_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/list_class_provider.dart';
@@ -100,13 +101,24 @@ class EmptyStudentWidget extends ConsumerWidget {
     }
 
     //Apuntamos el estudiante a la clase
-    await ref.read(classRepositoryProvider).enrollStudentToClass(idClase, idStudent);
-    ref.read(listClassProvider.notifier).enrollStudentToClass(idClase, idStudent);
+    try{
+      await ref.read(classRepositoryProvider).enrollStudentToClass(idClase, idStudent);
+      ref.read(listClassProvider.notifier).enrollStudentToClass(idClase, idStudent);
 
-    //Reducimos en 1 el classCount del usuario
-    StudentModel studentModel = ref.read(infoUserProvider.notifier).state;
-    studentModel = studentModel.copyWith(classCount: studentModel.classCount - 1);
-    ref.read(infoUserProvider.notifier).state = studentModel;
+      //Reducimos en 1 el classCount del usuario
+      StudentModel studentModel = ref.read(infoUserProvider.notifier).state;
+      studentModel = studentModel.copyWith(classCount: studentModel.classCount - 1);
+      ref.read(infoUserProvider.notifier).state = studentModel;
+    } catch (e) {
+      if (e is EnrollStudentException) {
+        // Manejo específico de la excepción
+        //OverlayLoadingView.hide();
+        snackbarWidget(context, e.message ?? "");
+      } else {
+        // Otros errores inesperados
+        snackbarWidget(context, "Error inesperado");
+      }
+    }
 
     //Hay que hacer esta reducción también en la lista de alumnos? Lo veremos
     OverlayLoadingView.hide();
