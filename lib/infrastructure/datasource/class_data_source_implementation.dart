@@ -39,8 +39,24 @@ class ClassDataSourceImplementation extends ClassDataSource{
   @override
   Future<void> deleteClass(ClassModel clase) async {
     try{
+      //Referenciamos a los documentos de los estudiantes
+      List<DocumentReference> studentRefs = clase.listStudent
+      .map((estudianteId) => _db.collection("estudiantes").doc(estudianteId))
+      .toList();
+
+      //Actualizamos el classcount de los estudiantes pero en paralelo ¿?¿?
+      await Future.wait(studentRefs.map((ref){
+        return ref.update({
+          "classCount" : FieldValue.increment(1)
+        }).catchError((e){
+          // Manejo de error individual por estudiante
+          print("Error al actualizar classCount de ${ref.id}: $e");
+        });
+      }));
+
       await _db.collection("clases").doc(clase.id).delete();
-    }catch(error){
+    }catch(error, stackTrace){
+      print("Error en deleteClass: $error\n$stackTrace");
       throw DeleteClassException("Error al eliminar la clase: ${error.toString()}");
     }
   }
@@ -127,6 +143,14 @@ class ClassDataSourceImplementation extends ClassDataSource{
     try{
       //Obtenemos el documento
       DocumentReference classRef = _db.collection('clases').doc(idClass);
+
+      //AQUI ME QUEDO, HAY QUE COMPROBAR QUE SI UN ALUMNO SE DESAPUNTA ESTA CLASE
+      //SIGA EXISTIENDO DE IGUAL MANERA QUE HICIMOS COMO EN EL METODO DE ARRIBA
+      //ADEMAS ASI SE EVITA QUE SE TENGA QUE RECUPERAR UNA CLASE INDEBIDAMENTE
+
+      //SEUNGDA FAENA: CUANDO TE CARGAS UNA CLASE A ESOS ESTUDIANTES LES DEBES CLASE? SI
+      //POR LO TANTO A LOS ESTUDIANTES QUE ESTEN APUNTADOS A UNA CLASE QUE SE VAYA A ELIMINAR
+      //DEBEMOS INCREMENTAR EN 1 SU COUNTCLASS
 
       //Eliminamos el ID del estudiante del array
       await classRef.update({'listStudent': FieldValue.arrayRemove([idStudent])
