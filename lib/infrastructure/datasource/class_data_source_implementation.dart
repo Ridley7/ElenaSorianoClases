@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:elenasorianoclases/config/helpers/date_management.dart';
 import 'package:elenasorianoclases/domain/datasource/class_data_source.dart';
 import 'package:elenasorianoclases/domain/entities/class_model.dart';
 import 'package:elenasorianoclases/domain/entities/student_model.dart';
@@ -39,22 +40,30 @@ class ClassDataSourceImplementation extends ClassDataSource{
   @override
   Future<void> deleteClass(ClassModel clase) async {
     try{
-      //Referenciamos a los documentos de los estudiantes
-      List<DocumentReference> studentRefs = clase.listStudent
-      .map((estudianteId) => _db.collection("estudiantes").doc(estudianteId))
-      .toList();
 
-      //Actualizamos el classcount de los estudiantes pero en paralelo ¿?¿?
-      await Future.wait(studentRefs.map((ref){
-        return ref.update({
-          "classCount" : FieldValue.increment(1)
-        }).catchError((e){
-          // Manejo de error individual por estudiante
-          print("Error al actualizar classCount de ${ref.id}: $e");
-        });
-      }));
+      //Comprobamos si la fecha de la clase es hoy o ya ha pasado
+      if(!DateManagement.isTodayOrBefore(clase.date)){
+        //Si es una fecha futura debemos clase a los alumnos
 
+        //Referenciamos a los documentos de los estudiantes
+        List<DocumentReference> studentRefs = clase.listStudent
+            .map((estudianteId) => _db.collection("estudiantes").doc(estudianteId))
+            .toList();
+
+        //Actualizamos el classcount de los estudiantes pero en paralelo ¿?¿?
+        await Future.wait(studentRefs.map((ref){
+          return ref.update({
+            "classCount" : FieldValue.increment(1)
+          }).catchError((e){
+            // Manejo de error individual por estudiante
+            print("Error al actualizar classCount de ${ref.id}: $e");
+          });
+        }));
+      }
+
+      
       await _db.collection("clases").doc(clase.id).delete();
+
     }catch(error, stackTrace){
       print("Error en deleteClass: $error\n$stackTrace");
       throw DeleteClassException("Error al eliminar la clase: ${error.toString()}");

@@ -71,10 +71,14 @@ class ItemListClassState extends ConsumerState<ItemListClass> {
               IconButton(
                   onPressed: () async{
                     OverlayLoadingView.show(context);
+
+
                     //Borramos de bd
                     await ref.read(classRepositoryProvider).deleteClass(widget.clase);
                     //Borramos de provider
                     ref.read(listClassProvider.notifier).deleteClass(widget.clase);
+
+                    //Si la clase que se va a borrar ya se ha dado no tengo que sumarle nada a las alumnas
 
                     OverlayLoadingView.hide();
                   },
