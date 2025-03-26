@@ -84,6 +84,7 @@ class ViewClassScreenState extends ConsumerState<ViewClassScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: GestureDetector(
                 onTap: (){
+                  context.push("/add_student_class", extra: widget.clase);
                 },
                 child: Container(
                     width: double.infinity,
@@ -95,12 +96,11 @@ class ViewClassScreenState extends ConsumerState<ViewClassScreen> {
                             width: 3
                         )
                     ),
-                    child: Column(
+                    child: const  Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        //CREO QUE ESTE BOTON SOBRA
                         Icon(
-                          Icons.save,
+                          Icons.add_circle,
                           size: 50,
                         )
                       ],
@@ -112,19 +112,6 @@ class ViewClassScreenState extends ConsumerState<ViewClassScreen> {
         ),
       ),
 
-      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-      floatingActionButton: FloatingActionButton(
-          onPressed: (){
-
-            ///HAY QUE INDICAR EL MAXIMO NUMERO DE PERSONAS QUE SE PUEDEN APUNTAR.
-            ///¿Como lo sabemos?
-            context.push("/add_student_class", extra: widget.clase);
-
-          },
-        child: const Icon(
-          Icons.add
-        ),
-      ),
 
     );
   }
