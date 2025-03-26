@@ -14,7 +14,7 @@ class EmptySchedule extends StatelessWidget {
 
         const Text(
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          "No hay clases programas para este día",
+          "No hay clases programadas para este día",
         ),
 
         Image.asset(

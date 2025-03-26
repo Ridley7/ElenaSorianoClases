@@ -12,6 +12,10 @@ class ListStudentNotifier extends StateNotifier<List<StudentModel>>{
     state = [...estudiantes];
   }
 
+  void addNewStudent(StudentModel newStudent){
+    state = [...state, newStudent];
+  }
+
   void deleteStudent(String id){
     state = state.where((student) => student.id != id).toList();
   }

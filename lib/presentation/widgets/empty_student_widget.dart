@@ -1,3 +1,4 @@
+import 'package:elenasorianoclases/config/constants/enums.dart';
 import 'package:elenasorianoclases/config/helpers/date_management.dart';
 import 'package:elenasorianoclases/domain/entities/class_model.dart';
 import 'package:elenasorianoclases/domain/entities/student_model.dart';
@@ -84,6 +85,11 @@ class EmptyStudentWidget extends ConsumerWidget {
 
     //HACER ESTE FILTRO
     //Habria que filtar aqui si es student o lecturer pero mas adelante
+    if(ref.read(infoUserProvider).rol == RolType.lecturer){
+      OverlayLoadingView.hide();
+      snackbarWidget(context, "No puedes apuntarte. Eres la profe.");
+      return;
+    }
 
     //Comprobamos que el estudiante se pueda apuntar porque tiene clases que recuperar
     if(slotsStudent <= 0) {

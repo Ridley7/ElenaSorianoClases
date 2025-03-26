@@ -153,14 +153,6 @@ class ClassDataSourceImplementation extends ClassDataSource{
       //Obtenemos el documento
       DocumentReference classRef = _db.collection('clases').doc(idClass);
 
-      //AQUI ME QUEDO, HAY QUE COMPROBAR QUE SI UN ALUMNO SE DESAPUNTA ESTA CLASE
-      //SIGA EXISTIENDO DE IGUAL MANERA QUE HICIMOS COMO EN EL METODO DE ARRIBA
-      //ADEMAS ASI SE EVITA QUE SE TENGA QUE RECUPERAR UNA CLASE INDEBIDAMENTE
-
-      //SEUNGDA FAENA: CUANDO TE CARGAS UNA CLASE A ESOS ESTUDIANTES LES DEBES CLASE? SI
-      //POR LO TANTO A LOS ESTUDIANTES QUE ESTEN APUNTADOS A UNA CLASE QUE SE VAYA A ELIMINAR
-      //DEBEMOS INCREMENTAR EN 1 SU COUNTCLASS
-
       //Eliminamos el ID del estudiante del array
       await classRef.update({'listStudent': FieldValue.arrayRemove([idStudent])
       });
@@ -182,6 +174,5 @@ class ClassDataSourceImplementation extends ClassDataSource{
 
     }
   }
-
 
 }

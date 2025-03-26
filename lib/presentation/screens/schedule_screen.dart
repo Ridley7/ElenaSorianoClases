@@ -196,7 +196,7 @@ class ScheduleScreenState extends ConsumerState<ScheduleScreen> {
                       shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: _getEventsForDay(_selectedDay).length,
-                        separatorBuilder: (context, index) => OrnamentalSeparator(),
+                        separatorBuilder: (context, index) => const OrnamentalSeparator(),
                         itemBuilder: (context, index){
                         List<ClassModel> clasesDelDia = _getEventsForDay(_selectedDay);
 
