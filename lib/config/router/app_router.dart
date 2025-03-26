@@ -8,6 +8,7 @@ import 'package:elenasorianoclases/presentation/screens/class_screen.dart';
 import 'package:elenasorianoclases/presentation/screens/home_screen.dart';
 import 'package:elenasorianoclases/presentation/screens/login_screen.dart';
 import 'package:elenasorianoclases/presentation/screens/not_allowed_screen.dart';
+import 'package:elenasorianoclases/presentation/screens/profile_student_screen.dart';
 import 'package:elenasorianoclases/presentation/screens/schedule_screen.dart';
 import 'package:elenasorianoclases/presentation/screens/signup_screen.dart';
 import 'package:elenasorianoclases/presentation/screens/students_screen.dart';
@@ -43,13 +44,20 @@ final appRouter = GoRouter(initialLocation: '/login_signup', routes: [
   ),
 
   GoRoute(
-      path: '/add_student_class',
+    path: '/add_student_class',
     name: AddStudentToClassScreen.name,
-    builder: (context, state){
-        return AddStudentToClassScreen(clase: state.extra as ClassModel);
+    builder: (context, state) {
+      return AddStudentToClassScreen(clase: state.extra as ClassModel);
     }
   ),
 
+  GoRoute(
+    path: '/profile_student',
+    name: ProfileStudentScreen.name,
+    builder: (context, state) {
+      return ProfileStudentScreen(student: state.extra as StudentModel);
+    },
+  ),
 
   GoRoute(
       path: '/view_class',

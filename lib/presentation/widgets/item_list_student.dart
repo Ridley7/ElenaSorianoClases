@@ -6,6 +6,7 @@ import 'package:elenasorianoclases/presentation/widgets/loaders/overlay_loading_
 import 'package:elenasorianoclases/presentation/widgets/shared/generic_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class ItemListStudent extends ConsumerWidget {
   const ItemListStudent({
@@ -15,52 +16,61 @@ class ItemListStudent extends ConsumerWidget {
 
   final StudentModel estudiante;
 
+  //AQUI ME QUEDO. HE DE PONER ALGUNA FORMA DE INCREMENTAR O DECREMENTAR EL CLASS COUNT DE LOS ESTUDIANTES
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
-      child: Container(
-        width: double.infinity,
-        height: 60,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-                color: const Color(0xFFFFBDC4),
-                width: 1
-            )
-        ),
-        child: Row(
-          children: [
-            const SizedBox(width: 8,),
-            CircleAvatar(
-              child: Text(estudiante.name[0].toUpperCase()),
-            ),
-            const SizedBox(width: 8,),
-            Text("${estudiante.name} ${estudiante.surename}"),
-            const Spacer(),
+    return GestureDetector(
+      onTap: (){
 
-            ButtonActivateStudent(estudiante: estudiante),
+        context.push('/profile_student', extra: estudiante);
 
-            IconButton(
-                onPressed: () {
-                  //Aqui necesito cuadro de dialogo
-                  GenericDialog.show(
-                      context,
-                      "¿Eliminar permanentemente?",
-                      "Estas apunto de eliminar a ${estudiante.name} ${estudiante.surename} ",
-                          () => _confirmDelete(context, ref)
-                  );
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
+        child: Container(
+          width: double.infinity,
+          height: 60,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                  color: const Color(0xFFFFBDC4),
+                  width: 1
+              )
+          ),
+          child: Row(
+            children: [
+              const SizedBox(width: 8,),
+              CircleAvatar(
+                child: Text(estudiante.name[0].toUpperCase()),
+              ),
+              const SizedBox(width: 8,),
+              Text("${estudiante.name} ${estudiante.surename}"),
+              const Spacer(),
 
-                },
-                icon: const Icon(
-                  Icons.delete,
-                  size: 30,
-                )
-            ),
-            const SizedBox(
-              width: 8,
-            )
-          ],
+              ButtonActivateStudent(estudiante: estudiante),
+
+              IconButton(
+                  onPressed: () {
+                    //Aqui necesito cuadro de dialogo
+                    GenericDialog.show(
+                        context,
+                        "¿Eliminar permanentemente?",
+                        "Estas apunto de eliminar a ${estudiante.name} ${estudiante.surename} ",
+                            () => _confirmDelete(context, ref)
+                    );
+
+                  },
+                  icon: const Icon(
+                    Icons.delete,
+                    size: 30,
+                  )
+              ),
+              const SizedBox(
+                width: 8,
+              )
+            ],
+          ),
         ),
       ),
     );

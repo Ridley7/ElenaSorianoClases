@@ -25,4 +25,13 @@ class ListStudentNotifier extends StateNotifier<List<StudentModel>>{
     }).toList();
   }
 
+  void updateClassCount(int classCount, String id){
+    state = state.map((student){
+      if(student.id == id){
+        return student.copyWith(classCount: classCount);
+      }
+      return student;
+    }).toList();
+  }
+
 }

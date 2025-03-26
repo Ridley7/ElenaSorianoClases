@@ -33,6 +33,11 @@ class StudentRepositoryImplementation extends StudentRepository{
     return dataSource.setAccess(access, id);
   }
 
+  @override
+  Future<void> updateClassCount(int classCount, String id) {
+    return dataSource.updateClassCount(classCount, id);
+  }
+
 
 
 

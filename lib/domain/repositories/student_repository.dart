@@ -6,4 +6,5 @@ abstract class StudentRepository{
   Future<List<StudentModel>> getAllStudents();
   Future<void> deleteStudent(String id);
   Future<void> setAccess(bool access, String id);
+  Future<void> updateClassCount(int classCount, String id);
 }

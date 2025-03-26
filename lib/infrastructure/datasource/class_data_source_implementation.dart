@@ -61,7 +61,7 @@ class ClassDataSourceImplementation extends ClassDataSource{
         }));
       }
 
-      
+
       await _db.collection("clases").doc(clase.id).delete();
 
     }catch(error, stackTrace){
