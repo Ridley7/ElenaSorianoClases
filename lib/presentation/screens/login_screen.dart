@@ -60,14 +60,17 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
         ref.read(listStudentsProvider.notifier).init(listaEstudiantes);
       }
 
+      ref.read(infoUserProvider.notifier).state = studentModel;
+
 
       if(studentModel.access){
-        print("Este estudiante tiene acceso");
+        context.go('/home');
       }else{
-        print("No tiene acceso");
+        context.go("/not_allowed");
       }
 
       context.go("/home");
+
     }on FirebaseAuthException catch(e){
 
       String message = "Error no detectado";
@@ -112,13 +115,6 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   void checkSession() async{
-
-    //AQUI ME QUEDO. SOLO QUEDA POR VACIAR PROVIDERS CUANDO CAMBIE DE SESION
-    //SOBRETODO EL PROVIDER DE LA INFORMACION DE LAS CLASES DEL USUARIO
-    //PASOS
-    //1. Aumentar el class count
-    //2. Logout
-    //3. Con otro usuario.
 
     //Comprobamos si el usuario esta logueado
     User? user = FirebaseAuth.instance.currentUser;
