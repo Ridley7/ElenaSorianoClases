@@ -11,19 +11,25 @@ class EmptyListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+      child: SingleChildScrollView(
 
-          Image.asset(
-            'assets/images/$image',
-            width: 200,
-            height: 200,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 64.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+
+              Image.asset(
+                'assets/images/$image',
+                width: 200,
+                height: 200,
+              ),
+
+              Text(message)
+            ],
           ),
-
-          Text(message)
-        ],
+        ),
       ),
     );
   }

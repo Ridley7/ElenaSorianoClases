@@ -1,3 +1,4 @@
+import 'package:elenasorianoclases/presentation/providers/search/search_query_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,11 +19,11 @@ class SearchPasswordBarState extends ConsumerState<SearchPasswordBar> {
     //Agregamos un listener para cuando se esta escribiendo algo
     _searchController.addListener(() {
       if(_searchController.text.length > 3){
-        //ref.read(searchQueryProvider.notifier).state = _searchController.text;
+        ref.read(searchQueryProvider.notifier).state = _searchController.text;
       }
 
       if(_searchController.text.isEmpty){
-        //ref.read(searchQueryProvider.notifier).state = "";
+        ref.read(searchQueryProvider.notifier).state = "";
       }
     });
   }

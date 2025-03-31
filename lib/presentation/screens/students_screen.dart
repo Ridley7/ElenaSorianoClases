@@ -1,6 +1,6 @@
 
 import 'package:elenasorianoclases/domain/entities/student_model.dart';
-import 'package:elenasorianoclases/presentation/providers/list_student_provider.dart';
+import 'package:elenasorianoclases/presentation/providers/search/filtered_student_provider.dart';
 import 'package:elenasorianoclases/presentation/widgets/empty_list_widget.dart';
 import 'package:elenasorianoclases/presentation/widgets/item_list_student.dart';
 import 'package:elenasorianoclases/presentation/widgets/search_password_bar.dart';
@@ -23,20 +23,21 @@ class StudentsScreenState extends ConsumerState<StudentsScreen> {
 
     //ME QUEDO AQUI. HAY QUE IMPLEMENTAR LA BARRA DE BUSQUEDA DE ESTUDIANTES
     //CAMBIAR DE IDIOMA A EL TIME PICKER Y DATE PICKER
-    List<StudentModel> listaEstudiantes = ref.watch(listStudentsProvider);
+    List<StudentModel> listaEstudiantes = ref.watch(filteredStudentProviders);
 
     return Scaffold(
       appBar: AppBar(title: const Text("Estudiantes"), centerTitle: true),
       body: Column(
         children: [
-          listaEstudiantes.isEmpty
-          ? const EmptyListWidget(image: "de-coser.png", message: "No hay alumnos dados de alta",)
-          :
+
           const SearchPasswordBar(),
 
-          const SizedBox(height: 8),
+          listaEstudiantes.isEmpty
+          ? const EmptyListWidget(image: "de-coser.png", message: "No hay alumnos dados de alta",)
+          : const SizedBox(height: 8),
 
-          Expanded(
+          listaEstudiantes.isNotEmpty
+          ? Expanded(
             child: ListView.builder(
               shrinkWrap: true,
               itemCount: listaEstudiantes.length,
@@ -45,7 +46,8 @@ class StudentsScreenState extends ConsumerState<StudentsScreen> {
                 return ItemListStudent(estudiante: estudiante);
               },
             ),
-          ),
+          )
+          : const SizedBox(),
 
 
           const SizedBox(height: 2,),
