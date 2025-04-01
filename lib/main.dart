@@ -30,8 +30,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: appRouter,
+      locale: const Locale('es', 'ES'),
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('es', 'ES')
+      ],
+      localizationsDelegates: context.localizationDelegates,
       title: 'Flutter Demo',
-
       theme: AppTheme(isDarkMode: false).getTheme(),
     );
 
