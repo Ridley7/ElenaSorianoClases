@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:elenasorianoclases/config/app_theme/app_theme.dart';
 import 'package:elenasorianoclases/config/router/app_router.dart';
@@ -35,7 +36,11 @@ class MyApp extends StatelessWidget {
         Locale('en', 'US'),
         Locale('es', 'ES')
       ],
-      localizationsDelegates: context.localizationDelegates,
+      localizationsDelegates: const[
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate
+      ],
       title: 'Flutter Demo',
       theme: AppTheme(isDarkMode: false).getTheme(),
     );

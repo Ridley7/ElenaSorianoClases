@@ -24,7 +24,6 @@ class AddClassScreenState extends ConsumerState<AddClassScreen> {
 
   Future<void> _selectDate(BuildContext context) async {
     DateTime? pickedDate = await showDatePicker(
-      locale: Locale('es', 'ES'), // Aplica el idioma aquí
       context: context,
       initialDate: selectedDate ?? DateTime.now(),
       firstDate: DateTime(2000),
