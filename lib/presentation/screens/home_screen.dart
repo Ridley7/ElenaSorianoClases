@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:http/http.dart' as http;
 
 class HomeScreen extends ConsumerWidget {
   HomeScreen({super.key});
@@ -39,6 +40,21 @@ class HomeScreen extends ConsumerWidget {
         icon: Icons.class_outlined,
         callback: (){
           context.push("/class");
+        },
+      ),
+
+      MenuItemWidget(
+        title: 'HTTP',
+        icon: Icons.http,
+        callback: () async{
+          final url = Uri.parse("https://us-central1-elenasoriano-clases.cloudfunctions.net/helloWorld");
+          final response = await http.get(url);
+
+          if (response.statusCode == 200) {
+            print("Respuesta: ${response.body}");
+          } else {
+            print("Error: ${response.statusCode}");
+          }
         },
       ),
 
