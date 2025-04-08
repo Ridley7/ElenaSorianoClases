@@ -3,6 +3,7 @@ import 'package:elenasorianoclases/domain/entities/student_model.dart';
 import 'package:elenasorianoclases/domain/repositories/user_repository.dart';
 import 'package:elenasorianoclases/infrastructure/repositories/student_repository_implementation.dart';
 import 'package:elenasorianoclases/presentation/providers/firebase/class_repository_provider.dart';
+import 'package:elenasorianoclases/presentation/providers/firebase/fcm_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/firebase/login_register_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/firebase/student_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/info_user_provider.dart';
@@ -12,6 +13,7 @@ import 'package:elenasorianoclases/presentation/widgets/background_login.dart';
 import 'package:elenasorianoclases/presentation/widgets/loaders/overlay_loading_view.dart';
 import 'package:elenasorianoclases/presentation/widgets/text_field_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -49,18 +51,29 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
       UserCredential credential = await loginRegister.loginUser(correoController.text, passController.text);
 
       //Comprobamos diferentes datos del estudiante
-      StudentRepositoryImplementation repositoriyStudents = ref.read(studentRepositoryProvider);
-      StudentModel studentModel = await repositoriyStudents.getStudent(credential.user!.uid);
+      StudentRepositoryImplementation repositoryStudents = ref.read(studentRepositoryProvider);
+      StudentModel studentModel = await repositoryStudents.getStudent(credential.user!.uid);
 
       //Si tiene el rol de profesor, descargamos la lista de estudiantes
       if(studentModel.rol == "lecturer"){
         print("Descargando estudiantes");
-        List<StudentModel> listaEstudiantes = await repositoriyStudents.getAllStudents();
+        List<StudentModel> listaEstudiantes = await repositoryStudents.getAllStudents();
         //Rellenamos el provider de estudiantes
         ref.read(listStudentsProvider.notifier).init(listaEstudiantes);
       }
 
       ref.read(infoUserProvider.notifier).state = studentModel;
+
+      //Obtenemos y guardamos el token de Firebase Cloud Messaging
+      FirebaseMessaging messaging = FirebaseMessaging.instance;
+      String? token = await messaging.getToken();
+      print("Token ${token}");
+
+      if(token != null){
+        //Debemos de guardar el token junto con algo que identifique al dueño del token
+        //Guardamos el token en firestore
+        await ref.read(fcmRepositoryProvider).saveFCMToken(token, studentModel.id);
+      }
 
 
       if(studentModel.access){

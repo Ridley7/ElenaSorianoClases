@@ -35,14 +35,41 @@ exports.getTime = onRequest((req, res) => {
 exports.getCosas = onRequest( async (req, res) =>  {
     
  try {
-    const studentsSnapshot = await admin.firestore().collection("estudiantes").get();
-    const students = studentsSnapshot.docs.map(doc => doc.data().name);
+    //const studentsSnapshot = await admin.firestore().collection("estudiantes").get();
+    //const students = studentsSnapshot.docs.map(doc => doc.data().name);
 
-    res.send(`Cantidad: ${students.length}, Nombres: ${students.join(", ")}`);
+    //res.send(`Cantidad: ${students.length}, Nombres: ${students.join(", ")}`);
 
     //Obtenemos todos los tokens de los usuarios que podrian estar interesados
-    //const tokensSnapshot = await admin.firestore().collection("user_tokens").get();
-    //const tok
+    const tokensSnapshot = await admin.firestore().collection("user_tokens").get();
+    const tokens = tokensSnapshot.docs.map(doc => doc.data().token);
+
+    if(tokens.length === 0){
+      console.log("No hay tokens para enviar notificacion");
+      res.send("No hay tokens");
+      return;
+    }
+
+    //Creamos el mensaje para la notificacion
+    const message = {
+      notification:{
+        title: "¡Plaza disponible!",
+        body: "Un estudiante ha dejado una clase"
+      },
+      tokens: tokens,
+    };
+
+    //Enviamos la notificacion
+    try{
+      const response = await getMessaging().sendEachForMulticast(message);
+      console.log("Notificaciones enviadas con exitos:", response);
+    } catch(error){
+      console.error("Error enviando notificaciones:", error);
+    }
+
+    res.send(`Notificación Push enviada`);
+
+
 
     /*
      // Obtener todos los tokens de usuarios que podrían estar interesados

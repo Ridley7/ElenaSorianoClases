@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -14,6 +15,27 @@ void main() async {
       options: DefaultFirebaseOptions.currentPlatform
   );
 
+  FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+
+  //Solicitamos permisos
+  //NotificationSettings settings = await firebaseMessaging.requestPermission(
+  await firebaseMessaging.requestPermission(
+    alert: true,
+    badge: true,
+    sound: true
+  );
+
+  /*
+  if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+    print("Permisos de notificación concedidos");
+  } else {
+    print("Permisos de notificación denegados");
+  }
+  */
+
+  //Llamamos a la función de inicialización de Firebase Messaging
+  await initFirebaseMessaging();
+
   await initializeDateFormatting();
   
   runApp(
@@ -21,6 +43,21 @@ void main() async {
           child: MyApp()
       )
   );
+}
+
+Future<void> initFirebaseMessaging() async {
+
+  //Configuramos el manejo de mensajes en segundo plano
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  //Configuramos el manejes de mensajes en primer plano
+  FirebaseMessaging.onMessage.listen((RemoteMessage message){
+    print("Mensaje en primer plano: ${message.notification?.title}");
+  });
+}
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  print("Mensaje en segundo plano: ${message.notification?.title}");
 }
 
 class MyApp extends StatelessWidget {
@@ -48,3 +85,4 @@ class MyApp extends StatelessWidget {
 
   }
 }
+
