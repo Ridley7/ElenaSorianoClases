@@ -159,7 +159,6 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
       }else{
         //print("No tiene acceso ${studentModel.name}");
 
-        ///AQUI ME QUEDO HAY QUE REDIRIGIR A NOT ALLOWED SCREEN
         context.go("/not_allowed");
       }
     }else{

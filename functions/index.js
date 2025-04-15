@@ -1,5 +1,3 @@
-//Poner en marcha el emulador: firebase emulators:start
-//Detener el emulador:
 
 /**
  * Import function triggers from their respective submodules:
@@ -70,42 +68,61 @@ exports.getCosas = onRequest( async (req, res) =>  {
     res.send(`Notificación Push enviada`);
 
 
-
-    /*
-     // Obtener todos los tokens de usuarios que podrían estar interesados
-    const tokensSnapshot = await admin.firestore().collection("userTokens").get();
-    const tokens = tokensSnapshot.docs.map(doc => doc.data().token);
-
-    if (tokens.length === 0) {
-      console.log("No hay tokens para enviar notificación.");
-      return;
-    }
-
-    // Crear el mensaje de notificación
-    const message = {
-      notification: {
-        title: "¡Plaza disponible!",
-        body: `Un estudiante dejó la clase ${event.params.claseId}. ¡Aprovecha y reserva tu lugar!`,
-      },
-      tokens: tokens,
-    };
-
-    // Enviar la notificación
-    try {
-      const response = await getMessaging().sendEachForMulticast(message);
-      console.log("Notificaciones enviadas con éxito:", response);
-    } catch (error) {
-      console.error("Error enviando notificaciones:", error);
-    }
-    */
-
-
-
-
 } catch (error) {
     console.error("Error obteniendo estudiantes:", error);
     res.status(500).send("Error al obtener estudiantes");
 }
+
+});
+
+
+//AQUI ME QUEDO, ESTO HE DE PROBARLO DIRECTAMENTE CON FIREBASE SIN EMULADOR
+exports.notifyAvailableSpot = onDocumentUpdated("clases/{claseId}", async (event) => {
+console.log("🚨 Función 'notifyAvailableSpot' se ha ejecutado");
+
+    //Accedemos a los datos que se han producido antes y despues de la actualizacion
+    const beforeData = event.data.before.data();
+    const afterData = event.data.after.data();
+
+    //Si alguno de los dos es nulo, no hacemos nada
+    if(!beforeData || !afterData) return;
+
+    //Obtenemos la lista de estudiantes de antes y despues de la actualizacion
+    const beforeStudents = beforeData.listStudent || [];
+    const afterStudents = afterData.listStudent || [];
+
+    //Si el tamaño de la lista de estudiantes ha disminuido, alguien se ha desapuntado
+    if(afterStudents.length < beforeStudents.length){
+
+        // Obtener todos los tokens de usuarios que podrían estar interesados
+            const tokensSnapshot = await admin.firestore().collection("user_tokens").get();
+            const tokens = tokensSnapshot.docs.map(doc => doc.data().token);
+
+            if (tokens.length === 0) {
+              console.log("No hay tokens para enviar notificación.");
+              return;
+            }
+
+            // Crear el mensaje de notificación
+            //AQUI ME QUEDO
+            // En el mensaje habria que indicar el dia de la clase que ha quedado libre
+            const message = {
+              notification: {
+                title: "¡Plaza disponible!",
+                body: `Un estudiante dejó la clase ${event.params.claseId}. ¡Aprovecha y reserva tu lugar!`,
+              },
+              tokens: tokens,
+            };
+
+            // Enviar la notificación
+            try {
+              const response = await getMessaging().sendEachForMulticast(message);
+              console.log("Notificaciones enviadas con éxito:", response);
+            } catch (error) {
+              console.error("Error enviando notificaciones:", error);
+            }
+
+    }
 
 });
 

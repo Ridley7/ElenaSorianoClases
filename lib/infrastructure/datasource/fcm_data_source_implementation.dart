@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elenasorianoclases/domain/datasource/fcm_data_source.dart';
+import 'package:elenasorianoclases/domain/exceptions/app_exception.dart';
 
 class FCMDataSourceImplementation extends FCMDataSource{
 
@@ -7,12 +8,31 @@ class FCMDataSourceImplementation extends FCMDataSource{
 
   @override
   Future<String> saveFCMToken(String token, String id) async {
-    //AQUI ME QUEDO
-    //Ahora hay que comprobar si existe una entrada para el id del usuario, si la hay, hay que actualizar
-    //el token, si no la hay hay que hacer una simple inserción.
 
-    DocumentReference documentReference = await _db.collection("user_tokens").add({"token" : token});
-    return documentReference.id;
+    try{
+      //Referencia a la coleccion
+      CollectionReference collection = await _db.collection("user_tokens");
+
+      //Comprobamos si existe un documento cpm student == id
+      QuerySnapshot querySnapshot = await collection.where("student", isEqualTo: id).get();
+
+      if(querySnapshot.docs.isNotEmpty){
+        //Existe, asi que actualizamos el token
+        final docRef = querySnapshot.docs.first.reference;
+        await docRef.update({"token": token});
+        return docRef.id;
+      }else{
+        //No existe, creamos uno nuevo
+        final newDocRef = await collection.add({
+          "student": id,
+          "token": token
+        });
+        return newDocRef.id;
+      }
+    }catch (e){
+      throw const SaveTokenException("Error al guardar token");
+    }
+
   }
 
 }

@@ -50,3 +50,7 @@ class EnrollStudentException extends AppException{
 class DisenrollStudentException extends AppException{
   const DisenrollStudentException([super.message]);
 }
+
+class SaveTokenException extends AppException{
+  const SaveTokenException([super.message]);
+}
