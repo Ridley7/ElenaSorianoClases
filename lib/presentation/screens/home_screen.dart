@@ -7,7 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:http/http.dart' as http;
 
 class HomeScreen extends ConsumerWidget {
   HomeScreen({super.key});
@@ -45,21 +44,6 @@ class HomeScreen extends ConsumerWidget {
       ),
 
       MenuItemWidget(
-        title: 'HTTP',
-        icon: Icons.http,
-        callback: () async{
-          final url = Uri.parse("https://us-central1-elenasoriano-clases.cloudfunctions.net/helloWorld");
-          final response = await http.get(url);
-
-          if (response.statusCode == 200) {
-            print("Respuesta: ${response.body}");
-          } else {
-            print("Error: ${response.statusCode}");
-          }
-        },
-      ),
-
-      MenuItemWidget(
           title: 'Logout',
           icon: Icons.logout,
         callback: () async{
@@ -82,23 +66,42 @@ class HomeScreen extends ConsumerWidget {
       appBar: AppBar(title: const Text("Menú"), centerTitle: true,),
       body: Padding(
           padding: const EdgeInsets.all(16.0),
-        child: Column(
+        child: Stack(
           children: [
-            Expanded(
-              child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16
-                  ),
-                  itemCount: optionsMainMenu.length,
-                  itemBuilder: (context, index){
-                    return optionsMainMenu[index];
-                  }
-              ),
+
+            //Ahora tengo que animar esto con animate_do
+            AnimatedPositioned(
+              right: 0,
+                bottom: 100,
+                duration: const Duration(seconds: 1),
+                curve: Curves.easeInOut,
+                child: Container(
+                  width: 200,
+                  height: 40,
+                  color: Colors.black,
+                  child: Text("Se acaba de liberar una plaza el dia 10/12/2025", style: TextStyle(color: Colors.white),),
+                )
             ),
 
-            Text("Clases a recuperar: ${student.classCount}")
+            Column(
+              children: [
+                Expanded(
+                  child: GridView.builder(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                      mainAxisSpacing: 16,
+                      crossAxisSpacing: 16
+                      ),
+                      itemCount: optionsMainMenu.length,
+                      itemBuilder: (context, index){
+                        return optionsMainMenu[index];
+                      }
+                  ),
+                ),
+
+                Text("Clases a recuperar: ${student.classCount}")
+              ],
+            ),
           ],
         ),
       ),
