@@ -1,3 +1,4 @@
+import 'package:elenasorianoclases/presentation/providers/queue_messages_provider.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -8,7 +9,7 @@ import 'package:elenasorianoclases/config/router/app_router.dart';
 import 'package:elenasorianoclases/firebase_options.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-
+final container = ProviderContainer();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,8 +42,9 @@ void main() async {
   await initializeDateFormatting();
   
   runApp(
-      const ProviderScope(
-          child: MyApp()
+      UncontrolledProviderScope(
+        container: container,
+          child: const MyApp()
       )
   );
 }
@@ -54,7 +56,10 @@ Future<void> initFirebaseMessaging() async {
 
   //Configuramos el manejes de mensajes en primer plano
   FirebaseMessaging.onMessage.listen((RemoteMessage message){
+    //Metemos mensajes en el provider
+    container.read(queueMessagesProvider.notifier).addMessage(message);
     print("Mensaje en primer plano: ${message.notification?.title}");
+
   });
 
   //Configuramos cuando se abre la app desde una notificación
