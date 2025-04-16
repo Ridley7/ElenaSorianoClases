@@ -6,6 +6,8 @@ class FCMDataSourceImplementation extends FCMDataSource{
 
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
+
+
   @override
   Future<String> saveFCMToken(String token, String id) async {
 
@@ -33,6 +35,22 @@ class FCMDataSourceImplementation extends FCMDataSource{
       throw const SaveTokenException("Error al guardar token");
     }
 
+  }
+
+  @override
+  Future<void> deleteFCMToken(String id) async {
+    //Aqui tenemos que buscar dentro de los documentos de la coleccion 'user_tokens' un atributo que coincida con el id
+    //y eliminar el documento
+    try{
+      CollectionReference collection = _db.collection("user_tokens");
+      await collection.where("student", isEqualTo: id).get().then((querySnapshot) async {
+        for (var doc in querySnapshot.docs) {
+          await doc.reference.delete();
+        }
+      });
+  }catch(e){
+      throw const DeleteTokenException("Error al eliminar token");
+    }
   }
 
 }

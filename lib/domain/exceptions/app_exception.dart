@@ -54,3 +54,7 @@ class DisenrollStudentException extends AppException{
 class SaveTokenException extends AppException{
   const SaveTokenException([super.message]);
 }
+
+class DeleteTokenException extends AppException{
+  const DeleteTokenException([super.message]);
+}

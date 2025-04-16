@@ -12,4 +12,9 @@ class FCMRepositoryImplementation extends FCMRepository{
     return await dataSource.saveFCMToken(token, id);
   }
 
+  @override
+  Future<void> deleteFCMToken(String id) async {
+    return await dataSource.deleteFCMToken(id);
+  }
+
 }

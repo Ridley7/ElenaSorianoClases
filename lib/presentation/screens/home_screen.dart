@@ -1,4 +1,5 @@
 import 'package:elenasorianoclases/domain/entities/student_model.dart';
+import 'package:elenasorianoclases/presentation/providers/firebase/fcm_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/info_user_provider.dart';
 import 'package:elenasorianoclases/presentation/widgets/loaders/overlay_loading_view.dart';
 import 'package:elenasorianoclases/presentation/widgets/menu_item_widget.dart';
@@ -63,23 +64,17 @@ class HomeScreen extends ConsumerWidget {
           icon: Icons.logout,
         callback: () async{
             OverlayLoadingView.show(context);
+            //Eliminamos el token para dejar de recibir notificaciones
+            String id = ref.read(infoUserProvider).id;
+            await ref.read(fcmRepositoryProvider).deleteFCMToken(id);
+
             await FirebaseAuth.instance.signOut();
             OverlayLoadingView.hide();
 
             context.go("/login_signup");
+
         },
 
-        /*
-        Future<void> _logout(BuildContext context) async {
-    // Hacemos logout
-    loading = true;
-    setState(() {});
-    await FirebaseAuth.instance.signOut();
-
-    // Vamos a pantalla de login
-    context.go("/login");
-  }
-         */
       )
     ];
 
