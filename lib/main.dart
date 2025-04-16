@@ -54,8 +54,21 @@ Future<void> initFirebaseMessaging() async {
   FirebaseMessaging.onMessage.listen((RemoteMessage message){
     print("Mensaje en primer plano: ${message.notification?.title}");
   });
+
+  //Configuramos cuando se abre la app desde una notificación
+  FirebaseMessaging.onMessageOpenedApp.listen(_firebaseMessagingAppOpened);
 }
 
+void _firebaseMessagingAppOpened(RemoteMessage message) {
+  final String? ruta = message.data['ruta'];
+  if(ruta != null) {
+    //Aquí se puede abrir la ruta deseada
+    //Por ejemplo, si la ruta es "/home", se puede hacer lo siguiente:
+    appRouter.go(ruta);
+  }
+}
+
+@pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print("Mensaje en segundo plano: ${message.notification?.title}");
 }

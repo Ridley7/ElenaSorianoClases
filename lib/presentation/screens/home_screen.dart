@@ -23,7 +23,7 @@ class HomeScreen extends ConsumerWidget {
           title: 'Horario',
           icon: Icons.schedule,
           callback: (){
-            context.push("/schedule");
+            context.go("/schedule");
           }
       ),
 

@@ -6,6 +6,7 @@ import 'package:elenasorianoclases/presentation/widgets/schedule/enrolled_studen
 import 'package:elenasorianoclases/presentation/widgets/student_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class ScheduleScreen extends ConsumerStatefulWidget {
@@ -54,10 +55,25 @@ class ScheduleScreenState extends ConsumerState<ScheduleScreen> {
 
 
     return Scaffold(
-
-      appBar: AppBar(title: const Text("Horario"),),
       body: Column(
         children: [
+
+          Padding(
+            padding: const EdgeInsets.only(top: 30.0),
+            child: Row(
+              children: [
+                IconButton(
+                    onPressed: (){
+                      context.go("/home");
+                    },
+                    icon: const Icon(Icons.arrow_back, color: Colors.black,)
+                ),
+                const SizedBox(width: 10,),
+                const Text("Horario", style: TextStyle(fontSize: 22),)
+              ],
+            ),
+          ),
+
           TableCalendar(
               focusedDay: _focusedDay,
             firstDay: DateTime.utc(2025, 1, 1),

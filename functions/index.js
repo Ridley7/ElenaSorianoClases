@@ -19,24 +19,10 @@ const {onRequest} = require("firebase-functions/v2/https");
 const logger = require("firebase-functions/logger");
 
 admin.initializeApp();
-
-exports.helloWorld = onRequest((req, res) => {
-  res.send("¡Hola Mundo desde Firebase!");
-});
-
-exports.getTime = onRequest((req, res) => {
-  const currentTime = new Date().toISOString();
-  logger.info(`La hora actual es: ${currentTime}`);
-  res.send(`Hora actual: ${currentTime}`);
-});
-
+/*
 exports.getCosas = onRequest( async (req, res) =>  {
     
  try {
-    //const studentsSnapshot = await admin.firestore().collection("estudiantes").get();
-    //const students = studentsSnapshot.docs.map(doc => doc.data().name);
-
-    //res.send(`Cantidad: ${students.length}, Nombres: ${students.join(", ")}`);
 
     //Obtenemos todos los tokens de los usuarios que podrian estar interesados
     const tokensSnapshot = await admin.firestore().collection("user_tokens").get();
@@ -72,13 +58,10 @@ exports.getCosas = onRequest( async (req, res) =>  {
     console.error("Error obteniendo estudiantes:", error);
     res.status(500).send("Error al obtener estudiantes");
 }
-
 });
+*/
 
-
-//AQUI ME QUEDO, ESTO HE DE PROBARLO DIRECTAMENTE CON FIREBASE SIN EMULADOR
 exports.notifyAvailableSpot = onDocumentUpdated("clases/{claseId}", async (event) => {
-console.log("🚨 Función 'notifyAvailableSpot' se ha ejecutado");
 
     //Accedemos a los datos que se han producido antes y despues de la actualizacion
     const beforeData = event.data.before.data();
@@ -103,14 +86,19 @@ console.log("🚨 Función 'notifyAvailableSpot' se ha ejecutado");
               return;
             }
 
+            // Obtenemos la fecha
+            const classDate = afterData.date || "---";
+
             // Crear el mensaje de notificación
-            //AQUI ME QUEDO
-            // En el mensaje habria que indicar el dia de la clase que ha quedado libre
+            // Extraemos
             const message = {
               notification: {
                 title: "¡Plaza disponible!",
-                body: `Un estudiante dejó la clase ${event.params.claseId}. ¡Aprovecha y reserva tu lugar!`,
+                body: `Un estudiante dejó la clase del día ${classDate}. ¡Aprovecha y reserva tu lugar!`,
               },
+              data: {
+                    ruta: "/schedule",
+               },
               tokens: tokens,
             };
 
@@ -125,53 +113,3 @@ console.log("🚨 Función 'notifyAvailableSpot' se ha ejecutado");
     }
 
 });
-
-/*
-const {onDocumentUpdated} = require("firebase-functions/v2/firestore");
-const {getMessaging} = require("firebase-admin/messaging");
-const admin = require("firebase-admin");
-
-admin.initializeApp();
-
-exports.notifyAvailableSpot = onDocumentUpdated("clases/{claseId}", async (event) => {
-  const beforeData = event.data.before.data();
-  const afterData = event.data.after.data();
-
-  if (!beforeData || !afterData) return;
-
-  const beforeStudents = beforeData.listStudent || [];
-  const afterStudents = afterData.listStudent || [];
-
-  // Si el tamaño de la lista de estudiantes ha disminuido, alguien se desapuntó
-  if (afterStudents.length < beforeStudents.length) {
-    console.log("Un estudiante se desapuntó, enviando notificación...");
-
-    // Obtener todos los tokens de usuarios que podrían estar interesados
-    const tokensSnapshot = await admin.firestore().collection("userTokens").get();
-    const tokens = tokensSnapshot.docs.map(doc => doc.data().token);
-
-    if (tokens.length === 0) {
-      console.log("No hay tokens para enviar notificación.");
-      return;
-    }
-
-    // Crear el mensaje de notificación
-    const message = {
-      notification: {
-        title: "¡Plaza disponible!",
-        body: `Un estudiante dejó la clase ${event.params.claseId}. ¡Aprovecha y reserva tu lugar!`,
-      },
-      tokens: tokens,
-    };
-
-    // Enviar la notificación
-    try {
-      const response = await getMessaging().sendEachForMulticast(message);
-      console.log("Notificaciones enviadas con éxito:", response);
-    } catch (error) {
-      console.error("Error enviando notificaciones:", error);
-    }
-  }
-});
-
-*/
