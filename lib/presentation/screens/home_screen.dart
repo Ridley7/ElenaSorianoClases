@@ -1,5 +1,9 @@
-import 'dart:async';
+//AQUI ME QUEDO.
+//1. HAY QUE PROBAR LA COLA DE MENSAJES. EN EL README HAY INSTRUCCIONES.
+//2. CUANDO LA COLA FUNCIONE. HAY QUE HACER EL WIDGET QUE MUESTRE LOS MENSAJES.
 
+
+import 'package:elenasorianoclases/domain/entities/push_notifications/queue_message_state.dart';
 import 'package:elenasorianoclases/domain/entities/student_model.dart';
 import 'package:elenasorianoclases/presentation/providers/firebase/fcm_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/info_user_provider.dart';
@@ -7,7 +11,6 @@ import 'package:elenasorianoclases/presentation/providers/queue_messages_provide
 import 'package:elenasorianoclases/presentation/widgets/loaders/overlay_loading_view.dart';
 import 'package:elenasorianoclases/presentation/widgets/menu_item_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -21,44 +24,8 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
 
     StudentModel student = ref.watch(infoUserProvider.notifier).state;
-    List<RemoteMessage> listaMensajes = ref.watch(queueMessagesProvider);
-    double right = -200;
-    Timer? timer;
-
-    //AQUI ME QUEDO. HE DE HACER ESTO EN UN STATEFUL WIDGET
-
-
-    void showMessage(){
-      timer = Timer(const Duration(seconds: 3), () {
-        //En 3 segundos animamos el mensaje
-        right = -200;
-        //y lo eliminamos
-        ref.read(queueMessagesProvider.notifier).removeFirstMessage();
-
-        //Comprobamos si la lista tiene mas mensajes
-        if(listaMensajes.isNotEmpty){
-          //Si la lista no esta vacia enseñamos un mensaje
-          right = 0;
-          //A los 3 segundos ocultamos el mensaje y lo eliminamos
-          showMessage();
-        }
-
-      });
-    }
-
-    //Tengo un problema si llegan dos mensajes seguidos
-
-    if(listaMensajes.isEmpty && right == -200){
-      right = -200;
-    }else{
-      //Si la lista no esta vacia enseñamos un mensaje
-      right = 0;
-      //A los 3 segundos ocultamos el mensaje y lo eliminamos
-      showMessage();
-
-    }
-
-
+    QueueMessageState messageState = ref.watch(queueMessagesProvider);
+    final currentMessage = messageState.currentMessage;
 
     final List<MenuItemWidget> optionsMainMenu = [
       MenuItemWidget(
@@ -100,7 +67,6 @@ class HomeScreen extends ConsumerWidget {
             context.go("/login_signup");
 
         },
-
       )
     ];
 
@@ -112,7 +78,7 @@ class HomeScreen extends ConsumerWidget {
           children: [
 
             AnimatedPositioned(
-              right: right,
+              right: currentMessage != null ? 0 : -200,
                 bottom: 100,
                 duration: const Duration(seconds: 1),
                 curve: Curves.easeInOut,
@@ -120,7 +86,10 @@ class HomeScreen extends ConsumerWidget {
                   width: 200,
                   height: 40,
                   color: Colors.black,
-                  child: Text("Se acaba de liberar una plaza el dia 10/12/2025", style: TextStyle(color: Colors.white),),
+                  child: Text(
+                    currentMessage?.notification?.title ?? '',
+                    style: const TextStyle(color: Colors.white),
+                  ),
                 )
             ),
 

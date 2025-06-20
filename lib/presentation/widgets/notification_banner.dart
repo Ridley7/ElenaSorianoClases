@@ -1,3 +1,5 @@
+
+//ESTE WIDGET HAY QUE REHACERLO PARA QUE FUNCIONE CON LA NUEVA IMPLEMENTACION DE COLA DE MENSAJES
 import 'dart:async';
 
 import 'package:elenasorianoclases/presentation/providers/queue_messages_provider.dart';
@@ -15,58 +17,6 @@ class NotificationBannerState extends ConsumerState<NotificationBanner> {
   Timer? timer;
   double right = -200;
 
-  @override
-  void didUpdateWidget(covariant NotificationBanner oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    _checkQueue();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    // Si llega un mensaje y se muestra, iniciamos el proceso
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _checkQueue();
-    });
-  }
-
-  //Se comprueba si hay mensajes en la cola y si no se está mostrando ya uno.
-  void _checkQueue(){
-    final messages = ref.read(queueMessagesProvider);
-    if(messages.isNotEmpty && right == -200){
-      //Si la lista no esta vacia y el mensaje no se está mostrando se muestra
-      _showMessage();
-    }
-  }
-
-  void _showMessage(){
-    //Animamos el banner para enseñarlo
-    setState(() {
-      right = 0;
-    });
-
-    //Programamos un timer para que tras 3 segundos se oculte el mensaje
-    timer?.cancel();
-    timer = Timer(const Duration(seconds: 3), () {
-      _hideMessage();
-    });
-  }
-
-  void _hideMessage(){
-    //Ocultamos el banner
-    setState(() {
-      right = -200;
-    });
-
-    //Eliminamos el mensaje de la cola
-    Future.delayed(const Duration(milliseconds: 300), (){
-      ref.read(queueMessagesProvider.notifier).removeFirstMessage();
-      //Si aún quedan mensajes, mostramos el siguiente
-      if(ref.read(queueMessagesProvider).isNotEmpty){
-        _showMessage();
-      }
-    });
-  }
 
   @override
   void dispose() {
@@ -79,12 +29,12 @@ class NotificationBannerState extends ConsumerState<NotificationBanner> {
 
     final messages = ref.watch(queueMessagesProvider);
 
-    if (messages.isEmpty) {
+    if (messages.queue.isEmpty) {
       return const SizedBox.shrink();
     }
 
     // Tomamos el primer mensaje de la cola
-    final currentMessage = messages.first;
+    final currentMessage = messages.currentMessage;
 
     return AnimatedPositioned(
       right: -200,
@@ -97,7 +47,7 @@ class NotificationBannerState extends ConsumerState<NotificationBanner> {
           color: Colors.black,
           alignment: Alignment.center,
           child: Text(
-            currentMessage.notification?.body ?? '',
+            currentMessage?.notification?.title ?? '',
             style: const TextStyle(color: Colors.white),
             textAlign: TextAlign.center,
           ),
