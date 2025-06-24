@@ -1,7 +1,5 @@
 //AQUI ME QUEDO.
-//1. HAY QUE PROBAR LA COLA DE MENSAJES. EN EL README HAY INSTRUCCIONES.
-//2. CUANDO LA COLA FUNCIONE. HAY QUE HACER EL WIDGET QUE MUESTRE LOS MENSAJES.
-
+//. HAY QUE LOGUEARSE Y ACTUALIZAR EL FICHERO INDEX.JS CON AYUDA DEL README
 
 import 'package:elenasorianoclases/domain/entities/push_notifications/queue_message_state.dart';
 import 'package:elenasorianoclases/domain/entities/student_model.dart';
@@ -83,15 +81,22 @@ class HomeScreen extends ConsumerWidget {
                 duration: const Duration(seconds: 1),
                 curve: Curves.easeInOut,
                 child: Container(
-                  width: 200,
-                  height: 40,
-                  color: Colors.black,
-                  child: Text(
-                    currentMessage?.notification?.title ?? '',
-                    style: const TextStyle(color: Colors.white),
+                  padding: const EdgeInsets.all(8),
+                  height: 70,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: const Color(0xFFFFBDC4)
+                  ),
+                  child: Center(
+                    child: Text(
+                      currentMessage?.notification?.title ?? '',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(color: Colors.white),
+                    ),
                   ),
                 )
             ),
+
 
 
             Column(

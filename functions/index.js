@@ -94,7 +94,7 @@ exports.notifyAvailableSpot = onDocumentUpdated("clases/{claseId}", async (event
             const message = {
               notification: {
                 title: "¡Plaza disponible!",
-                body: `Un estudiante dejó la clase del día ${classDate}. ¡Aprovecha y reserva tu lugar!`,
+                body: `Un estudiante dejó la clase del día ${classDate}.\n¡Aprovecha y reserva tu lugar!`,
               },
               data: {
                     ruta: "/schedule",
