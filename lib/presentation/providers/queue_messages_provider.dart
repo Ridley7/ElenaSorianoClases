@@ -16,19 +16,21 @@ class QueueMessagesNotifier extends StateNotifier<QueueMessageState>{
     queue: Queue<RemoteMessage>(),
   ));
 
-  void addMessage(RemoteMessage message){
+  void addMessage(RemoteMessage message)async {
 
     print("Mensaje añadido: ${message.notification?.title}");
     print("En la cola hay ${state.queue.length} mensajes");
     final updatedQueue = Queue<RemoteMessage>.from(state.queue)..add(message);
     state = state.copyWith(queue: updatedQueue);
-    //Curioso como despues de actualizar el estado, se llama a processQueue
-    processQueue();
+
+    //Solo procesamos la cola si no estamos procesando un mensaje
+    if(!isProcessing){
+      await processQueue();
+    }
   }
 
   Future<void> processQueue() async{
-    //Si estamos procesando un mensaje no hacemos nada
-    if(isProcessing) return;
+    isProcessing = true;
 
     //Mientras la cola no esté vacia, hacemos cosas
     while (state.queue.isNotEmpty){
@@ -38,18 +40,18 @@ class QueueMessagesNotifier extends StateNotifier<QueueMessageState>{
       //Mostamos el mensaje actual
       state = QueueMessageState(
           currentMessage: currentMessage,
-          queue: updatedQueue
+          queue: updatedQueue,
+        isVisible: true
       );
 
       await Future.delayed(const Duration(seconds: 3));
 
       //Ocultamos el mensaje actual
-      state = QueueMessageState(
-          currentMessage: null,
-          queue: updatedQueue
-      );
+      // Ocultar animación
+      state = state.copyWith(isVisible: false);
+
       //Esperamos 300 milisegundos antes de procesar el siguiente mensaje ¿Why?
-      await Future.delayed(const Duration(milliseconds: 300));
+      await Future.delayed(const Duration(milliseconds: 500));
     }
 
     isProcessing = false;

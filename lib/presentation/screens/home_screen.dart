@@ -76,9 +76,9 @@ class HomeScreen extends ConsumerWidget {
           children: [
 
             AnimatedPositioned(
-              right: currentMessage != null ? 0 : -200,
+              right: messageState.isVisible ? 0 : -380,
                 bottom: 100,
-                duration: const Duration(seconds: 1),
+                duration: const Duration(milliseconds: 500),
                 curve: Curves.easeInOut,
                 child: Container(
                   padding: const EdgeInsets.all(8),
@@ -89,7 +89,7 @@ class HomeScreen extends ConsumerWidget {
                   ),
                   child: Center(
                     child: Text(
-                      currentMessage?.notification?.title ?? '',
+                      currentMessage?.notification?.body ?? '',
                       textAlign: TextAlign.center,
                       style: const TextStyle(color: Colors.white),
                     ),
