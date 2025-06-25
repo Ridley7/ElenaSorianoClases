@@ -1,6 +1,7 @@
 //AQUI ME QUEDO.
-//. HAY QUE LOGUEARSE Y ACTUALIZAR EL FICHERO INDEX.JS CON AYUDA DEL README
+//Solo queda capar lo que puede ver un estudiante y lo que puede ver un profesor
 
+import 'package:elenasorianoclases/config/constants/enums.dart';
 import 'package:elenasorianoclases/domain/entities/push_notifications/queue_message_state.dart';
 import 'package:elenasorianoclases/domain/entities/student_model.dart';
 import 'package:elenasorianoclases/presentation/providers/firebase/fcm_repository_provider.dart';
@@ -25,48 +26,65 @@ class HomeScreen extends ConsumerWidget {
     QueueMessageState messageState = ref.watch(queueMessagesProvider);
     final currentMessage = messageState.currentMessage;
 
-    final List<MenuItemWidget> optionsMainMenu = [
-      MenuItemWidget(
-          title: 'Horario',
-          icon: Icons.schedule,
-          callback: (){
-            context.go("/schedule");
-          }
-      ),
+    List<MenuItemWidget> buildMenuByRole(BuildContext context, String role, WidgetRef ref){
+      List<MenuItemWidget> menu = [];
 
-      MenuItemWidget(
-          title: 'Estudiantes',
-          icon: Icons.person,
-          callback: (){
-            context.push("/students");
-          },
-      ),
+      menu.add(
+        MenuItemWidget(
+            title: 'Horario',
+            icon: Icons.schedule,
+            callback: (){
+              context.go("/schedule");
+            }
+        )
+      );
 
-      MenuItemWidget(
-        title: 'Clases',
-        icon: Icons.class_outlined,
-        callback: (){
-          context.push("/class");
-        },
-      ),
+      if(role == RolType.lecturer){
+        menu.add(
+          MenuItemWidget(
+            title: 'Estudiantes',
+            icon: Icons.person,
+            callback: (){
+              context.push("/students");
+            },
+          )
+        );
 
-      MenuItemWidget(
-          title: 'Logout',
-          icon: Icons.logout,
-        callback: () async{
-            OverlayLoadingView.show(context);
-            //Eliminamos el token para dejar de recibir notificaciones
-            String id = ref.read(infoUserProvider).id;
-            await ref.read(fcmRepositoryProvider).deleteFCMToken(id);
+        menu.add(
+          MenuItemWidget(
+            title: 'Clases',
+            icon: Icons.class_outlined,
+            callback: (){
+              context.push("/class");
+            },
+          )
+        );
+      }
 
-            await FirebaseAuth.instance.signOut();
-            OverlayLoadingView.hide();
 
-            context.go("/login_signup");
+      menu.add(
+          MenuItemWidget(
+            title: 'Logout',
+            icon: Icons.logout,
+            callback: () async{
+              OverlayLoadingView.show(context);
+              //Eliminamos el token para dejar de recibir notificaciones
+              String id = ref.read(infoUserProvider).id;
+              await ref.read(fcmRepositoryProvider).deleteFCMToken(id);
 
-        },
-      )
-    ];
+              await FirebaseAuth.instance.signOut();
+              OverlayLoadingView.hide();
+
+              context.go("/login_signup");
+
+            },
+          )
+      );
+
+      return menu;
+    }
+
+    final List<MenuItemWidget> optionsMainMenu = buildMenuByRole(context, student.rol, ref);
 
     return Scaffold(
       appBar: AppBar(title: const Text("Menú"), centerTitle: true,),
@@ -114,8 +132,10 @@ class HomeScreen extends ConsumerWidget {
                       }
                   ),
                 ),
-
+                Text("${student.name} ${student.surename}"),
+                student.rol == RolType.student ?
                 Text("Clases a recuperar: ${student.classCount}")
+                : const SizedBox.shrink(),
               ],
             ),
           ],
