@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "733776920163",
-    "project_id": "elenasoriano-clases",
-    "storage_bucket": "elenasoriano-clases.firebasestorage.app"
+    "project_number": "945817284392",
+    "project_id": "elenasorianoclases",
+    "storage_bucket": "elenasorianoclases.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:733776920163:android:8f82a2e41e670082418256",
+        "mobilesdk_app_id": "1:945817284392:android:2887d53d9f02c47b502a1d",
         "android_client_info": {
-          "package_name": "com.example.elenasorianoclases"
+          "package_name": "com.elenasoriano.elenasorianoclases"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBqujZF5BZr5NCZTuc25zqAZ40c43a0D3k"
+          "current_key": "AIzaSyAi7z3HyReVkOURJKOjqoMl2ZArHqZ1Tf0"
         }
       ],
       "services": {

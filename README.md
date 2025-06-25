@@ -6,3 +6,10 @@ firebase emulators:start
 
 Para despliegue de funciones:
 firebase deploy --only functions
+
+
+# Produccion
+Cambiar nombre del bundle id
+```
+flutter pub run change_app_package_name:main com.elenasoriano.elenasorianoclases
+```

@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "elenasoriano-clases"
-  }
+    "default": "elenasoriano-clases",
+    "Clases de Costura": "elenasorianoclases"
+  },
+  "targets": {},
+  "etags": {}
 }

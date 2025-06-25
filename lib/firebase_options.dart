@@ -50,19 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBqujZF5BZr5NCZTuc25zqAZ40c43a0D3k',
-    appId: '1:733776920163:android:8f82a2e41e670082418256',
-    messagingSenderId: '733776920163',
-    projectId: 'elenasoriano-clases',
-    storageBucket: 'elenasoriano-clases.firebasestorage.app',
+    apiKey: 'AIzaSyAi7z3HyReVkOURJKOjqoMl2ZArHqZ1Tf0',
+    appId: '1:945817284392:android:2887d53d9f02c47b502a1d',
+    messagingSenderId: '945817284392',
+    projectId: 'elenasorianoclases',
+    storageBucket: 'elenasorianoclases.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAVjG10FsD8f-cFozrOjfzPhOTPRXjsFb0',
-    appId: '1:733776920163:ios:91fdc0ce209681f7418256',
-    messagingSenderId: '733776920163',
-    projectId: 'elenasoriano-clases',
-    storageBucket: 'elenasoriano-clases.firebasestorage.app',
-    iosBundleId: 'com.example.elenasorianoclases',
+    apiKey: 'AIzaSyALvHdThlhwW24KL1YYaxwEYEQr-37Urq0',
+    appId: '1:945817284392:ios:8ffaee4097abbeb1502a1d',
+    messagingSenderId: '945817284392',
+    projectId: 'elenasorianoclases',
+    storageBucket: 'elenasorianoclases.firebasestorage.app',
+    iosBundleId: 'com.elenasoriano.elenasorianoclases',
   );
 }

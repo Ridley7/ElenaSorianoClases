@@ -1,4 +1,4 @@
-package com.example.elenasorianoclases
+package com.elenasoriano.elenasorianoclases
 
 import io.flutter.embedding.android.FlutterActivity
 

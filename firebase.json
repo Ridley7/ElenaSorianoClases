@@ -1,43 +1,33 @@
 {
+  "functions": {
+    "source": "functions"
+  },
   "flutter": {
     "platforms": {
       "android": {
         "default": {
-          "projectId": "elenasoriano-clases",
-          "appId": "1:733776920163:android:8f82a2e41e670082418256",
+          "projectId": "elenasorianoclases",
+          "appId": "1:945817284392:android:2887d53d9f02c47b502a1d",
           "fileOutput": "android/app/google-services.json"
         }
       },
       "ios": {
         "default": {
-          "projectId": "elenasoriano-clases",
-          "appId": "1:733776920163:ios:91fdc0ce209681f7418256",
+          "projectId": "elenasorianoclases",
+          "appId": "1:945817284392:ios:8ffaee4097abbeb1502a1d",
           "uploadDebugSymbols": false,
           "fileOutput": "ios/Runner/GoogleService-Info.plist"
         }
       },
       "dart": {
         "lib/firebase_options.dart": {
-          "projectId": "elenasoriano-clases",
+          "projectId": "elenasorianoclases",
           "configurations": {
-            "android": "1:733776920163:android:8f82a2e41e670082418256",
-            "ios": "1:733776920163:ios:91fdc0ce209681f7418256"
+            "android": "1:945817284392:android:2887d53d9f02c47b502a1d",
+            "ios": "1:945817284392:ios:8ffaee4097abbeb1502a1d"
           }
         }
       }
     }
-  },
-  "functions": [
-    {
-      "source": "functions",
-      "codebase": "default",
-      "ignore": [
-        "node_modules",
-        ".git",
-        "firebase-debug.log",
-        "firebase-debug.*.log",
-        "*.local"
-      ]
-    }
-  ]
+  }
 }
