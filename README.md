@@ -13,3 +13,8 @@ Cambiar nombre del bundle id
 ```
 flutter pub run change_app_package_name:main com.elenasoriano.elenasorianoclases
 ```
+
+Cambiar icono de la app
+```
+flutter pub run flutter_launcher_icons
+```
