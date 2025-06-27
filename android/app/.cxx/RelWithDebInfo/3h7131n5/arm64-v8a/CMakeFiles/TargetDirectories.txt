@@ -1,0 +1,2 @@
+/Users/blackdata/Desktop/Repositorios/ElenaSorianoClases/android/app/.cxx/RelWithDebInfo/3h7131n5/arm64-v8a/CMakeFiles/edit_cache.dir
+/Users/blackdata/Desktop/Repositorios/ElenaSorianoClases/android/app/.cxx/RelWithDebInfo/3h7131n5/arm64-v8a/CMakeFiles/rebuild_cache.dir

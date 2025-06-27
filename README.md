@@ -23,3 +23,8 @@ Para cambiar el splash screen:
 ```
 flutter pub run flutter_native_splash:create
 ```
+
+Para generar el AAB:
+```
+flutter build appbundle
+```
