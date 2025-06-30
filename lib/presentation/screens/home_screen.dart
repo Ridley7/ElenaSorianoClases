@@ -1,5 +1,7 @@
 //AQUI ME QUEDO.
-//Solo queda capar lo que puede ver un estudiante y lo que puede ver un profesor
+//- comprobar recuperar clases. Error UN ESTUDIANTE SE DA DE BAJA CUANDO NO DEBE
+//- recordatorio por fecha y alumno
+//- crear clases con alumnos antes de publicarl
 
 import 'package:elenasorianoclases/config/constants/enums.dart';
 import 'package:elenasorianoclases/domain/entities/push_notifications/queue_message_state.dart';
@@ -88,57 +90,60 @@ class HomeScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text("Menú"), centerTitle: true,),
-      body: Padding(
-          padding: const EdgeInsets.all(16.0),
-        child: Stack(
-          children: [
+      body: SafeArea(
+        child
+            : Padding(
+            padding: const EdgeInsets.all(16.0),
+          child: Stack(
+            children: [
 
-            AnimatedPositioned(
-              right: messageState.isVisible ? 0 : -380,
-                bottom: 100,
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.easeInOut,
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  height: 70,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: const Color(0xFFFFBDC4)
-                  ),
-                  child: Center(
-                    child: Text(
-                      currentMessage?.notification?.body ?? '',
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(color: Colors.white),
+              AnimatedPositioned(
+                right: messageState.isVisible ? 0 : -380,
+                  bottom: 100,
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.easeInOut,
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    height: 70,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: const Color(0xFFFFBDC4)
+                    ),
+                    child: Center(
+                      child: Text(
+                        currentMessage?.notification?.body ?? '',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  )
+              ),
+
+
+
+              Column(
+                children: [
+                  Expanded(
+                    child: GridView.builder(
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                        mainAxisSpacing: 16,
+                        crossAxisSpacing: 16
+                        ),
+                        itemCount: optionsMainMenu.length,
+                        itemBuilder: (context, index){
+                          return optionsMainMenu[index];
+                        }
                     ),
                   ),
-                )
-            ),
-
-
-
-            Column(
-              children: [
-                Expanded(
-                  child: GridView.builder(
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                      mainAxisSpacing: 16,
-                      crossAxisSpacing: 16
-                      ),
-                      itemCount: optionsMainMenu.length,
-                      itemBuilder: (context, index){
-                        return optionsMainMenu[index];
-                      }
-                  ),
-                ),
-                Text("${student.name} ${student.surename}"),
-                student.rol == RolType.student ?
-                Text("Clases a recuperar: ${student.classCount}")
-                : const SizedBox.shrink(),
-              ],
-            ),
-          ],
+                  Text("${student.name} ${student.surename}"),
+                  student.rol == RolType.student ?
+                  Text("Clases a recuperar: ${student.classCount}")
+                  : const SizedBox.shrink(),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

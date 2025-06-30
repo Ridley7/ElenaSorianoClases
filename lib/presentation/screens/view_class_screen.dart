@@ -52,8 +52,8 @@ class ViewClassScreenState extends ConsumerState<ViewClassScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Fecha: 01/02/2025", style: TextStyle(fontSize: 18)),
-            Text("Hora: 17:00", style: TextStyle(fontSize: 18)),
+            Text(widget.clase.date, style: const TextStyle(fontSize: 18)),
+            Text(widget.clase.hour, style: const TextStyle(fontSize: 18)),
 
             estudiantesEncontrados.isEmpty ?
             const Expanded(
