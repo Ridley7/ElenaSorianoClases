@@ -58,7 +58,14 @@ class SignupScreenState extends ConsumerState<SignupScreen> {
       //Insertamos el usuario en la coleccion
       student.id = await ref.read(studentRepositoryProvider).addStudent(student);
 
-      //print("id: ${student.id}");
+      //Insertamos un documento vacio en la coleccion de mensajes y obtener el id
+      //AQUI ME QUEDO. HAY QUE CREAR UN DOCUMENTO VACIO EN LA COLECCION DE MENSAJE
+      //OBTENER EL ID DEL DOCUMENTO Y ASIGNARLO AL STUDENTMODEL
+
+      //HAY QUE CREAR DATA SOURCES Y REPOSITORIOS PARA MANEJAR LOS MENSAJES
+
+      //CON EL ID DE LOS MENSAJES YA SE DESCARGARAN DONDE TENGA QUE HACERLO
+
 
     } catch(error){
       if (error is FirebaseAuthException) {

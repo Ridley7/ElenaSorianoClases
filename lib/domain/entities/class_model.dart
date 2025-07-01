@@ -16,7 +16,6 @@ class ClassModel {
   // Constructor para crear una instancia desde un JSON
   factory ClassModel.fromJson(Map<String, dynamic> json) {
 
-    print("JSON recibido en ClassModel.fromJson: $json");
 
     return ClassModel(
       id: json['id'] ?? '', // Si no tiene ID, asigna una cadena vacía
