@@ -90,7 +90,7 @@ class StudentWidget extends ConsumerWidget {
 
     //Hay que comprobar que no hayan pasado 24 horas para poder desapuntarse
     //Necesita la fecha y la hora del curso
-    if(!DateManagement.checkTimeDifference(-1440, hour, date)){
+    if(!DateManagement.checkTimeDifference(1440, hour, date)){
       OverlayLoadingView.hide();
       snackbarWidget(context, "El tiempo para desapuntarte de esta clase ha expirado");
       return;
