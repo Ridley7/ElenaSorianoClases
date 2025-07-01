@@ -2,6 +2,7 @@
 //- recordatorio por fecha y alumno
 //- crear clases con alumnos antes de publicar
 //- Solicitar clases cuandro se entre en horario
+//- Revisar el bloquear alumno desde la pantalla de estudiantes
 
 import 'package:elenasorianoclases/config/constants/enums.dart';
 import 'package:elenasorianoclases/domain/entities/push_notifications/queue_message_state.dart';

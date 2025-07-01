@@ -16,7 +16,6 @@ class ItemListStudent extends ConsumerWidget {
 
   final StudentModel estudiante;
 
-  //AQUI ME QUEDO. HE DE PONER ALGUNA FORMA DE INCREMENTAR O DECREMENTAR EL CLASS COUNT DE LOS ESTUDIANTES
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

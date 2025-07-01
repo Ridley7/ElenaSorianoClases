@@ -42,6 +42,7 @@ class ProfileStudentScreenState extends ConsumerState<ProfileStudentScreen> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
@@ -97,6 +98,45 @@ class ProfileStudentScreenState extends ConsumerState<ProfileStudentScreen> {
                 ),
               ],
             ),
+
+            const SizedBox(height: 16),
+
+            //Cuadro de texto para mensajes
+            Text("Mensajes para el alumno",
+              style: Theme.of(context).textTheme.titleMedium
+            ),
+
+            TextField(
+              minLines: 5, // Altura fija de 5 líneas
+              maxLines: 5, // No crece más, hace scroll vertical
+              keyboardType: TextInputType.multiline,
+              decoration: InputDecoration(
+                hintText: 'Escribe tu mensaje...',
+                contentPadding: const EdgeInsets.all(16),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12), // Bordes redondeados
+                ),
+              ),
+            ),
+
+            SizedBox(
+              width: double.infinity,
+
+              child: FilledButton(
+                  onPressed: (){
+
+                    //Aqui enviamos mensaje al alumno
+
+                  },
+                  child: Text("Enviar mensaje",
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: Colors.white
+                    )
+                  )
+              ),
+            ),
+
+
             const Spacer(),
             GestureDetector(
               onTap: () async{

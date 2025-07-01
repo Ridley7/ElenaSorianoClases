@@ -21,8 +21,6 @@ class StudentsScreenState extends ConsumerState<StudentsScreen> {
   @override
   Widget build(BuildContext context) {
 
-    //ME QUEDO AQUI. HAY QUE IMPLEMENTAR LA BARRA DE BUSQUEDA DE ESTUDIANTES
-    //CAMBIAR DE IDIOMA A EL TIME PICKER Y DATE PICKER
     List<StudentModel> listaEstudiantes = ref.watch(filteredStudentProviders);
 
     return Scaffold(
