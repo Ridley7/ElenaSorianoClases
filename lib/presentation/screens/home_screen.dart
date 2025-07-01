@@ -1,7 +1,7 @@
 //AQUI ME QUEDO.
-//- comprobar recuperar clases. Error UN ESTUDIANTE SE DA DE BAJA CUANDO NO DEBE
 //- recordatorio por fecha y alumno
-//- crear clases con alumnos antes de publicarl
+//- crear clases con alumnos antes de publicar
+//- Solicitar clases cuandro se entre en horario
 
 import 'package:elenasorianoclases/config/constants/enums.dart';
 import 'package:elenasorianoclases/domain/entities/push_notifications/queue_message_state.dart';
