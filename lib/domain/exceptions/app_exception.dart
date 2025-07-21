@@ -58,3 +58,7 @@ class SaveTokenException extends AppException{
 class DeleteTokenException extends AppException{
   const DeleteTokenException([super.message]);
 }
+
+class DocumentExistenceException extends AppException{
+  const DocumentExistenceException([super.message]);
+}

@@ -13,9 +13,10 @@ class MessagesNotifier extends StateNotifier<List<MessageModel>>{
 
   final Ref ref;
 
-  //Aqui hay que llamar a createTableMessage
   Future<String> createEmptyTable(String id) async {
      return await ref.read(messagesRepositoryProvider).createTableMessages(id);
   }
+
+
 
 }

@@ -1,7 +1,10 @@
 import 'package:elenasorianoclases/domain/entities/student_model.dart';
+import 'package:elenasorianoclases/domain/exceptions/app_exception.dart';
+import 'package:elenasorianoclases/presentation/providers/firebase/messages_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/firebase/student_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/list_student_provider.dart';
 import 'package:elenasorianoclases/presentation/widgets/loaders/overlay_loading_view.dart';
+import 'package:elenasorianoclases/presentation/widgets/snackbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -23,12 +26,20 @@ class ProfileStudentScreen extends ConsumerStatefulWidget {
 class ProfileStudentScreenState extends ConsumerState<ProfileStudentScreen> {
 
   int classCount = 0;
+  final TextEditingController textController = TextEditingController();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     classCount = widget.student.classCount;
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    textController.dispose();
   }
 
   @override
@@ -109,6 +120,7 @@ class ProfileStudentScreenState extends ConsumerState<ProfileStudentScreen> {
             TextField(
               minLines: 5, // Altura fija de 5 líneas
               maxLines: 5, // No crece más, hace scroll vertical
+              controller: textController,
               keyboardType: TextInputType.multiline,
               decoration: InputDecoration(
                 hintText: 'Escribe tu mensaje...',
@@ -123,9 +135,32 @@ class ProfileStudentScreenState extends ConsumerState<ProfileStudentScreen> {
               width: double.infinity,
 
               child: FilledButton(
-                  onPressed: (){
+                  onPressed: () async {
 
-                    //Aqui enviamos mensaje al alumno
+                    if(textController.text.isEmpty) return;
+
+                    OverlayLoadingView.show(context);
+
+                    try{
+                      //Enviamos recordatorio al alumno
+                      await ref.read(messagesRepositoryProvider).addMessage(
+                          widget.student.idMessages,
+                          textController.text
+                      );
+
+                      textController.text = "";
+
+                    } on DocumentExistenceException catch(e){
+                      //Manejamos la excepción si el documento no existe
+                      snackbarWidget(context, "Hubo un error. Mensaje no entregado");
+                    }catch (e) {
+                      //Manejamos cualquier otra excepción
+                      snackbarWidget(context, "Error inesperado");
+                    }finally{
+                      //Siempre ocultamos el loading
+                      OverlayLoadingView.hide();
+                    }
+
 
                   },
                   child: Text("Enviar mensaje",
