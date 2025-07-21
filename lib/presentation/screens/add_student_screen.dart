@@ -2,6 +2,7 @@ import 'package:elenasorianoclases/config/constants/enums.dart';
 import 'package:elenasorianoclases/domain/entities/student_model.dart';
 import 'package:elenasorianoclases/presentation/providers/firebase/student_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/list_student_provider.dart';
+import 'package:elenasorianoclases/presentation/providers/messages_provider.dart';
 import 'package:elenasorianoclases/presentation/widgets/decoration/input_decoration_add_student.dart';
 import 'package:elenasorianoclases/presentation/widgets/loaders/overlay_loading_view.dart';
 import 'package:elenasorianoclases/presentation/widgets/snackbar_widget.dart';
@@ -66,12 +67,15 @@ class AddStudentScreen extends ConsumerWidget {
                         surename: surenameController.text,
                         access: true,
                         rol: RolType.student,
-                        classCount: 0
+                        classCount: 0,
+                      idMessages: "",
                     );
 
                     //Hacemos la inserción en la base de datos
                     String newId = await ref.read(studentRepositoryProvider).addStudent(newStudent);
                     newStudent.id = newId;
+
+                    newStudent.idMessages = await ref.read(listMessagesProvider.notifier).createEmptyTable(newId);
 
                     //Hacemos la inserción en memoria
                     ref.read(listStudentsProvider.notifier).addNewStudent(newStudent);

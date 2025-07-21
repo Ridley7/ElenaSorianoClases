@@ -2,7 +2,9 @@ import 'package:elenasorianoclases/config/constants/enums.dart';
 import 'package:elenasorianoclases/domain/entities/student_model.dart';
 import 'package:elenasorianoclases/domain/repositories/user_repository.dart';
 import 'package:elenasorianoclases/presentation/providers/firebase/login_register_repository_provider.dart';
+import 'package:elenasorianoclases/presentation/providers/firebase/messages_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/firebase/student_repository_provider.dart';
+import 'package:elenasorianoclases/presentation/providers/messages_provider.dart';
 import 'package:elenasorianoclases/presentation/widgets/background_login.dart';
 import 'package:elenasorianoclases/presentation/widgets/loaders/overlay_loading_view.dart';
 import 'package:elenasorianoclases/presentation/widgets/text_field_login.dart';
@@ -52,20 +54,14 @@ class SignupScreenState extends ConsumerState<SignupScreen> {
           surename: apellidoController.text,
           access: false,
           rol: RolType.student,
-        classCount: 0
+        classCount: 0,
+        idMessages: "",
       );
 
       //Insertamos el usuario en la coleccion
       student.id = await ref.read(studentRepositoryProvider).addStudent(student);
 
-      //Insertamos un documento vacio en la coleccion de mensajes y obtener el id
-      //AQUI ME QUEDO. HAY QUE CREAR UN DOCUMENTO VACIO EN LA COLECCION DE MENSAJE
-      //OBTENER EL ID DEL DOCUMENTO Y ASIGNARLO AL STUDENTMODEL
-
-      //HAY QUE CREAR DATA SOURCES Y REPOSITORIOS PARA MANEJAR LOS MENSAJES
-
-      //CON EL ID DE LOS MENSAJES YA SE DESCARGARAN DONDE TENGA QUE HACERLO
-
+      student.idMessages = await ref.read(listMessagesProvider.notifier).createEmptyTable(student.id);
 
     } catch(error){
       if (error is FirebaseAuthException) {
