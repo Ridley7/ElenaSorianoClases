@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elenasorianoclases/domain/datasource/messages_data_source.dart';
-import 'package:elenasorianoclases/domain/exceptions/app_exception.dart';
-
 class MessagesDataSourceImplementation implements MessagesDataSource {
 
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -9,25 +7,20 @@ class MessagesDataSourceImplementation implements MessagesDataSource {
   @override
   Future<void> addMessage(String id, String message) async {
     //Insertamos un mensaje en la colección "messages"
-    //1. Referenciamos el documento por su ID
+    //1. Referenciamos el documento por su ID.
     final docRef = _db.collection('messages').doc(id);
 
-    try{
-      final docSnapshot = await docRef.get();
+    //2. Traer la coleccion recordatorios de docRef
+    final messagesCollection = docRef.collection('recordatorios');
 
-      if (!docSnapshot.exists) {
-        // Puedes lanzar un error personalizado, crear el documento, o lo que quieras
-        throw DocumentExistenceException("El documento con id '$id' no existe.");
-      }
+    //3. Insertar el mensaje en la subcolección "recordatorios"
+    final newMessageRef = messagesCollection.doc(); // Creamos un nuevo documento con ID autogenerado
 
-      await docRef.update({
-        'message': message,
-        'timestamp': FieldValue.serverTimestamp(),
-      });
-
-    }catch (e) {
-      throw Exception("Error al añadir el mensaje: $e");
-    }
+    await newMessageRef.set({
+      'message': message,
+      'timestamp': FieldValue.serverTimestamp(),
+      'seen': false, // Inicialmente no visto
+    });
 
   }
 
@@ -35,6 +28,10 @@ class MessagesDataSourceImplementation implements MessagesDataSource {
   Future<String> createTableMessages(String id) async {
     //Creamos un documento vacío en la colección "messages"
     final docRef = await _db.collection('messages').add({});
+
+    //Con la referencia del documento, actualizamos la informacion del estudiante
+    await _db.collection('estudiantes').doc(id).update({'idMessages': docRef.id});
+
 
     //Devolvemos el ID del documento recién creado
     return docRef.id;

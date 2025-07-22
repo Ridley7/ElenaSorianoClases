@@ -1,6 +1,5 @@
 //AQUI ME QUEDO.
 //- recordatorio por fecha y alumno
-    ///Falta comprobar que el mensaje se guarde correctamente en la BD
     ///El mensaje lo debe ver la profe en su pantalla, a modo de historial
     ///El alumno debe ser capaz de ver el mensaje en su pantalla
 //- crear clases con alumnos antes de publicar

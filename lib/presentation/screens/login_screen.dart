@@ -131,8 +131,9 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
 
     //Comprobamos si el usuario esta logueado
     User? user = FirebaseAuth.instance.currentUser;
-
+    //FirebaseAuth.instance.signOut();
     if(user != null){
+
 
       //Tenemos que traer la información del usuario. ¿Como? ¿con el correo? No, con el uid.
       print("El usuario es: ${user.uid}");

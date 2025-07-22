@@ -171,8 +171,16 @@ class ProfileStudentScreenState extends ConsumerState<ProfileStudentScreen> {
               ),
             ),
 
+            //Aqui debemos mostrar los recordatorios que manda el profesor al alumno
+            Expanded(
+              child: ListView.builder(
+                itemCount: 100,
+                  itemBuilder: (context, index){
+                  return Text("Hola");
+                  }
+              ),
+            ),
 
-            const Spacer(),
             GestureDetector(
               onTap: () async{
                 //Guardamos el class count
