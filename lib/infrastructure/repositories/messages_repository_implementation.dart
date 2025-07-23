@@ -1,3 +1,4 @@
+import 'package:elenasorianoclases/domain/entities/message_model.dart';
 import 'package:elenasorianoclases/domain/repositories/messages_repository.dart';
 import 'package:elenasorianoclases/infrastructure/datasource/messages_data_source_implementation.dart';
 
@@ -15,6 +16,11 @@ class MessagesRepositoryImplementation extends MessagesRepository{
   @override
   Future<String> createTableMessages(String id) {
     return dataSource.createTableMessages(id);
+  }
+
+  @override
+  Future<List<MessageModel>> getMessages(String id) {
+    return dataSource.getMessages(id);
   }
 
 }

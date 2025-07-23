@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elenasorianoclases/domain/datasource/messages_data_source.dart';
+import 'package:elenasorianoclases/domain/entities/message_model.dart';
 class MessagesDataSourceImplementation implements MessagesDataSource {
 
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -35,6 +36,32 @@ class MessagesDataSourceImplementation implements MessagesDataSource {
 
     //Devolvemos el ID del documento recién creado
     return docRef.id;
+  }
+
+  @override
+  Future<List<MessageModel>> getMessages(String id) {
+    //Obtenemos todos los mensajes del estudiante
+    //1. Obtenemos la colección "messages" y referenciamos el documento por su ID.
+    final docRef = _db.collection('messages').doc(id);
+
+    //2. Obtenemos la subcolección "recordatorios" del documento.
+    final messagesCollection = docRef.collection('recordatorios');
+
+    //3. Hacemos una consulta para obtener todos los mensajes.
+    return messagesCollection.get().then((snapshot) {
+      //4. Convertimos los documentos a una lista de MessageModel.
+      return snapshot.docs.map((doc) {
+        final data = doc.data();
+        return MessageModel(
+          id: doc.id,
+          content: data['message'] ?? '',
+          timestamp: (data['timestamp'] as Timestamp?)?.toDate() ?? DateTime.now(),
+          seen: data['seen'] ?? false,
+        );
+      }).toList();
+    });
+
+
   }
 
 

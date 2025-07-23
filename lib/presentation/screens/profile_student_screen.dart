@@ -3,11 +3,13 @@ import 'package:elenasorianoclases/domain/exceptions/app_exception.dart';
 import 'package:elenasorianoclases/presentation/providers/firebase/messages_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/firebase/student_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/list_student_provider.dart';
+import 'package:elenasorianoclases/presentation/providers/messages_provider.dart';
 import 'package:elenasorianoclases/presentation/widgets/loaders/overlay_loading_view.dart';
 import 'package:elenasorianoclases/presentation/widgets/snackbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 class ProfileStudentScreen extends ConsumerStatefulWidget {
   const ProfileStudentScreen({
@@ -23,6 +25,16 @@ class ProfileStudentScreen extends ConsumerStatefulWidget {
 }
 
 
+/*
+@override
+void didUpdateWidget(ProfileStudentScreen oldWidget) {
+  super.didUpdateWidget(oldWidget);
+  if (oldWidget.student.id != widget.student.id) {
+    ref.read(listMessagesProvider.notifier).loadMessages(widget.student.idMessages);
+  }
+}
+ */
+
 class ProfileStudentScreenState extends ConsumerState<ProfileStudentScreen> {
 
   int classCount = 0;
@@ -33,6 +45,10 @@ class ProfileStudentScreenState extends ConsumerState<ProfileStudentScreen> {
     // TODO: implement initState
     super.initState();
     classCount = widget.student.classCount;
+
+    Future.microtask(() {
+      ref.read(listMessagesProvider.notifier).loadMessages(widget.student.idMessages);
+    });
   }
 
   @override
@@ -44,6 +60,9 @@ class ProfileStudentScreenState extends ConsumerState<ProfileStudentScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    final messagesAsync = ref.watch(listMessagesProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Perfil de ${"${widget.student.name} ${widget.student.surename}"}"),
@@ -150,6 +169,9 @@ class ProfileStudentScreenState extends ConsumerState<ProfileStudentScreen> {
 
                       textController.text = "";
 
+                      // Recarga mensajes
+                      await ref.read(listMessagesProvider.notifier).loadMessages(widget.student.idMessages);
+
                     } on DocumentExistenceException catch(e){
                       //Manejamos la excepción si el documento no existe
                       snackbarWidget(context, "Hubo un error. Mensaje no entregado");
@@ -171,14 +193,32 @@ class ProfileStudentScreenState extends ConsumerState<ProfileStudentScreen> {
               ),
             ),
 
-            //Aqui debemos mostrar los recordatorios que manda el profesor al alumno
+            //Lista de recordatorios
+            //Esta lista hay que ponerla en un fichero aparte
+            //Hay que hacer un ListTile custom y añadir un botón de eliminar, y un piloto para marcar como visto
+
             Expanded(
-              child: ListView.builder(
-                itemCount: 100,
-                  itemBuilder: (context, index){
-                  return Text("Hola");
-                  }
-              ),
+              child: messagesAsync.when(
+                loading: () => const Center(child: CircularProgressIndicator()),
+                  error:(error, stack) => const Center(child: Text("Error al cargar mensajes")),
+                  data: (messages){
+                    if(messages.isEmpty){
+                      return const Center(child: Text("No hay recordatorios"));
+                    }
+
+                    return ListView.builder(
+                      itemCount: messages.length,
+                      itemBuilder: (context, index) {
+                        final msg = messages[index];
+                        return ListTile(
+                          title: Text(msg.content),
+                          subtitle: Text(DateFormat('dd/MM/yyyy').format(msg.timestamp)), // Ajusta si tienes fecha
+                        );
+                      },
+                    );
+                  },
+
+              )
             ),
 
             GestureDetector(
