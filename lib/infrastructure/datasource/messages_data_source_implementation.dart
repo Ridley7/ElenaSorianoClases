@@ -64,5 +64,12 @@ class MessagesDataSourceImplementation implements MessagesDataSource {
 
   }
 
+  @override
+  Future<void> deleteReminder(String idUser, String messageId) {
+        //AQUI ME QUEDO. HAY QUE BORRAR LOS RECORDATORIOS.
+    // TODO: implement deleteMessage
+    throw UnimplementedError();
+  }
+
 
 }

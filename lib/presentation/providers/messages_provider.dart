@@ -13,6 +13,17 @@ class MessagesNotifier extends StateNotifier<AsyncValue<List<MessageModel>>> {
 
   final Ref ref;
 
+  Future<void> deleteReminder(String idStudent, String messageId) async {
+    //REVISAR QUE ESTO SE HAGA BIEN
+    try {
+      await ref.read(messagesRepositoryProvider).deleteReminder(idStudent, messageId);
+      // Actualizamos el estado para eliminar el mensaje de la lista
+      state = AsyncValue.data(state.value?.where((msg) => msg.id != messageId).toList() ?? []);
+    } catch (e, st) {
+      state = AsyncValue.error(e, st);
+    }
+  }
+
   Future<String> createEmptyTable(String id) async {
      return await ref.read(messagesRepositoryProvider).createTableMessages(id);
   }

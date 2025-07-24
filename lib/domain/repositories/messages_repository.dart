@@ -4,4 +4,6 @@ abstract class MessagesRepository {
   Future<String> createTableMessages(String id);
   Future<void> addMessage(String id, String message);
   Future<List<MessageModel>> getMessages(String id);
+  Future<void> deleteReminder(String idStudent, String messageId);
+
 }

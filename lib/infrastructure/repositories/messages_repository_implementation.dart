@@ -23,4 +23,9 @@ class MessagesRepositoryImplementation extends MessagesRepository{
     return dataSource.getMessages(id);
   }
 
+  @override
+  Future<void> deleteReminder(String idStudent, String messageId) {
+    return dataSource.deleteReminder(idStudent, messageId);
+  }
+
 }

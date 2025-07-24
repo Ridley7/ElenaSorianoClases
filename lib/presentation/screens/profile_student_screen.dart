@@ -1,3 +1,4 @@
+
 import 'package:elenasorianoclases/domain/entities/student_model.dart';
 import 'package:elenasorianoclases/domain/exceptions/app_exception.dart';
 import 'package:elenasorianoclases/presentation/providers/firebase/messages_repository_provider.dart';
@@ -5,11 +6,11 @@ import 'package:elenasorianoclases/presentation/providers/firebase/student_repos
 import 'package:elenasorianoclases/presentation/providers/list_student_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/messages_provider.dart';
 import 'package:elenasorianoclases/presentation/widgets/loaders/overlay_loading_view.dart';
+import 'package:elenasorianoclases/presentation/widgets/profile_user/reminder_list.dart';
 import 'package:elenasorianoclases/presentation/widgets/snackbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 
 class ProfileStudentScreen extends ConsumerStatefulWidget {
   const ProfileStudentScreen({
@@ -24,16 +25,6 @@ class ProfileStudentScreen extends ConsumerStatefulWidget {
   ProfileStudentScreenState createState() => ProfileStudentScreenState();
 }
 
-
-/*
-@override
-void didUpdateWidget(ProfileStudentScreen oldWidget) {
-  super.didUpdateWidget(oldWidget);
-  if (oldWidget.student.id != widget.student.id) {
-    ref.read(listMessagesProvider.notifier).loadMessages(widget.student.idMessages);
-  }
-}
- */
 
 class ProfileStudentScreenState extends ConsumerState<ProfileStudentScreen> {
 
@@ -60,8 +51,6 @@ class ProfileStudentScreenState extends ConsumerState<ProfileStudentScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-    final messagesAsync = ref.watch(listMessagesProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -132,20 +121,23 @@ class ProfileStudentScreenState extends ConsumerState<ProfileStudentScreen> {
             const SizedBox(height: 16),
 
             //Cuadro de texto para mensajes
-            Text("Mensajes para el alumno",
+            Text("Recordatorio para el alumno",
               style: Theme.of(context).textTheme.titleMedium
             ),
 
-            TextField(
-              minLines: 5, // Altura fija de 5 líneas
-              maxLines: 5, // No crece más, hace scroll vertical
-              controller: textController,
-              keyboardType: TextInputType.multiline,
-              decoration: InputDecoration(
-                hintText: 'Escribe tu mensaje...',
-                contentPadding: const EdgeInsets.all(16),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12), // Bordes redondeados
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+              child: TextField(
+                minLines: 5, // Altura fija de 5 líneas
+                maxLines: 5, // No crece más, hace scroll vertical
+                controller: textController,
+                keyboardType: TextInputType.multiline,
+                decoration: InputDecoration(
+                  hintText: 'Escribe tu mensaje...',
+                  contentPadding: const EdgeInsets.all(16),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12), // Bordes redondeados
+                  ),
                 ),
               ),
             ),
@@ -182,10 +174,8 @@ class ProfileStudentScreenState extends ConsumerState<ProfileStudentScreen> {
                       //Siempre ocultamos el loading
                       OverlayLoadingView.hide();
                     }
-
-
                   },
-                  child: Text("Enviar mensaje",
+                  child: Text("Enviar recordatorio",
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: Colors.white
                     )
@@ -195,30 +185,10 @@ class ProfileStudentScreenState extends ConsumerState<ProfileStudentScreen> {
 
             //Lista de recordatorios
             //Esta lista hay que ponerla en un fichero aparte
-            //Hay que hacer un ListTile custom y añadir un botón de eliminar, y un piloto para marcar como visto
-
-            Expanded(
-              child: messagesAsync.when(
-                loading: () => const Center(child: CircularProgressIndicator()),
-                  error:(error, stack) => const Center(child: Text("Error al cargar mensajes")),
-                  data: (messages){
-                    if(messages.isEmpty){
-                      return const Center(child: Text("No hay recordatorios"));
-                    }
-
-                    return ListView.builder(
-                      itemCount: messages.length,
-                      itemBuilder: (context, index) {
-                        final msg = messages[index];
-                        return ListTile(
-                          title: Text(msg.content),
-                          subtitle: Text(DateFormat('dd/MM/yyyy').format(msg.timestamp)), // Ajusta si tienes fecha
-                        );
-                      },
-                    );
-                  },
-
-              )
+            //Hay que hacer un botón de eliminar,
+            ReminderList(
+              idStudent: widget.student.id,
+                idMessages: widget.student.idMessages
             ),
 
             GestureDetector(
@@ -258,3 +228,5 @@ class ProfileStudentScreenState extends ConsumerState<ProfileStudentScreen> {
     );
   }
 }
+
+
