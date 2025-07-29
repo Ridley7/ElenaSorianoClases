@@ -14,7 +14,6 @@ class MessagesNotifier extends StateNotifier<AsyncValue<List<MessageModel>>> {
   final Ref ref;
 
   Future<void> deleteReminder(String idStudent, String messageId) async {
-    //REVISAR QUE ESTO SE HAGA BIEN
     try {
       await ref.read(messagesRepositoryProvider).deleteReminder(idStudent, messageId);
       // Actualizamos el estado para eliminar el mensaje de la lista

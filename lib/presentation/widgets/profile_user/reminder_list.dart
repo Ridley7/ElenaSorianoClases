@@ -1,4 +1,5 @@
 import 'package:elenasorianoclases/presentation/providers/messages_provider.dart';
+import 'package:elenasorianoclases/presentation/widgets/loaders/overlay_loading_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -62,7 +63,17 @@ void didUpdateWidget(ProfileStudentScreen oldWidget) {
                 return Dismissible(
                   key: Key(msg.id),
                   direction: DismissDirection.startToEnd,
-                  confirmDismiss: (_) => confirmDelete(),
+                  confirmDismiss: (_) => confirmDelete(msg.id),
+                  background: Container(
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFFFBDC4),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    alignment: Alignment.centerLeft,
+                    padding: const EdgeInsets.all(16),
+                    margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                    child: const Icon(Icons.delete, color: Colors.white),
+                  ),
                   child: Container(
                     padding: const EdgeInsets.all(16),
                     margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
@@ -106,7 +117,7 @@ void didUpdateWidget(ProfileStudentScreen oldWidget) {
     );
   }
 
-  Future<bool> confirmDelete() async{
+  Future<bool> confirmDelete(String msgId) async{
     return await showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -118,9 +129,11 @@ void didUpdateWidget(ProfileStudentScreen oldWidget) {
             child: const Text("Cancelar"),
           ),
           TextButton(
-            onPressed: () {
-              //AQUI ME QUEDO.
-              ref.read(listMessagesProvider.notifier).deleteReminder(widget.idStudent, widget.idMessages);
+            onPressed: () async {
+              //AQUI ME QUEDO. Hay que comprobar que se borre esto correctamente.
+              OverlayLoadingView.show(context);
+              await ref.read(listMessagesProvider.notifier).deleteReminder(widget.idMessages, msgId);
+              OverlayLoadingView.hide();
               context.pop();
             },
             child: const Text("Eliminar"),

@@ -65,10 +65,17 @@ class MessagesDataSourceImplementation implements MessagesDataSource {
   }
 
   @override
-  Future<void> deleteReminder(String idUser, String messageId) {
-        //AQUI ME QUEDO. HAY QUE BORRAR LOS RECORDATORIOS.
-    // TODO: implement deleteMessage
-    throw UnimplementedError();
+  Future<void> deleteReminder(String idUser, String messageId) async {
+
+    //Accedemos a la colección "messages" y referenciamos el documento por su ID.
+    final docRef = _db.collection('messages').doc(idUser);
+
+    //Obtenemos la subcolección "recordatorios" del documento.
+    final messagesCollection = docRef.collection('recordatorios');
+
+    //Eliminamos el mensaje específico por su ID.
+    return await messagesCollection.doc(messageId).delete();
+
   }
 
 
