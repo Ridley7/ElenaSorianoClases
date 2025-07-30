@@ -10,6 +10,7 @@ import 'package:elenasorianoclases/domain/entities/push_notifications/queue_mess
 import 'package:elenasorianoclases/domain/entities/student_model.dart';
 import 'package:elenasorianoclases/presentation/providers/firebase/fcm_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/info_user_provider.dart';
+import 'package:elenasorianoclases/presentation/providers/messages_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/queue_messages_provider.dart';
 import 'package:elenasorianoclases/presentation/widgets/loaders/overlay_loading_view.dart';
 import 'package:elenasorianoclases/presentation/widgets/menu_item_widget.dart';
@@ -30,8 +31,12 @@ class HomeScreen extends ConsumerWidget {
     QueueMessageState messageState = ref.watch(queueMessagesProvider);
     final currentMessage = messageState.currentMessage;
 
-    List<MenuItemWidget> buildMenuByRole(BuildContext context, String role, WidgetRef ref){
+
+    List<MenuItemWidget> buildMenuByRole(BuildContext context, String role, WidgetRef ref) {
       List<MenuItemWidget> menu = [];
+
+      //Si somos estudiantes obtenemos la cantidad de recordatorios segun este estado <AsyncValue<List<MessageModel>>>
+      int notificationCount = ref.read(listMessagesProvider.notifier).getNotificationCount();
 
       menu.add(
         MenuItemWidget(
@@ -63,6 +68,19 @@ class HomeScreen extends ConsumerWidget {
             },
           )
         );
+      } else {
+
+        menu.add(
+            MenuItemWidget(
+              title: 'Recordatorios',
+              icon: Icons.memory,
+              notificationCount: notificationCount,
+              callback: (){
+                context.push("/student_reminder_list");
+              },
+            )
+        );
+
       }
 
 

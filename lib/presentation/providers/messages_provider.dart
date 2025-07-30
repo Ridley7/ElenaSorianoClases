@@ -41,6 +41,14 @@ class MessagesNotifier extends StateNotifier<AsyncValue<List<MessageModel>>> {
     }
   }
 
+  int getNotificationCount() {
+    if (state is AsyncData<List<MessageModel>>) {
+      final messages = state.value ?? [];
+      return messages.where((message) => !message.seen).length;
+    }
+    return 0;
+  }
+
   void clearMessages() {
     state = const AsyncValue.data([]); // o .loading() si prefieres
   }

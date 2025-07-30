@@ -1,5 +1,6 @@
 
 import 'package:elenasorianoclases/domain/entities/class_model.dart';
+import 'package:elenasorianoclases/domain/entities/message_model.dart';
 import 'package:elenasorianoclases/domain/entities/student_model.dart';
 import 'package:elenasorianoclases/presentation/screens/add_class_screen.dart';
 import 'package:elenasorianoclases/presentation/screens/add_student_screen.dart';
@@ -9,8 +10,10 @@ import 'package:elenasorianoclases/presentation/screens/home_screen.dart';
 import 'package:elenasorianoclases/presentation/screens/login_screen.dart';
 import 'package:elenasorianoclases/presentation/screens/not_allowed_screen.dart';
 import 'package:elenasorianoclases/presentation/screens/profile_student_screen.dart';
+import 'package:elenasorianoclases/presentation/screens/reminder_detail_screen.dart';
 import 'package:elenasorianoclases/presentation/screens/schedule_screen.dart';
 import 'package:elenasorianoclases/presentation/screens/signup_screen.dart';
+import 'package:elenasorianoclases/presentation/screens/student_remider_list_screen.dart';
 import 'package:elenasorianoclases/presentation/screens/students_screen.dart';
 import 'package:elenasorianoclases/presentation/screens/view_class_screen.dart';
 import 'package:go_router/go_router.dart';
@@ -18,6 +21,44 @@ import 'package:go_router/go_router.dart';
 
 final appRouter = GoRouter(initialLocation: '/login_signup', routes: [
 //final appRouter = GoRouter(initialLocation: '/not_allowed', routes: [
+
+  GoRoute(
+    path: '/student_reminder_list',
+    name: StudentRemiderListScreen.name,
+    builder: (context, state) {
+      return const StudentRemiderListScreen();
+    },
+    routes: [
+      GoRoute(
+        path: 'reminder_detail',
+        name: ReminderDetailScreen.name,
+        builder: (context, state) {
+          return ReminderDetailScreen(
+            reminder: state.extra as MessageModel,
+          );
+        }
+      )
+    ]
+  ),
+
+  /*
+  GoRoute(
+      path: '/home/:page',
+      name: HomeScreen.name,
+      builder: (context, state) {
+        return HomeScreen(
+            indexView: int.parse(state.pathParameters['page'] ?? '0'));
+      },
+      routes: [
+        GoRoute(
+            path: 'movie/:id',
+            name: MovieScreen.name,
+            builder: (context, state) {
+              return MovieScreen(
+                  movieId: state.pathParameters['id'] ?? 'no-id');
+            })
+      ]),
+   */
 
   GoRoute(
       path: '/not_allowed',

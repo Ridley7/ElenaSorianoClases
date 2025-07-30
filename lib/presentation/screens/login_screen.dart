@@ -9,6 +9,7 @@ import 'package:elenasorianoclases/presentation/providers/firebase/student_repos
 import 'package:elenasorianoclases/presentation/providers/info_user_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/list_class_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/list_student_provider.dart';
+import 'package:elenasorianoclases/presentation/providers/messages_provider.dart';
 import 'package:elenasorianoclases/presentation/widgets/background_login.dart';
 import 'package:elenasorianoclases/presentation/widgets/loaders/overlay_loading_view.dart';
 import 'package:elenasorianoclases/presentation/widgets/text_field_login.dart';
@@ -62,6 +63,11 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
         ref.read(listStudentsProvider.notifier).init(listaEstudiantes);
       }
 
+      //Si tenemos rol de estudiante descargamos los recordatorios
+      if(studentModel.rol == "student"){
+        await ref.read(listMessagesProvider.notifier).loadMessages(studentModel.idMessages);
+      }
+
       ref.read(infoUserProvider.notifier).state = studentModel;
 
       //Obtenemos y guardamos el token de Firebase Cloud Messaging
@@ -74,6 +80,8 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
         //Guardamos el token en firestore
         await ref.read(fcmRepositoryProvider).saveFCMToken(token, studentModel.id);
       }
+
+
 
 
       if(studentModel.access){
@@ -155,7 +163,10 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
       ref.read(infoUserProvider.notifier).state = studentModel;
 
       if(studentModel.access){
-        //print("Este estudiante tiene acceso");
+
+        //Cargamos los recordatorios del estudiante
+        await ref.read(listMessagesProvider.notifier).loadMessages(studentModel.idMessages);
+
         context.go('/home');
       }else{
         //print("No tiene acceso ${studentModel.name}");
