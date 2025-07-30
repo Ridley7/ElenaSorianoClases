@@ -78,5 +78,18 @@ class MessagesDataSourceImplementation implements MessagesDataSource {
 
   }
 
+  @override
+  Future<void> markMessageAsSeen(String idStudent, String messageId) {
+
+    //Accedemos a la colección "messages" y referenciamos el documento por su ID.
+    final docRef = _db.collection('messages').doc(idStudent);
+
+    //Obtenemos la subcolección "recordatorios" del documento.
+    final messagesCollection = docRef.collection('recordatorios');
+
+    //Actualizamos el campo "seen" del mensaje específico por su ID.
+    return messagesCollection.doc(messageId).update({'seen': true});
+  }
+
 
 }

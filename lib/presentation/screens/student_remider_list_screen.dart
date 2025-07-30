@@ -54,7 +54,12 @@ class StudentRemiderListScreenState extends ConsumerState<StudentRemiderListScre
 
                   return InkWell(
                     onTap: () {
-                      //context.push("");
+
+                      final idUserMessages = ref.read(infoUserProvider).idMessages;
+
+                      //Marcamos el mensaje como visto
+                      ref.read(listMessagesProvider.notifier).markMessageAsSeen(idUserMessages, reminder.id);
+                      
                       context.push(
                         '/student_reminder_list/reminder_detail',
                         extra: reminder,

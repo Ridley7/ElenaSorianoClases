@@ -13,6 +13,23 @@ class MessagesNotifier extends StateNotifier<AsyncValue<List<MessageModel>>> {
 
   final Ref ref;
 
+  //Metodo para marcar un mensaje como visto
+  Future<void> markMessageAsSeen(String idStudent, String messageId) async {
+    try {
+      await ref.read(messagesRepositoryProvider).markMessageAsSeen(idStudent, messageId);
+      // Actualizamos el estado para reflejar el cambio
+      final messages = state.value?.map((msg) {
+        if (msg.id == messageId) {
+          return msg.copyWith(seen: true);
+        }
+        return msg;
+      }).toList() ?? [];
+      state = AsyncValue.data(messages);
+    } catch (e, st) {
+      state = AsyncValue.error(e, st);
+    }
+  }
+
   Future<void> deleteReminder(String idStudent, String messageId) async {
     try {
       await ref.read(messagesRepositoryProvider).deleteReminder(idStudent, messageId);

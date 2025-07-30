@@ -37,4 +37,19 @@ class MessageModel{
       'seen': seen,
     };
   }
+
+  //Metodo CopyWith
+  MessageModel copyWith({
+    String? id,
+    String? content,
+    DateTime? timestamp,
+    bool? seen,
+  }) {
+    return MessageModel(
+      id: id ?? this.id,
+      content: content ?? this.content,
+      timestamp: timestamp ?? this.timestamp,
+      seen: seen ?? this.seen,
+    );
+  }
 }

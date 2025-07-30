@@ -28,4 +28,9 @@ class MessagesRepositoryImplementation extends MessagesRepository{
     return dataSource.deleteReminder(idStudent, messageId);
   }
 
+  @override
+  Future<void> markMessageAsSeen(String idStudent, String messageId) {
+    return dataSource.markMessageAsSeen(idStudent, messageId);
+  }
+
 }

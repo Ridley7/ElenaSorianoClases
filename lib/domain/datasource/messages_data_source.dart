@@ -5,4 +5,5 @@ abstract class MessagesDataSource{
   Future<void> addMessage(String id, String message);
   Future<List<MessageModel>> getMessages(String id);
   Future<void> deleteReminder(String idStudent, String messageId);
+  Future<void> markMessageAsSeen(String idStudent, String messageId);
 }
