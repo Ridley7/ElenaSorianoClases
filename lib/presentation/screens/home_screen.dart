@@ -1,7 +1,5 @@
 //AQUI ME QUEDO.
 ///Esto es lo siguiente que hay que hacer:
-//- crear clases con alumnos antes de publicar una clase
-  //-Añadir la lista de alumnos en la pantalla en la que se crean clases y tirar de ahi para crear la clase
 //- Solicitar clases cuandro se entre en horario
 //- Revisar el bloquear alumno desde la pantalla de estudiantes
 

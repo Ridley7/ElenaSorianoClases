@@ -1,4 +1,5 @@
 import 'package:elenasorianoclases/domain/entities/class_model.dart';
+import 'package:elenasorianoclases/presentation/providers/firebase/class_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/list_class_provider.dart';
 import 'package:elenasorianoclases/presentation/widgets/empty_student_widget.dart';
 import 'package:elenasorianoclases/presentation/widgets/schedule/empty_schedule.dart';
@@ -22,11 +23,36 @@ class ScheduleScreenState extends ConsumerState<ScheduleScreen> {
 
   DateTime _focusedDay = DateTime.now();
   DateTime _selectedDay = DateTime.now();
+  List<ClassModel> listaClases = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+      super.initState();
+      downloadClasses();
+  }
+
+  Future<void> downloadClasses() async {
+    listaClases = await ref.read(classRepositoryProvider).getAllClass();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
 
-    List<ClassModel> listaClases = ref.watch(listClassProvider);
+    if(listaClases.isEmpty){
+      //Si no tenemos las clases descargadas, las descargamos
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+
+    }
+
+    //Hay que solicitar las clases cuandos entra aqui. Ya que solo las obtenemos
+    // una vez al iniciar sesion asi que no se actualizan al agregar nuevas clases.
+    //List<ClassModel> listaClases = ref.watch(listClassProvider);
     Map<DateTime, List<ClassModel>> classMap = {};
 
     List<ClassModel> _getEventsForDay(DateTime day) {
