@@ -82,15 +82,11 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
       }
 
 
-
-
       if(studentModel.access){
         context.go('/home');
       }else{
         context.go("/not_allowed");
       }
-
-      context.go("/home");
 
     }on FirebaseAuthException catch(e){
 
@@ -141,7 +137,6 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
     User? user = FirebaseAuth.instance.currentUser;
     //FirebaseAuth.instance.signOut();
     if(user != null){
-
 
       //Tenemos que traer la información del usuario. ¿Como? ¿con el correo? No, con el uid.
       print("El usuario es: ${user.uid}");
