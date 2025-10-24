@@ -103,6 +103,8 @@ class StudentWidget extends ConsumerWidget {
     //Indicamos que el usuario tiene una clase a recuperar
     final infoUserNotifier = ref.read(infoUserProvider.notifier);
     infoUserNotifier.state = infoUserNotifier.state.copyWith(classCount: classCount + 1);
+    //Actualizamos el class count del estudiante en el provider
+    ref.read(listStudentsProvider.notifier).updateClassCount(classCount, idStudent);
 
     OverlayLoadingView.hide();
 
