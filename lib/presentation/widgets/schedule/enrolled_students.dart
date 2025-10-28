@@ -21,6 +21,9 @@ class EnrolledStudents extends StatelessWidget {
 
           //Validamos si el indice existe en la lista
           if(subIndex < clase.listStudent.length){
+
+            print("Mostrando estudiante ${clase.listStudent[subIndex]} en la clase ${clase.id}");
+
             return StudentWidget(
                 name: clase.listStudent[subIndex],
               hour: clase.hour,
@@ -28,6 +31,7 @@ class EnrolledStudents extends StatelessWidget {
               idClass: clase.id,
             );
           }else{
+
             return EmptyStudentWidget(
                 idClase: clase.id,
               date: clase.date,

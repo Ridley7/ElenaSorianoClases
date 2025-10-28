@@ -23,42 +23,19 @@ class ScheduleScreenState extends ConsumerState<ScheduleScreen> {
 
   DateTime _focusedDay = DateTime.now();
   DateTime _selectedDay = DateTime.now();
-  List<ClassModel> listaClases = [];
 
-  @override
-  void initState() {
-    // TODO: implement initState
-      super.initState();
-      downloadClasses();
-  }
-
-  Future<void> downloadClasses() async {
-    listaClases = await ref.read(classRepositoryProvider).getAllClass();
-    setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {
 
-    if(listaClases.isEmpty){
-      //Si no tenemos las clases descargadas, las descargamos
-      return const Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-
-    }
-
-    //Hay que solicitar las clases cuandos entra aqui. Ya que solo las obtenemos
-    // una vez al iniciar sesion asi que no se actualizan al agregar nuevas clases.
-    //List<ClassModel> listaClases = ref.watch(listClassProvider);
+    List<ClassModel> listaClases = ref.watch(listClassProvider);
     Map<DateTime, List<ClassModel>> classMap = {};
 
     List<ClassModel> _getEventsForDay(DateTime day) {
       return classMap[DateTime(day.year, day.month, day.day)] ?? [];
     }
 
+    //Esto para que lo hacemos?
     for(var classModel in listaClases){
       //Convertimos el string date a DateTime (formato dd/mm/aaaa)
       List<String> dateParts = classModel.date.split('/');
@@ -240,12 +217,14 @@ class ScheduleScreenState extends ConsumerState<ScheduleScreen> {
                         itemCount: _getEventsForDay(_selectedDay).length,
                         separatorBuilder: (context, index) => const OrnamentalSeparator(),
                         itemBuilder: (context, index){
+
                         List<ClassModel> clasesDelDia = _getEventsForDay(_selectedDay);
+
+                        print("Clases del dia: ${clasesDelDia.length}");
 
                         return Column(
                           children: [
                             //Contenido
-
                             Row(
                               children: [
                                 Text("${index + 1}. Clase",
