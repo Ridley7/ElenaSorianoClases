@@ -11,14 +11,7 @@ class AppTheme {
       useMaterial3: true,
       colorSchemeSeed: const Color(0xFFFFBDC4),
       brightness: isDarkMode ? Brightness.dark : Brightness.light,
-      //scaffoldBackgroundColor: isDarkMode ? const Color(0xFF111111) : const Color(0xFFF1F0F0),
-      /*
-      textTheme: TextTheme(
-        bodyMedium: TextStyle(
-          color: isDarkMode ? Colors.white : const Color(0xff1f2024),
-        ),
-      ),
-      */
+
 
       iconTheme: const IconThemeData(
           color: Color(0xFFFFBDC4)

@@ -113,8 +113,10 @@ class EmptyStudentWidget extends ConsumerWidget {
 
       //Reducimos en 1 el classCount del usuario
       StudentModel studentModel = ref.read(infoUserProvider.notifier).state;
-      studentModel = studentModel.copyWith(classCount: studentModel.classCount - 1);
+      studentModel = studentModel.copyWith(classCount: slotsStudent - 1);
       ref.read(infoUserProvider.notifier).state = studentModel;
+      ref.read(listStudentsProvider.notifier).updateClassCount(slotsStudent - 1, idStudent);
+
     } catch (e) {
       if (e is EnrollStudentException) {
         // Manejo específico de la excepción

@@ -33,14 +33,8 @@ class StudentWidget extends ConsumerWidget {
     String idStudent = "";
     int classCount = 0;
 
-    print("Total estudiantes en el provider: ");
-    print(ref.read(listStudentsProvider).length);
-
     //Obtenemos el nombre real del alumno
     for(var student in ref.read(listStudentsProvider)){
-
-      print("Comparando ${student.id} con $name");
-
 
       if(student.id == name){
         realName = "${student.name} ${student.surename}";
@@ -50,8 +44,6 @@ class StudentWidget extends ConsumerWidget {
     }
 
     StudentModel studentModel = ref.read(infoUserProvider.notifier).state;
-
-    print("El real name del estudiante es $realName");
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2.0),
@@ -113,7 +105,7 @@ class StudentWidget extends ConsumerWidget {
     final infoUserNotifier = ref.read(infoUserProvider.notifier);
     infoUserNotifier.state = infoUserNotifier.state.copyWith(classCount: classCount + 1);
     //Actualizamos el class count del estudiante en el provider
-    ref.read(listStudentsProvider.notifier).updateClassCount(classCount, idStudent);
+    ref.read(listStudentsProvider.notifier).updateClassCount(classCount + 1, idStudent);
 
     OverlayLoadingView.hide();
 

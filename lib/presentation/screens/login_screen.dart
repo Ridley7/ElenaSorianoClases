@@ -56,15 +56,10 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
       StudentModel studentModel = await repositoryStudents.getStudent(credential.user!.uid);
 
       //Si tiene el rol de profesor, descargamos la lista de estudiantes
-      if(studentModel.rol == "lecturer"){
-        print("Descargando estudiantes");
-        //AQUI ESTA EL PUTO PROBLEMA. ESTA LISTA SOLO SE DESCARGA CUANDO UN PROFESOR INICIA SESION
-        //NO CON UN ESTUDIANTE!!!!!
-        List<StudentModel> listaEstudiantes = await repositoryStudents.getAllStudents();
-        //Rellenamos el provider de estudiantes
-        print("Estudiantes descargados: ${listaEstudiantes.length}");
-        ref.read(listStudentsProvider.notifier).init(listaEstudiantes);
-      }
+      List<StudentModel> listaEstudiantes = await repositoryStudents.getAllStudents();
+      //Rellenamos el provider de estudiantes
+      print("Estudiantes descargados: ${listaEstudiantes.length}");
+      ref.read(listStudentsProvider.notifier).init(listaEstudiantes);
 
       //Si tenemos rol de estudiante descargamos los recordatorios
       if(studentModel.rol == "student"){

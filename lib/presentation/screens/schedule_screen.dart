@@ -1,10 +1,7 @@
 import 'package:elenasorianoclases/domain/entities/class_model.dart';
-import 'package:elenasorianoclases/presentation/providers/firebase/class_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/list_class_provider.dart';
-import 'package:elenasorianoclases/presentation/widgets/empty_student_widget.dart';
 import 'package:elenasorianoclases/presentation/widgets/schedule/empty_schedule.dart';
 import 'package:elenasorianoclases/presentation/widgets/schedule/enrolled_students.dart';
-import 'package:elenasorianoclases/presentation/widgets/student_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -95,18 +92,6 @@ class ScheduleScreenState extends ConsumerState<ScheduleScreen> {
                   _selectedDay = selectedDay;
                   _focusedDay = focusedDay;
 
-                  /*
-                void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
-                  if (!isSameDay(_selectedDay, selectedDay)) {
-                    setState(() {
-                      _selectedDay = selectedDay;
-                      _focusedDay = focusedDay;
-                      _selectedEvents.value = _getEventsForDay(selectedDay);
-                    });
-                  }
-                }
-                 */
-
                 });
               }
             },
@@ -150,32 +135,7 @@ class ScheduleScreenState extends ConsumerState<ScheduleScreen> {
                   ),
                 );
               },
-                /*
-              prioritizedBuilder: (context, date, _){
-                return Container(
-                  width: 100,
-                  height: 100,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.zero,
-                      color: Colors.red,
-                      border: Border.all(
-                          color: Colors.black,
-                          width: 2.0
-                      )
-                  ),
-                  child: Center(
-                    child: Text(
-                      "${date.day}",
-                      style: TextStyle().copyWith(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white
-                      ),
-                    ),
-                  ),
-                );
-              }
-              */
+
             ),
 
           ),
@@ -219,8 +179,6 @@ class ScheduleScreenState extends ConsumerState<ScheduleScreen> {
                         itemBuilder: (context, index){
 
                         List<ClassModel> clasesDelDia = _getEventsForDay(_selectedDay);
-
-                        print("Clases del dia: ${clasesDelDia.length}");
 
                         return Column(
                           children: [
