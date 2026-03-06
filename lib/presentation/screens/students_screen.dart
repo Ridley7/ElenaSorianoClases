@@ -51,32 +51,34 @@ class StudentsScreenState extends ConsumerState<StudentsScreen> {
           const SizedBox(height: 2,),
 
           //Boton para añadir estudiantes
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: GestureDetector(
-              onTap: (){
-                context.push("/add_student");
-              },
-              child: Container(
-                width: double.infinity,
-                height: 60,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: const Color(0xFFFFBDC4),
-                    width: 3
-                  )
-                    ),
-                child: const Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.add_circle,
-                      size: 50,
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: GestureDetector(
+                onTap: (){
+                  context.push("/add_student");
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
                       color: const Color(0xFFFFBDC4),
+                      width: 3
                     )
-                  ],
-                )
+                      ),
+                  child: const Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.add_circle,
+                        size: 50,
+                        color: const Color(0xFFFFBDC4),
+                      )
+                    ],
+                  )
+                ),
               ),
             ),
           )

@@ -6,5 +6,6 @@ abstract class MessagesRepository {
   Future<List<MessageModel>> getMessages(String id);
   Future<void> deleteReminder(String idStudent, String messageId);
   Future<void> markMessageAsSeen(String idStudent, String messageId);
+  Future<void> deleteDocument(String idDocument);
 
 }

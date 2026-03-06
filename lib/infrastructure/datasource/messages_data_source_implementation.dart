@@ -91,5 +91,18 @@ class MessagesDataSourceImplementation implements MessagesDataSource {
     return messagesCollection.doc(messageId).update({'seen': true});
   }
 
+  @override
+  Future<void> deleteDocument(String idDocument) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('messages')
+          .doc(idDocument)
+          .delete();
+
+    } on FirebaseException catch (e) {
+      throw Exception('Error deleting message: ${e.message}');
+    }
+  }
+
 
 }

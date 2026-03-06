@@ -1,4 +1,6 @@
 import 'package:elenasorianoclases/domain/entities/student_model.dart';
+import 'package:elenasorianoclases/presentation/providers/firebase/class_repository_provider.dart';
+import 'package:elenasorianoclases/presentation/providers/firebase/messages_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/firebase/student_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/list_student_provider.dart';
 import 'package:elenasorianoclases/presentation/widgets/button_activate_student.dart';
@@ -97,6 +99,23 @@ class ItemListStudent extends ConsumerWidget {
 
       // Borrar estudiante del provider
       ref.read(listStudentsProvider.notifier).deleteStudent(estudiante.id);
+
+      //Borramos los recordatorios del estudiante
+      ref.read(messagesRepositoryProvider).deleteDocument(estudiante.idMessages);
+
+      //Borramos al estudiante de todas las clase a las cual estaba apuntado
+      ref.read(classRepositoryProvider).deleteStudentFormAllClass(estudiante.id);
+
+      //y hay que bloquearle también AQUI ME QUEDO
+
+      /*
+       //Hacemos el cambio en base de datos
+        await ref.read(studentRepositoryProvider).setAccess(!widget.estudiante.access, widget.estudiante.id);
+        //Hacemos el cambio en el provider
+        ref.read(listStudentsProvider.notifier).setAccessStudent(!widget.estudiante.access, widget.estudiante.id);
+
+       */
+
     } catch (e) {
       // Puedes manejar errores aquí si lo deseas
       print("Error eliminando estudiante: $e");

@@ -191,34 +191,36 @@ class ProfileStudentScreenState extends ConsumerState<ProfileStudentScreen> {
                 idMessages: widget.student.idMessages
             ),
 
-            GestureDetector(
-              onTap: () async{
-                //Guardamos el class count
-                OverlayLoadingView.show(context);
-                //Hacemos consulta a la BD
-                ref.read(studentRepositoryProvider).updateClassCount(classCount, widget.student.id);
-                //Ahora hay que actualizar el provider
-                ref.read(listStudentsProvider.notifier).updateClassCount(classCount, widget.student.id);
-                await Future.delayed(const Duration(milliseconds: 500));
-                OverlayLoadingView.hide();
+            SafeArea(
+              child: GestureDetector(
+                onTap: () async{
+                  //Guardamos el class count
+                  OverlayLoadingView.show(context);
+                  //Hacemos consulta a la BD
+                  ref.read(studentRepositoryProvider).updateClassCount(classCount, widget.student.id);
+                  //Ahora hay que actualizar el provider
+                  ref.read(listStudentsProvider.notifier).updateClassCount(classCount, widget.student.id);
+                  await Future.delayed(const Duration(milliseconds: 500));
+                  OverlayLoadingView.hide();
 
-                //Navegamos hacia atras
-                context.pop();
-              },
-              child: Container(
-                width: double.infinity,
-                height: 60,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                      color: const Color(0xFFFFBDC4),
-                      width: 3
-                  )
-                ),
-                child: const Icon(
-                  Icons.save,
-                  size: 50,
-                  color: Color(0xFFFFBDC4),
+                  //Navegamos hacia atras
+                  context.pop();
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                        color: const Color(0xFFFFBDC4),
+                        width: 3
+                    )
+                  ),
+                  child: const Icon(
+                    Icons.save,
+                    size: 50,
+                    color: Color(0xFFFFBDC4),
+                  ),
                 ),
               ),
             )

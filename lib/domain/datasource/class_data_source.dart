@@ -9,4 +9,5 @@ abstract class ClassDataSource{
   Future<void> deleteStudentToClass(String idClass, String idStudent);
   Future<void> enrollStudentToClass(String idClass, String idStudent);
   Future<void> disenrollStudentToClass(String idClass, String idStudent);
+  Future<void> deleteStudentFormAllClass(String idStudent);
 }

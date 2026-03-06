@@ -175,4 +175,27 @@ class ClassDataSourceImplementation extends ClassDataSource{
     }
   }
 
+  @override
+  Future<void> deleteStudentFormAllClass(String idStudent) async {
+
+    final querySnapshot = await _db
+        .collection('clases')
+        .where('listStudent', arrayContains: idStudent)
+        .get();
+
+    //Usamos batch por si el usuario esta apuntado en muchas clases de 20 a 500
+    final batch = _db.batch();
+
+    for( final clase in querySnapshot.docs){
+      //await clase.reference.update({'listStudent': FieldValue.arrayRemove([idStudent])});
+      batch.update(
+          clase.reference,
+          {
+            'listStudent': FieldValue.arrayRemove([idStudent])
+          },
+      );
+    }
+    await batch.commit();
+  }
+
 }

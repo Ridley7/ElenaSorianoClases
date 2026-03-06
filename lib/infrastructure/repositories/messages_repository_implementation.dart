@@ -33,4 +33,9 @@ class MessagesRepositoryImplementation extends MessagesRepository{
     return dataSource.markMessageAsSeen(idStudent, messageId);
   }
 
+  @override
+  Future<void> deleteDocument(String idDocument) {
+    return dataSource.deleteDocument(idDocument);
+  }
+
 }
