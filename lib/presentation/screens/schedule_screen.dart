@@ -1,4 +1,5 @@
 import 'package:elenasorianoclases/domain/entities/class_model.dart';
+import 'package:elenasorianoclases/presentation/providers/firebase/class_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/list_class_provider.dart';
 import 'package:elenasorianoclases/presentation/widgets/schedule/empty_schedule.dart';
 import 'package:elenasorianoclases/presentation/widgets/schedule/enrolled_students.dart';
@@ -18,14 +19,41 @@ class ScheduleScreen extends ConsumerStatefulWidget {
 
 class ScheduleScreenState extends ConsumerState<ScheduleScreen> {
 
+
   DateTime _focusedDay = DateTime.now();
   DateTime _selectedDay = DateTime.now();
 
+  List<ClassModel> listaClases = [];
+  bool downloading = true;
+
+  @override
+  void initState() {
+
+    downloadClass();
+    super.initState();
+  }
+
+  Future<void> downloadClass() async{
+    final clases = await ref.read(classRepositoryProvider).getAllClass();
+    ref.read(listClassProvider.notifier).setClass(clases);
+    listaClases = clases;
+    setState(() {
+      downloading = false;
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
 
-    List<ClassModel> listaClases = ref.watch(listClassProvider);
+    if(downloading){
+      return const Scaffold(
+        body: Center(
+            child: CircularProgressIndicator()
+        ),
+      );
+    }
+
     Map<DateTime, List<ClassModel>> classMap = {};
 
     List<ClassModel> _getEventsForDay(DateTime day) {
