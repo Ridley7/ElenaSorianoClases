@@ -210,56 +210,58 @@ class AddClassScreenState extends ConsumerState<AddClassScreen> {
 
 
             const SizedBox(height: 16,),
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton(
-                  onPressed: () async{
-
-                    //Hay que comprobar que no se puedan elegir mas alumnos de los que
-                    //estan permitidos
-                    if(selectedStudents.where((isSelected) => isSelected).length > amountStudents){
-                      snackbarWidget(context, "Has seleccionado mas alumnos de los permitidos");
-                      return;
-                    }
-
-                    if(dateController.text == "--/--/---" || hourController.text == "--:--"){
-                      snackbarWidget(context, "Falta la fecha o la hora");
-                      return;
-                    }
-
-                    OverlayLoadingView.show(context);
-
-                    //Obtenemos los ids de los estudiantes seleccionados
-                    List<String> selectedStudentIds = [];
-                    for(int i = 0; i < selectedStudents.length; i++){
-                      if(selectedStudents[i]){
-                        selectedStudentIds.add(listStudents[i].id);
+            SafeArea(
+              child: SizedBox(
+                width: double.infinity,
+                child: FilledButton(
+                    onPressed: () async{
+              
+                      //Hay que comprobar que no se puedan elegir mas alumnos de los que
+                      //estan permitidos
+                      if(selectedStudents.where((isSelected) => isSelected).length > amountStudents){
+                        snackbarWidget(context, "Has seleccionado mas alumnos de los permitidos");
+                        return;
                       }
-                    }
-
-                    ClassModel clase = ClassModel(
-                      date: dateController.text,
-                      hour: hourController.text,
-                      amountStudents: amountStudents,
-                      id: "",
-                      listStudent: selectedStudentIds
-                    );
-
-                    //Guardamos clase en base de datos
-                    clase.id = await ref.read(classRepositoryProvider).addClass(clase);
-
-                    //Añadimos la clase al provider
-                    ref.read(listClassProvider.notifier).addClass(clase);
-
-                    snackbarWidget(context, "Clase creada correctamente");
-
-                    dateController.text = "--/--/----";
-                    hourController.text = "--:--";
-
-                    OverlayLoadingView.hide();
-
-                  },
-                  child: const Text("Añadir clase",)
+              
+                      if(dateController.text == "--/--/---" || hourController.text == "--:--"){
+                        snackbarWidget(context, "Falta la fecha o la hora");
+                        return;
+                      }
+              
+                      OverlayLoadingView.show(context);
+              
+                      //Obtenemos los ids de los estudiantes seleccionados
+                      List<String> selectedStudentIds = [];
+                      for(int i = 0; i < selectedStudents.length; i++){
+                        if(selectedStudents[i]){
+                          selectedStudentIds.add(listStudents[i].id);
+                        }
+                      }
+              
+                      ClassModel clase = ClassModel(
+                        date: dateController.text,
+                        hour: hourController.text,
+                        amountStudents: amountStudents,
+                        id: "",
+                        listStudent: selectedStudentIds
+                      );
+              
+                      //Guardamos clase en base de datos
+                      clase.id = await ref.read(classRepositoryProvider).addClass(clase);
+              
+                      //Añadimos la clase al provider
+                      ref.read(listClassProvider.notifier).addClass(clase);
+              
+                      snackbarWidget(context, "Clase creada correctamente");
+              
+                      dateController.text = "--/--/----";
+                      hourController.text = "--:--";
+              
+                      OverlayLoadingView.hide();
+              
+                    },
+                    child: const Text("Añadir clase",)
+                ),
               ),
             )
           ],
