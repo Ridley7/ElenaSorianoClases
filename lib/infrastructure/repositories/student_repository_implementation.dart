@@ -38,6 +38,11 @@ class StudentRepositoryImplementation extends StudentRepository{
     return dataSource.updateClassCount(classCount, id);
   }
 
+  @override
+  Future<int> getClassCount(String id) {
+    return dataSource.getClassCount(id);
+  }
+
 
 
 

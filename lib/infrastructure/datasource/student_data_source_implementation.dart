@@ -77,4 +77,15 @@ class StudentDataSourceImplementation extends StudentDataSource{
     await _db.collection("estudiantes").doc(id).update({"classCount" : classCount});
   }
 
+  @override
+  Future<int> getClassCount(String id) async {
+
+    final doc = await _db.collection("estudiantes").doc(id).get();
+
+    if (!doc.exists) return 0;
+
+    return doc.data()?['classCount'] ?? 0;
+
+  }
+
 }

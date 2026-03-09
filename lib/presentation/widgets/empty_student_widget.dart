@@ -4,6 +4,7 @@ import 'package:elenasorianoclases/domain/entities/class_model.dart';
 import 'package:elenasorianoclases/domain/entities/student_model.dart';
 import 'package:elenasorianoclases/domain/exceptions/app_exception.dart';
 import 'package:elenasorianoclases/presentation/providers/firebase/class_repository_provider.dart';
+import 'package:elenasorianoclases/presentation/providers/firebase/student_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/info_user_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/list_class_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/list_student_provider.dart';
@@ -103,6 +104,14 @@ class EmptyStudentWidget extends ConsumerWidget {
     if(!DateManagement.checkTimeDifference(-30, hour, date)){
       OverlayLoadingView.hide();
       snackbarWidget(context, "El tiempo para apuntarte a esta clase ha terminado");
+      return;
+    }
+
+    //Comprobamos que la profesora no haya reducido las clases en ultimo momento
+    final classCount = await ref.read(studentRepositoryProvider).getClassCount(idStudent);
+    if(classCount <= 0){
+      OverlayLoadingView.hide();
+      snackbarWidget(context, "No tienes clases para recuperar. Reinicia tu app");
       return;
     }
 

@@ -46,6 +46,8 @@ class ScheduleScreenState extends ConsumerState<ScheduleScreen> {
   @override
   Widget build(BuildContext context) {
 
+    listaClases = ref.watch(listClassProvider);
+
     if(downloading){
       return const Scaffold(
         body: Center(
