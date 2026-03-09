@@ -107,13 +107,23 @@ class EmptyStudentWidget extends ConsumerWidget {
       return;
     }
 
+    //Obtenemos la informacion del usuario
+    final student = await ref.read(studentRepositoryProvider).getStudent(idStudent);
+
     //Comprobamos que la profesora no haya reducido las clases en ultimo momento
-    final classCount = await ref.read(studentRepositoryProvider).getClassCount(idStudent);
-    if(classCount <= 0){
+    if(student.classCount <= 0){
       OverlayLoadingView.hide();
       snackbarWidget(context, "No tienes clases para recuperar. Reinicia tu app");
       return;
     }
+
+    //Comprobamos que el estudiante tenga acceso o que la profe no se lo haya quitado
+    if(!student.access){
+      OverlayLoadingView.hide();
+      snackbarWidget(context, "No tienes permisos para entrar a la clase");
+      return;
+    }
+
 
     //Apuntamos el estudiante a la clase
     try{

@@ -85,7 +85,6 @@ class StudentDataSourceImplementation extends StudentDataSource{
     if (!doc.exists) return 0;
 
     return doc.data()?['classCount'] ?? 0;
-
   }
 
 }
