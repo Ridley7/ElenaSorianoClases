@@ -1,5 +1,6 @@
 
 import 'package:elenasorianoclases/domain/entities/class_model.dart';
+import 'package:elenasorianoclases/presentation/providers/firebase/class_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/list_class_provider.dart';
 import 'package:elenasorianoclases/presentation/widgets/empty_list_widget.dart';
 import 'package:elenasorianoclases/presentation/widgets/item_list_class.dart';
@@ -16,12 +17,42 @@ class ClassScreen extends ConsumerStatefulWidget {
   ClassScreenState createState() => ClassScreenState();
 }
 
+
+
 class ClassScreenState extends ConsumerState<ClassScreen> {
+
+  List<ClassModel> listClass = [];
+  bool downloading = true;
+
+  @override
+  void initState() {
+
+    downloadClass();
+    super.initState();
+  }
+
+  Future<void> downloadClass() async {
+    listClass = await ref.read(classRepositoryProvider).getAllClass();
+    ref.read(listClassProvider.notifier).setClass(listClass);
+    setState(() {
+      downloading = false;
+    });
+
+  }
+
   @override
   Widget build(BuildContext context) {
 
     //Obtenemos la lista de clases
-    List<ClassModel> listClass = ref.watch(listClassProvider);
+    listClass = ref.watch(listClassProvider);
+
+    if(downloading){
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(title: const Text("Clases"), centerTitle: true),
