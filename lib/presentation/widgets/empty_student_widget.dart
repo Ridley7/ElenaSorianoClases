@@ -108,7 +108,7 @@ class EmptyStudentWidget extends ConsumerWidget {
     }
 
     //Obtenemos la informacion del usuario
-    final student = await ref.read(studentRepositoryProvider).getStudent(idStudent);
+    final student = await ref.read(studentRepositoryProvider).getStudentById(idStudent);
 
     //Comprobamos que la profesora no haya reducido las clases en ultimo momento
     if(student.classCount <= 0){

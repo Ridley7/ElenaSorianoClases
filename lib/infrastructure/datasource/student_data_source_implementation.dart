@@ -87,4 +87,15 @@ class StudentDataSourceImplementation extends StudentDataSource{
     return doc.data()?['classCount'] ?? 0;
   }
 
+  @override
+  Future<StudentModel> getStudentById(String id) async {
+    final doc = await _db.collection("estudiantes").doc(id).get();
+
+    if(!doc.exists){
+      throw Exception('El estudiante no existe');
+    }
+
+    return StudentModel.fromJson(doc.data() as Map<String, dynamic>);
+  }
+
 }

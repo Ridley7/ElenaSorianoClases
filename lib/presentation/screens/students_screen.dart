@@ -1,5 +1,9 @@
 
+import 'dart:ffi';
+
 import 'package:elenasorianoclases/domain/entities/student_model.dart';
+import 'package:elenasorianoclases/presentation/providers/firebase/student_repository_provider.dart';
+import 'package:elenasorianoclases/presentation/providers/list_student_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/search/filtered_student_provider.dart';
 import 'package:elenasorianoclases/presentation/widgets/empty_list_widget.dart';
 import 'package:elenasorianoclases/presentation/widgets/item_list_student.dart';
@@ -18,10 +22,36 @@ class StudentsScreen extends ConsumerStatefulWidget {
 }
 
 class StudentsScreenState extends ConsumerState<StudentsScreen> {
+
+  List<StudentModel> listaEstudiantes = [];
+  bool downloading = true;
+
+  @override
+  void initState() {
+    downloadStudents();
+    super.initState();
+  }
+
+  Future<void> downloadStudents() async {
+    final List<StudentModel> list = await ref.read(studentRepositoryProvider).getAllStudents();
+    ref.read(listStudentsProvider.notifier).init(list);
+    setState(() {
+      downloading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
 
-    List<StudentModel> listaEstudiantes = ref.watch(filteredStudentProviders);
+    listaEstudiantes = ref.watch(filteredStudentProviders);
+    
+    if(downloading){
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(title: const Text("Estudiantes"), centerTitle: true),

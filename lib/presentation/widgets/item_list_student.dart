@@ -58,7 +58,10 @@ class ItemListStudent extends ConsumerWidget {
                         context,
                         "¿Eliminar permanentemente?",
                         "Estas apunto de eliminar a ${estudiante.name} ${estudiante.surename} ",
-                            () => _confirmDelete(context, ref)
+                            //() => _confirmDelete(context, ref)
+                        () async {
+                          await _deleteStudent(context, ref);
+                        }
                     );
 
                   },

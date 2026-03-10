@@ -43,6 +43,11 @@ class StudentRepositoryImplementation extends StudentRepository{
     return dataSource.getClassCount(id);
   }
 
+  @override
+  Future<StudentModel> getStudentById(String id) {
+    return dataSource.getStudentById(id);
+  }
+
 
 
 

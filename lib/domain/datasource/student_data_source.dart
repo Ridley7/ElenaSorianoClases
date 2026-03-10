@@ -3,6 +3,7 @@ import 'package:elenasorianoclases/domain/entities/student_model.dart';
 abstract class StudentDataSource{
   Future<String> addStudent(StudentModel student);
   Future<StudentModel> getStudent(String uid);
+  Future<StudentModel> getStudentById(String id);
   Future<List<StudentModel>> getAllStudents();
   Future<void> deleteStudent(String id);
   Future<void> setAccess(bool access, String id);
