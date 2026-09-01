@@ -2,7 +2,6 @@ import 'package:elenasorianoclases/config/constants/enums.dart';
 import 'package:elenasorianoclases/domain/entities/student_model.dart';
 import 'package:elenasorianoclases/domain/repositories/user_repository.dart';
 import 'package:elenasorianoclases/presentation/providers/firebase/login_register_repository_provider.dart';
-import 'package:elenasorianoclases/presentation/providers/firebase/messages_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/firebase/student_repository_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/messages_provider.dart';
 import 'package:elenasorianoclases/presentation/widgets/background_login.dart';

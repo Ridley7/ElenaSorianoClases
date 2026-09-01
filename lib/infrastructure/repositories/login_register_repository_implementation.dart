@@ -20,4 +20,9 @@ class LoginRegisterRepositoryImplementation extends LoginRegisterRepository{
     return loginRegisterDataSource.loginUser(email, password);
   }
 
+  @override
+  Future<void> recoveryPass(String email) {
+    return loginRegisterDataSource.recoveryPass(email);
+  }
+
 }

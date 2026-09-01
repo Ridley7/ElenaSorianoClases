@@ -10,6 +10,7 @@ import 'package:elenasorianoclases/presentation/screens/home_screen.dart';
 import 'package:elenasorianoclases/presentation/screens/login_screen.dart';
 import 'package:elenasorianoclases/presentation/screens/not_allowed_screen.dart';
 import 'package:elenasorianoclases/presentation/screens/profile_student_screen.dart';
+import 'package:elenasorianoclases/presentation/screens/recovery_pass_screen.dart';
 import 'package:elenasorianoclases/presentation/screens/reminder_detail_screen.dart';
 import 'package:elenasorianoclases/presentation/screens/schedule_screen.dart';
 import 'package:elenasorianoclases/presentation/screens/signup_screen.dart';
@@ -81,6 +82,14 @@ final appRouter = GoRouter(initialLocation: '/login_signup', routes: [
     name: LoginScreen.name,
     builder: (context, state){
         return const LoginScreen();
+    }
+  ),
+  
+  GoRoute(
+      path: '/recovery_pass',
+    name: RecoveryPassScreen.name,
+    builder: (context, state){
+        return const RecoveryPassScreen();
     }
   ),
 

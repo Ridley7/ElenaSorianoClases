@@ -62,3 +62,7 @@ class DeleteTokenException extends AppException{
 class DocumentExistenceException extends AppException{
   const DocumentExistenceException([super.message]);
 }
+
+class RecoveryPassException extends AppException{
+  const RecoveryPassException([super.message]);
+}

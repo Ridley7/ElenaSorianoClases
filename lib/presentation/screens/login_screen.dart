@@ -11,6 +11,8 @@ import 'package:elenasorianoclases/presentation/providers/list_class_provider.da
 import 'package:elenasorianoclases/presentation/providers/list_student_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/messages_provider.dart';
 import 'package:elenasorianoclases/presentation/widgets/background_login.dart';
+import 'package:elenasorianoclases/presentation/widgets/buttons/main_button.dart';
+import 'package:elenasorianoclases/presentation/widgets/buttons/text_line_button.dart';
 import 'package:elenasorianoclases/presentation/widgets/loaders/overlay_loading_view.dart';
 import 'package:elenasorianoclases/presentation/widgets/text_field_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -180,7 +182,6 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: loading
@@ -239,62 +240,28 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
 
                 const SizedBox(height: 24),
 
-                Container(
-                  alignment: Alignment.centerRight,
-                  margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-                  child: FilledButton(
-                    onPressed: () async {
-                      OverlayLoadingView.show(context);
-                      await loginUser();
-                      OverlayLoadingView.hide();
-                    },
-                    style: const ButtonStyle(
-                      padding: WidgetStatePropertyAll(EdgeInsets.zero)
-                    ),
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: 50.0,
-                      width: MediaQuery.of(context).size.width * 0.5,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(80.0),
-                          gradient: const LinearGradient(
-                              colors: [
-                                Color(0xFFFFBDC4),
-                                Color(0xFFFFE9EB)
-                              ]
-                          )
-
-                      ),
-                      child: const Text(
-                        "LOGIN",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          color: Colors.black38
-                        ),
-                      ),
-                    ),
-                  ),
+                MainButton(
+                  textButton: "LOGIN",
+                  onClick: () async {
+                    OverlayLoadingView.show(context);
+                    await loginUser();
+                    OverlayLoadingView.hide();
+                },
                 ),
 
-
-                Container(
-                  alignment: Alignment.centerRight,
-                  margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-                  child: GestureDetector(
-                    onTap: () {
+                TextLineButton(
+                  textButton: "¿No tienes cuenta? Registrate",
+                  onClick: () {
                     context.go("/sign_up");
+                  },
+                ),
+
+                TextLineButton(
+                    textButton: "¿Has olvidado la contraseña?",
+                    onClick: () {
+                      context.push("/recovery_pass");
                     },
-                    child: const Text(
-                      "¿No tienes cuenta? Registrate",
-                      style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black38
-                      ),
-                    ),
-                  ),
-                )
+                ),
 
               ],
             ),

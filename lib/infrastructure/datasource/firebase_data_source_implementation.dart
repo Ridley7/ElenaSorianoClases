@@ -1,6 +1,7 @@
 
 
 import 'package:elenasorianoclases/domain/datasource/login_register_data_source.dart';
+import 'package:elenasorianoclases/domain/exceptions/app_exception.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseDataSourceImplementation extends LoginRegisterDataSource{
@@ -45,6 +46,48 @@ class FirebaseDataSourceImplementation extends LoginRegisterDataSource{
     }on FirebaseAuthException catch(e){
       throw e;
     }
+  }
+
+  @override
+  Future<void> recoveryPass(String email) async {
+
+    final normalizedEmail = email.trim().toLowerCase();
+
+    if(normalizedEmail.isEmpty){
+      throw const RecoveryPassException("Introduce tu correo electronico");
+    }
+
+    try{
+
+      await _auth.setLanguageCode('es');
+
+      await _auth.sendPasswordResetEmail(email: normalizedEmail);
+
+    } on FirebaseAuthException catch (e){
+
+      switch (e.code) {
+        case 'invalid-email':
+          throw const RecoveryPassException('El correo electrónico no es válido');
+
+        case 'too-many-requests':
+          throw const RecoveryPassException(
+            'Se han realizado demasiados intentos. Inténtalo más tarde',
+          );
+
+        case 'network-request-failed':
+          throw const RecoveryPassException(
+            'No se ha podido conectar. Comprueba tu conexión a Internet',
+          );
+
+        default:
+          throw const RecoveryPassException(
+            'No se ha podido enviar el correo de recuperación',
+          );
+      }
+
+
+    }
+
   }
 
 }
