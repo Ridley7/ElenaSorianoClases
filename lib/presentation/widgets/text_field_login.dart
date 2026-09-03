@@ -16,6 +16,8 @@ class TextFieldLogin extends StatelessWidget {
       alignment: Alignment.center,
       margin:const EdgeInsets.symmetric(horizontal: 40),
       child: TextField(
+        autocorrect: false,
+        enableSuggestions: false,
         controller: controller,
         decoration: InputDecoration(
             labelText: labelText
