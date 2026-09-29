@@ -17,13 +17,6 @@ class MainButton extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
       child: FilledButton(
         onPressed: onClick,
-        /*
-          onPressed: () async {
-          OverlayLoadingView.show(context);
-          await loginUser();
-          OverlayLoadingView.hide();
-        },
-        */
         style: const ButtonStyle(
             padding: WidgetStatePropertyAll(EdgeInsets.zero)
         ),

@@ -235,7 +235,8 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
 
                 TextFieldLogin(
                     controller: passController,
-                    labelText: "Contraseña"
+                    labelText: "Contraseña",
+                  obscureText: true,
                 ),
 
                 const SizedBox(height: 24),
