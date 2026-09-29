@@ -102,13 +102,15 @@ class AddStudentToClassScreenState extends ConsumerState<AddStudentToClassScreen
           listaEstudiantes.isEmpty ?
               const SizedBox()
           :
-          SizedBox(
-            width: double.infinity,
-            child: FilledButton.tonal(
-                onPressed: () async{
-                  _addSelectedStudents(context);
-                },
-                child: const Text("Agregar")
+          SafeArea(
+            child: SizedBox(
+              width: double.infinity,
+              child: FilledButton.tonal(
+                  onPressed: () async{
+                    _addSelectedStudents(context);
+                  },
+                  child: const Text("Agregar")
+              ),
             ),
           )
 

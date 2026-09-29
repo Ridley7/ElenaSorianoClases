@@ -114,6 +114,7 @@ class HomeScreen extends ConsumerWidget {
           child: Stack(
             children: [
 
+              //Mensaje lateral
               AnimatedPositioned(
                 right: messageState.isVisible ? 0 : -380,
                   bottom: 100,
@@ -140,6 +141,18 @@ class HomeScreen extends ConsumerWidget {
 
               Column(
                 children: [
+
+                  Text("${student.name} ${student.surename}",
+                  style: const TextStyle(
+                    fontSize: 18
+                  ),),
+                  student.rol == RolType.student ?
+                  Text("Clases a recuperar: ${student.classCount}",
+                  style: const TextStyle(
+                    fontSize: 18
+                  ),)
+                      : const SizedBox.shrink(),
+
                   Expanded(
                     child: GridView.builder(
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -153,10 +166,6 @@ class HomeScreen extends ConsumerWidget {
                         }
                     ),
                   ),
-                  Text("${student.name} ${student.surename}"),
-                  student.rol == RolType.student ?
-                  Text("Clases a recuperar: ${student.classCount}")
-                  : const SizedBox.shrink(),
                 ],
               ),
             ],
