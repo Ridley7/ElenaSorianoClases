@@ -58,8 +58,6 @@ Future<void> initFirebaseMessaging() async {
   FirebaseMessaging.onMessage.listen((RemoteMessage message){
     //Metemos mensajes en el provider
     container.read(queueMessagesProvider.notifier).addMessage(message);
-    print("Mensaje en primer plano: ${message.notification?.title}");
-
   });
 
   //Configuramos cuando se abre la app desde una notificación

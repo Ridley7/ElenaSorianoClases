@@ -18,8 +18,6 @@ class QueueMessagesNotifier extends StateNotifier<QueueMessageState>{
 
   void addMessage(RemoteMessage message)async {
 
-    print("Mensaje añadido: ${message.notification?.title}");
-    print("En la cola hay ${state.queue.length} mensajes");
     final updatedQueue = Queue<RemoteMessage>.from(state.queue)..add(message);
     state = state.copyWith(queue: updatedQueue);
 
