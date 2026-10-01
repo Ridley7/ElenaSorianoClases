@@ -42,25 +42,6 @@ final appRouter = GoRouter(initialLocation: '/login_signup', routes: [
     ]
   ),
 
-  /*
-  GoRoute(
-      path: '/home/:page',
-      name: HomeScreen.name,
-      builder: (context, state) {
-        return HomeScreen(
-            indexView: int.parse(state.pathParameters['page'] ?? '0'));
-      },
-      routes: [
-        GoRoute(
-            path: 'movie/:id',
-            name: MovieScreen.name,
-            builder: (context, state) {
-              return MovieScreen(
-                  movieId: state.pathParameters['id'] ?? 'no-id');
-            })
-      ]),
-   */
-
   GoRoute(
       path: '/not_allowed',
     name: NotAllowedScreen.name,

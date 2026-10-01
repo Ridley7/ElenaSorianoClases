@@ -74,6 +74,10 @@ class ListClassNotifier extends StateNotifier<List<ClassModel>>{
     }).toList();
   }
 
+  void ordenarClases(){
+
+  }
+
 
 
 }

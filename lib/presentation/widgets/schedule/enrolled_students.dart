@@ -23,16 +23,16 @@ class EnrolledStudents extends StatelessWidget {
           if(subIndex < clase.listStudent.length){
             return StudentWidget(
                 name: clase.listStudent[subIndex],
-              hour: clase.hour,
-              date: clase.date,
+              hour: "${clase.timestamp.hour}:${clase.timestamp.minute}",
+              date: "${clase.timestamp.day}/${clase.timestamp.month}/${clase.timestamp.year}",
               idClass: clase.id,
             );
           }else{
 
             return EmptyStudentWidget(
                 idClase: clase.id,
-              date: clase.date,
-              hour: clase.hour,
+              date: "${clase.timestamp.hour}:${clase.timestamp.minute}",
+              hour: "${clase.timestamp.day}/${clase.timestamp.month}/${clase.timestamp.year}",
             );
           }
         }

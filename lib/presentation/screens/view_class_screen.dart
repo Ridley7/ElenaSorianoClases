@@ -8,6 +8,7 @@ import 'package:elenasorianoclases/presentation/widgets/item_group_class.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 class ViewClassScreen extends ConsumerStatefulWidget {
   const ViewClassScreen({super.key, required this.clase});
@@ -52,8 +53,8 @@ class ViewClassScreenState extends ConsumerState<ViewClassScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(widget.clase.date, style: const TextStyle(fontSize: 18)),
-            Text(widget.clase.hour, style: const TextStyle(fontSize: 18)),
+            Text(DateFormat('dd/MM/yyyy').format(widget.clase.timestamp), style: const TextStyle(fontSize: 18)),
+            Text(DateFormat('HH:mm').format(widget.clase.timestamp), style: const TextStyle(fontSize: 18)),
 
             estudiantesEncontrados.isEmpty ?
             const Expanded(

@@ -5,9 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a2c8f3d2-9d69-4321-a262-ae0f178bdc95" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/caches/deviceStreaming.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../analysis_options.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../analysis_options.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/config/helpers/date_management.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/config/helpers/date_management.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/domain/entities/class_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/domain/entities/class_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/infrastructure/datasource/class_data_source_implementation.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/infrastructure/datasource/class_data_source_implementation.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/presentation/providers/list_class_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/presentation/providers/list_class_provider.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/presentation/screens/add_class_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/presentation/screens/add_class_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/presentation/screens/schedule_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/presentation/screens/schedule_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/presentation/screens/view_class_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/presentation/screens/view_class_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/presentation/widgets/item_list_class.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/presentation/widgets/item_list_class.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/presentation/widgets/schedule/enrolled_students.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/presentation/widgets/schedule/enrolled_students.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,9 +36,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 2
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
   <component name="ProjectId" id="34Sxh6egEUvcPUx8ZeJ0GfQKtgO" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -40,7 +56,7 @@
     "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/blackdata/Desktop/Repositorios/ElenaSorianoClases/android",
+    "last_opened_file_path": "C:/Users/gonza/Documents/Repositorios/Franks/ElenaSorianoClases/android",
     "show.migrate.to.gradle.popup": "false"
   }
 }]]></component>

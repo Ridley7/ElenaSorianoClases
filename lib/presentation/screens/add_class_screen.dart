@@ -239,8 +239,9 @@ class AddClassScreenState extends ConsumerState<AddClassScreen> {
                       }
               
                       ClassModel clase = ClassModel(
-                        date: dateController.text,
-                        hour: hourController.text,
+                        //date: dateController.text,
+                        //hour: hourController.text,
+                        timestamp: parseDateTime(dateController.text, hourController.text),
                         amountStudents: amountStudents,
                         id: "",
                         listStudent: selectedStudentIds
@@ -269,4 +270,18 @@ class AddClassScreenState extends ConsumerState<AddClassScreen> {
       ),
     );
   }
+
+  DateTime parseDateTime(String fecha, String hora) {
+    final partesFecha = fecha.split('/');
+    final partesHora = hora.split(':');
+
+    return DateTime(
+      int.parse(partesFecha[2]),
+      int.parse(partesFecha[1]),
+      int.parse(partesFecha[0]),
+      int.parse(partesHora[0]),
+      int.parse(partesHora[1]),
+    );
+  }
+
 }

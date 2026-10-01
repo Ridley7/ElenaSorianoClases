@@ -24,7 +24,10 @@ class ClassDataSourceImplementation extends ClassDataSource{
   @override
   Future<List<ClassModel>> getAllClass() async {
     try {
-      QuerySnapshot querySnapshot = await _db.collection("clases").get();
+      QuerySnapshot querySnapshot = await _db
+          .collection("clases")
+          .orderBy("timestamp", descending: true)
+          .get();
 
       return querySnapshot.docs
           .map((doc) => ClassModel.fromJson({
@@ -42,7 +45,7 @@ class ClassDataSourceImplementation extends ClassDataSource{
     try{
 
       //Comprobamos si la fecha de la clase es hoy o ya ha pasado
-      if(!DateManagement.isTodayOrBefore(clase.date)){
+      if(!DateManagement.isTodayOrBefore(clase.timestamp)){
         //Si es una fecha futura debemos clase a los alumnos
 
         //Referenciamos a los documentos de los estudiantes

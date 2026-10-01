@@ -6,6 +6,7 @@ import 'package:elenasorianoclases/presentation/widgets/schedule/enrolled_studen
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class ScheduleScreen extends ConsumerStatefulWidget {
@@ -56,15 +57,19 @@ class ScheduleScreenState extends ConsumerState<ScheduleScreen> {
       );
     }
 
+
     Map<DateTime, List<ClassModel>> classMap = {};
 
     List<ClassModel> _getEventsForDay(DateTime day) {
       return classMap[DateTime(day.year, day.month, day.day)] ?? [];
     }
 
+
     //Esto para que lo hacemos?
     for(var classModel in listaClases){
       //Convertimos el string date a DateTime (formato dd/mm/aaaa)
+
+      /*
       List<String> dateParts = classModel.date.split('/');
 
       if(dateParts.length == 3){
@@ -81,8 +86,17 @@ class ScheduleScreenState extends ConsumerState<ScheduleScreen> {
 
         classMap[dateTime]!.add(classModel);
       }
-    }
+      */
+      final dateTimeTemp = DateUtils.dateOnly(classModel.timestamp);
+      //DateTime dateTimeTemp = DateTime(classModel.timestamp.year, classModel.timestamp.month, classModel.timestamp.day);
 
+      if(!classMap.containsKey(dateTimeTemp)){
+        classMap[dateTimeTemp] = [];
+      }
+
+      classMap[dateTimeTemp]!.add(classModel);
+
+    }
 
     return Scaffold(
       body: Column(
@@ -219,8 +233,10 @@ class ScheduleScreenState extends ConsumerState<ScheduleScreen> {
                                   style: const TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 const Spacer(),
-                                Text(clasesDelDia[index].hour,
-                                    style: const TextStyle(fontWeight: FontWeight.bold))
+                                Text(
+                                    DateFormat('HH:mm').format(clasesDelDia[index].timestamp),
+                                    style: const TextStyle(fontWeight: FontWeight.bold)
+                                )
                               ],
                             ),
 

@@ -49,14 +49,14 @@ class ItemListClassState extends ConsumerState<ItemListClass> {
                 child: Text("${widget.clase.listStudent.length}/${widget.clase.amountStudents}"),
               ),
               const SizedBox(width: 8,),
-              Text("${widget.clase.date} - ${widget.clase.hour}"),
+              Text(DateFormat('dd/MM/yyyy - HH:mm').format(widget.clase.timestamp)),
               const Spacer(),
               IconButton(
                 onPressed: () async{
                   OverlayLoadingView.show(context);
 
                   //Tenemos que insertar la misma clase pero con una semana despues.
-                  ClassModel newClass = widget.clase.copyWith(date: addWeek(widget.clase.date));
+                  ClassModel newClass = widget.clase.copyWith(timestamp: addWeek(widget.clase.timestamp));
                   //Copiamos en la bd
                   newClass.id = await ref.read(classRepositoryProvider).addClass(newClass); //AQUI ME QUEDO
                   //Copiamos en el provider
@@ -97,16 +97,16 @@ class ItemListClassState extends ConsumerState<ItemListClass> {
     );
   }
 
-  String addWeek(String date){
+  DateTime addWeek(DateTime date){
     //Convetimos la cadena en un DateTime
     DateFormat format = DateFormat("dd/MM/yyyy");
-    DateTime transformedDate = format.parse(date);
 
     //Sumamos 7 dias
-    DateTime newDate = transformedDate.add(const Duration(days: 7));
+    DateTime newDate = date.add(const Duration(days: 7));
+    //DateTime newDate = transformedDate.add(const Duration(days: 7));
 
     //Devolvemos la nueva fecha
-    return format.format(newDate);
+    return newDate;
   }
 
 }
