@@ -40,8 +40,8 @@ class ClassRepositoryImplementation extends ClassRepository{
   }
 
   @override
-  Future<void> disenrollStudentToClass(String idClass, String idStudent) {
-    return dataSource.disenrollStudentToClass(idClass, idStudent);
+  Future<void> disenrollStudentToClass(String idClass, String idStudent, bool recoveryClass) {
+    return dataSource.disenrollStudentToClass(idClass, idStudent, recoveryClass);
   }
 
   @override

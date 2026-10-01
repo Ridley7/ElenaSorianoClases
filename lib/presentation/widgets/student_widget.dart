@@ -4,10 +4,9 @@ import 'package:elenasorianoclases/presentation/providers/firebase/class_reposit
 import 'package:elenasorianoclases/presentation/providers/info_user_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/list_class_provider.dart';
 import 'package:elenasorianoclases/presentation/providers/list_student_provider.dart';
-import 'package:elenasorianoclases/presentation/widgets/leave_class_dialog.dart';
+import 'package:elenasorianoclases/presentation/widgets/general_dialog.dart';
 import 'package:elenasorianoclases/presentation/widgets/loaders/overlay_loading_view.dart';
 import 'package:elenasorianoclases/presentation/widgets/schedule/capsule_button.dart';
-import 'package:elenasorianoclases/presentation/widgets/snackbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -71,10 +70,7 @@ class StudentWidget extends ConsumerWidget {
               CapsuleButton(
                   text: "Darse de baja",
                   onPressed: () {
-                    LeaveClassDialog.show(context, (){
-                      unenrollUser(context, ref, idStudent, classCount);
-                    });
-
+                    unenrollUser(context, ref, idStudent, classCount);
                   }
               )
               : const SizedBox()
@@ -85,30 +81,63 @@ class StudentWidget extends ConsumerWidget {
     );
   }
 
-  Future<void> unenrollUser(BuildContext context, WidgetRef ref, String idStudent, int classCount) async{
+  Future<void> unenrollUser(
+      BuildContext context,
+      WidgetRef ref,
+      String idStudent,
+      int classCount,
+      ) async {
+    // Primera confirmación
+    final bool? confirmLeave = await GeneralDialog.show(
+      context,
+      message: "Atención. Va a abandonar esta clase.",
+    );
+
+    if (confirmLeave != true) return;
+
+    // Comprobamos si quedan menos de 24 horas
+    final bool lessThan24Hours = !DateManagement.checkTimeDifference(1440, hour, date);
+
+    // Si quedan menos de 24 horas, segunda confirmación
+    if (lessThan24Hours) {
+      final bool? confirmNoRecovery = await GeneralDialog.show(
+        context,
+        message:
+        "Quedan menos de 24 horas para el inicio de la clase. "
+            "Puede darse de baja de la clase, pero esta NO será recuperable. "
+            "¿Desea darse de baja?",
+      );
+
+      if (confirmNoRecovery != true) return;
+    }
 
     OverlayLoadingView.show(context);
 
-    //Hay que comprobar que no hayan pasado 24 horas para poder desapuntarse
-    //Necesita la fecha y la hora del curso
-    if(!DateManagement.checkTimeDifference(1440, hour, date)){
+    try {
+      // Damos de baja al usuario en la base de datos
+      await ref.read(classRepositoryProvider).disenrollStudentToClass(idClass, idStudent, !lessThan24Hours);
+
+      // Actualizamos el listado local de clases
+      ref.read(listClassProvider.notifier).disenrollStudentToClass(idClass, idStudent,);
+
+      // Si quedan 24 horas o más, la clase es recuperable
+      if (!lessThan24Hours) {
+        final infoUserNotifier = ref.read(infoUserProvider.notifier);
+
+        infoUserNotifier.state = infoUserNotifier.state.copyWith(
+          classCount: classCount + 1,
+        );
+
+        ref
+            .read(listStudentsProvider.notifier)
+            .updateClassCount(
+          classCount + 1,
+          idStudent,
+        );
+      }
+    } finally {
       OverlayLoadingView.hide();
-      snackbarWidget(context, "El tiempo para desapuntarte de esta clase ha expirado");
-      return;
     }
-
-    //Damos de baja al usuario en la base de datos
-    await ref.read(classRepositoryProvider).disenrollStudentToClass(idClass, idStudent);
-    //Quitamos al usuario de la clase
-    ref.read(listClassProvider.notifier).disenrollStudentToClass(idClass, idStudent);
-    //Indicamos que el usuario tiene una clase a recuperar
-    final infoUserNotifier = ref.read(infoUserProvider.notifier);
-    infoUserNotifier.state = infoUserNotifier.state.copyWith(classCount: classCount + 1);
-    //Actualizamos el class count del estudiante en el provider
-    ref.read(listStudentsProvider.notifier).updateClassCount(classCount + 1, idStudent);
-
-    OverlayLoadingView.hide();
-
   }
 }
 

@@ -2,6 +2,7 @@ import 'package:elenasorianoclases/domain/entities/class_model.dart';
 import 'package:elenasorianoclases/presentation/widgets/empty_student_widget.dart';
 import 'package:elenasorianoclases/presentation/widgets/student_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class EnrolledStudents extends StatelessWidget {
   const EnrolledStudents({
@@ -23,16 +24,16 @@ class EnrolledStudents extends StatelessWidget {
           if(subIndex < clase.listStudent.length){
             return StudentWidget(
                 name: clase.listStudent[subIndex],
-              hour: "${clase.timestamp.hour}:${clase.timestamp.minute}",
-              date: "${clase.timestamp.day}/${clase.timestamp.month}/${clase.timestamp.year}",
+              hour: DateFormat('HH:mm').format(clase.timestamp),
+              date: DateFormat('dd/MM/yyyy').format(clase.timestamp),
               idClass: clase.id,
             );
           }else{
 
             return EmptyStudentWidget(
                 idClase: clase.id,
-              date: "${clase.timestamp.hour}:${clase.timestamp.minute}",
-              hour: "${clase.timestamp.day}/${clase.timestamp.month}/${clase.timestamp.year}",
+              hour: DateFormat('HH:mm').format(clase.timestamp),
+              date: DateFormat('dd/MM/yyyy').format(clase.timestamp),
             );
           }
         }

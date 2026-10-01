@@ -151,14 +151,15 @@ class ClassDataSourceImplementation extends ClassDataSource{
   }
 
   @override
-  Future<void> disenrollStudentToClass(String idClass, String idStudent) async {
+  Future<void> disenrollStudentToClass(String idClass, String idStudent, bool recoveryClass) async {
     try{
       //Obtenemos el documento
       DocumentReference classRef = _db.collection('clases').doc(idClass);
 
       //Eliminamos el ID del estudiante del array
-      await classRef.update({'listStudent': FieldValue.arrayRemove([idStudent])
-      });
+      await classRef.update({'listStudent': FieldValue.arrayRemove([idStudent])});
+
+      if(!recoveryClass) return;
 
       //Obtenemos el class count del estudiante
       DocumentReference studentRef = _db.collection("estudiantes").doc(idStudent);
