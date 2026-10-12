@@ -122,10 +122,13 @@ class AddStudentToClassScreenState extends ConsumerState<AddStudentToClassScreen
   Future<void> _addSelectedStudents(BuildContext context) async {
     OverlayLoadingView.show(context);
 
+    //Extraemos los estudiantes que no esten en esa clase, basicamente porque esos ya estan añadidos
     final listaEstudiantes = ref.watch(listStudentsProvider).where(
             (estudiante) => !widget.clase.listStudent.contains(estudiante.id)
     ).toList();
 
+
+    //Seleccionamos a los alumnos que tienen el check para introducirlo a la clase
     final List<StudentModel> selectedStudents = listaEstudiantes
         .asMap()
         .entries
@@ -135,7 +138,7 @@ class AddStudentToClassScreenState extends ConsumerState<AddStudentToClassScreen
 
     final int remainingStudents = widget.clase.amountStudents - widget.clase.listStudent.length;
 
-    if (selectedStudents.length >= remainingStudents) {
+    if (selectedStudents.length > remainingStudents) {
       snackbarWidget(context, "Son demasiados estudiantes para esa clase");
       OverlayLoadingView.hide();
       return;
